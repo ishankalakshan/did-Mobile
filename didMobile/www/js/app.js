@@ -5,6 +5,7 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.loginController',
                            'didApp.dayProgressController',
                            'didApp.projectProgressController',
+                           'didApp.settingsController',
                            'didApp.service'
                           ])
 
@@ -35,7 +36,6 @@ var didApp = angular.module('didApp', ['ionic',
     abstract: true,
     templateUrl: 'didApp/tabs.html'
   })
-  // Each tab has its own nav history stack:
   .state('tab.weekProgress',{
         url:'/weekProgress',
         views: {
@@ -47,7 +47,6 @@ var didApp = angular.module('didApp', ['ionic',
         params : {currentWeekNumber : '',
               currentYearNumber : ''}
       })
-
   .state('tab.dayProgress', {
       url: '/dayProgress',
       views: {
@@ -57,7 +56,6 @@ var didApp = angular.module('didApp', ['ionic',
         }
       }
     })
-
   .state('tab.projectProgress', {
     url: '/projectProgress',
     views: {
@@ -66,9 +64,15 @@ var didApp = angular.module('didApp', ['ionic',
         controller: 'projectProgressCtrl'
       }
     }
-  });
-
-  // if none of the above states are matched, use this as the fallback
+  })
+  .state('tab.settings', {
+    url: '/settings',
+    views: {
+      'tab-settings': {
+        templateUrl: 'didApp/settings/settings.html',
+        controller: 'settingsCtrl'
+      }
+    }
+  })
   $urlRouterProvider.otherwise('/login');
-
 });
