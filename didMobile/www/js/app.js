@@ -1,23 +1,20 @@
-// Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var didApp = angular.module('didApp', ['ionic',
+                           'angularMoment',
+                           'didApp.weekProgressController',
+                           'didApp.loginController',
+                           'didApp.dayProgressController',
+                           'didApp.projectProgressController',
+                           'didApp.service'
+                          ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
   });
@@ -25,61 +22,53 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('login',{
+        url:'/login',
+        templateUrl:'didApp/login/login.html',
+        controller:'loginCtrl'
+      })
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'didApp/tabs.html'
   })
-
   // Each tab has its own nav history stack:
+  .state('tab.weekProgress',{
+        url:'/weekProgress',
+        views: {
+          'tab-home': {
+            templateUrl: 'didApp/weekProgress/weekProgress.html',
+            controller: 'weekProgressCtrl',
+          }
+        },
+        params : {currentWeekNumber : '',
+              currentYearNumber : ''}
+      })
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.dayProgress', {
+      url: '/dayProgress',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-home': {
+          templateUrl: 'didApp/dayProgress/dayProgress.html',
+          controller: 'dayProgressCtrl'
         }
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.projectProgress', {
+    url: '/projectProgress',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-home': {
+        templateUrl: 'didApp/projectProgress/projectProgress.html',
+        controller: 'projectProgressCtrl'
       }
     }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

@@ -1,1 +1,40 @@
 /* Empty. Add your own CSS if you like */
+.profile-picture-container {
+  margin:30px;
+  padding-top:20px;
+  text-align:center;
+}
+.profile-picture{
+  height: 200px;
+  width: 150px;
+}
+.bar-energized{
+  background-color: orange;
+}
+.button .button-block .button-energized{
+  background-color: orange;
+  margin-top:15px;
+}
+.icon-approved{
+  content: url('icons/icon-approved.png');
+  width: 30px;
+  height: 30px;
+}
+.icon-suggested{
+  content: url('icons/icon-pending.png');
+  width: 30px;
+  height: 30px;
+}
+.icon-edit{
+  content: url('icons/icon-edit.png');
+  width: 30px;
+  height: 30px;
+}
+.icon-ignore{
+  content: url('icons/icon-ignore.png');
+  width: 30px;
+  height: 30px;
+}
+.button-bar{
+  background-color: #FDF3E2;
+}
