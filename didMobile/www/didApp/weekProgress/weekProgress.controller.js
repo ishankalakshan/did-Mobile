@@ -4,52 +4,32 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
 
 function weekProgressCtrl($scope,$stateParams,$ionicLoading,didAppDataService){
 
+  (function() {
+    //$scope.refreshData();
+  })();
 
-    $scope.timesheet = [];
-    didAppDataService.loadData()
+  $scope.timesheet = [];
+  didAppDataService.loadData($scope)
 
+  $scope.weekCount = moment().format('WW')*1;
+  $scope.yearCount = moment().format('YYYY')*1;
+  $scope.weekStartend = getWeekStartEnd($scope.weekCount,$scope.yearCount);
+  $scope.weeklyTimesheet = [];
+  getAllWeekEntries($scope.weekCount,$scope.yearCount);
+  setWeekTimeSheet($scope.weekCount,$scope.yearCount);
+
+  var allWeekTimeEntries = [];
+
+  $scope.refreshData = function(){
+    //$scope.timesheet = [];
+    allWeekTimeEntries = [];
     $scope.weekCount = moment().format('WW')*1;
     $scope.yearCount = moment().format('YYYY')*1;
-    $scope.weekStartend = getWeekStartEnd($scope.weekCount,$scope.yearCount);
     $scope.weeklyTimesheet = [];
-    console.log($scope.timesheet);
+    //didAppDataService.loadData($scope)
     getAllWeekEntries($scope.weekCount,$scope.yearCount);
     setWeekTimeSheet($scope.weekCount,$scope.yearCount);
-
-    var allWeekTimeEntries = [];
-
-
-
-  $scope.$on('didApp.didmobiledata',function(_,result){
-    result.feed.entry.forEach(function(b){
-      $scope.timesheet.push({
-          id:b.content.properties.Id.__text,
-          title:b.content.properties.Title.__text,
-          startTime:b.content.properties.PzlStartTime.__text,
-          endTime:b.content.properties.PzlEndTime.__text,
-          duration:b.content.properties.PzlDurationHours.__text,
-
-          timezone:b.content.properties.PzlTimeZone.__text,
-          description:b.content.properties.PzlDescription.__text,
-          state:b.content.properties.PzlState.__text,
-          category:b.content.properties.PzlCategory.__text,
-          location:b.content.properties.PzlLocation.__text,
-
-          organizer:b.content.properties.PzlOrganizer.__text,
-          customerKeyId:b.content.properties.PzlCustomerKeyId.__text,
-          resourceKeyId:b.content.properties.PzlResourceKeyId.__text,
-          dateImported:b.content.properties.PzlDateImported.__text,
-          lastUpdatedOn:b.content.properties.PzlLastUpdatedOn.__text,
-
-          sourceSystemId:b.content.properties.PzlSourceSystemId.__text,
-          weekNumber:b.content.properties.PzlWeekNumber.__text,
-          yearNumber:b.content.properties.PzlYearNumber.__text,
-          modified:b.content.properties.Modified.__text,
-          created:b.content.properties.Created.__text
-      });
-    });
-  });
-
+  };
 
   function getWeekStartEnd(weekNumber,yearNumber){
       var weekStartEnd = {
@@ -69,6 +49,7 @@ function weekProgressCtrl($scope,$stateParams,$ionicLoading,didAppDataService){
             allWeekTimeEntries.push(entry);
       }//end if
     });//end forEach
+    $scope.$broadcast('scroll.refreshComplete');
     return allWeekTimeEntries;
   };
 
@@ -139,12 +120,12 @@ function weekProgressCtrl($scope,$stateParams,$ionicLoading,didAppDataService){
     for (var i = 1; i < 6; i++) {
       var weekStartDate = moment(String(weekNumber)+ yearNumber,'WWYYYY').startOf('isoWeek').day(i).format('MMM, dddd DD')
           $scope.weeklyTimesheet.push({
-            date : moment(weekStartDate,'MMM, dddd DD').format('ddd'),
-            hours : getTotalHoursPerDay(weekStartDate),
-            state : getStateOfDay(weekStartDate)
+            date    : moment(weekStartDate,'MMM, dddd DD').format('ddd'),
+            dateFull: weekStartDate,
+            hours   : getTotalHoursPerDay(weekStartDate),
+            state   : getStateOfDay(weekStartDate)
           });
     };//end for
-
   };
 
   $scope.addOneWeek =function(){

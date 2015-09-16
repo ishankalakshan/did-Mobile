@@ -1,16 +1,12 @@
-<ion-view view-title="Sep, 10 Thursday">
+<ion-view view-title="{{date}}">
     <ion-content>
+      <ion-refresher on-refresh='refreshData()'></ion-refresher>
       <div class="list">
-        <div class="item item-button-right">
-          Mobile Hackathon
+        <div class="item item-button-right" ng-repeat='entry in dayTimeSheet'>
+          {{entry.title}}
           <button class="button button-clear" ui-sref='tab.projectProgress'>
             <i class="icon icon-edit"></i>
-          </button>
-        </div>
-        <div class="item item-button-right">
-          Assist Scrum
-          <button class="button button-clear">
-            <i class="icon icon-ignore"></i>
+            <i class="icon icon-ignore" ng-show='false'></i>
           </button>
         </div>
       </div>

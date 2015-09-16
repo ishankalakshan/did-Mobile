@@ -12,12 +12,13 @@
   </ion-nav-buttons>
 
     <ion-content>
+      <ion-refresher on-refresh='refreshData()'></ion-refresher>
       <ion-list>
         <ion-item ng-repeat='day in weeklyTimesheet'>
           <div class="row">
             <div class="col">{{day.date}}</div>
             <div class="col">{{day.hours}}</div>
-            <div class="col"><button class="button button-small button-clear" ui-sref='tab.dayProgress'>
+            <div class="col"><button class="button button-small button-clear" ui-sref='tab.dayProgress({selectedDate :day.dateFull})'>
               <i class='icon icon-approved' ng-show={{day.state}}></i>
               <i class='icon icon-suggested' ng-hide={{day.state}}></i>
             </button></div>
