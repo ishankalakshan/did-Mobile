@@ -15,7 +15,7 @@ function dayprogressCtrl($scope,$stateParams,didAppDataService){
   }
 
   initialize();
-
+//thi is a test comment
   $scope.refreshData = function () {
     setDayTimeSheet($scope.date);
     console.log($scope.dayTimeSheet);
