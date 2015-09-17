@@ -4,7 +4,7 @@
       <div class="list">
         <div class="item item-button-right" ng-repeat='entry in dayTimeSheet'>
           {{entry.title}}
-          <button class="button button-clear" ui-sref='tab.projectProgress'>
+          <button class="button button-clear" ui-sref='tab.projectProgress({selectedId : entry.id })'>
             <i class="icon icon-edit"></i>
             <i class="icon icon-ignore" ng-show='false'></i>
           </button>

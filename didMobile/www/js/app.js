@@ -8,7 +8,7 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.settingsController',
                            'didApp.service',
                            'didApp.loginService',
-                           'didApp.dayProgressFilter'
+                           'didApp.dataStoreService'
                           ])
 
 .run(function($ionicPlatform) {
@@ -64,7 +64,8 @@ var didApp = angular.module('didApp', ['ionic',
         templateUrl: 'didApp/projectProgress/projectProgress.html',
         controller: 'projectProgressCtrl'
       }
-    }
+    },
+    params : { selectedId:null}
   })
   .state('tab.settings', {
     url: '/settings',
