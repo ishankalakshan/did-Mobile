@@ -6,6 +6,7 @@ function didAppDataStoreService() {
 
   var localStorageTimesheet = [];
   var localStorageWeekTimesheet = [];
+  var localStorageTimesheetById = {};
 
   this.loadTolocalStorageTimesheet = function (data) {
     localStorageTimesheet = data;
@@ -14,4 +15,5 @@ function didAppDataStoreService() {
   this.getlocalStorageTimesheet = function () {
     return localStorageTimesheet ;
   }
+
 }

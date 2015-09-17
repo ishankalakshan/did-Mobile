@@ -1,19 +1,19 @@
 <ion-view view-title="Mobile Hackathon">
     <ion-content class=padding>
-      <div class="list" ng-repeat='pr in entry'>
+      <div class="list">
         <br>
         <label class="item item-input">
           <span class="input-label">Start Time</span>
-        <input type="text" ng-model="pr.startTime">
+        <input type="text" ng-model="project.startTime">
         </label>
         <label class="item item-input">
           <span class="input-label">End Time</span>
-          <input type="text" ng-model='pr.endTime'>
+          <input type="text" ng-model='project.endTime'>
         </label>
         <br><br>
         <label class="item item-input">
           <span class="input-label">Duration</span>
-          <input type="text" ng-model='pr.duration' ng-disabled='true'>
+          <span>{{getDuration(project.startTime,project.endTime)}}</span>
         </label>
         <br>
         <br>

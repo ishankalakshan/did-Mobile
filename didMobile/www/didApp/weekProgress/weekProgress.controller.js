@@ -31,6 +31,7 @@ function weekProgressCtrl($scope,$stateParams,$ionicLoading,didAppDataService,di
 
                   organizer:b.content.properties.PzlOrganizer.__text,
                   customerKeyId:b.content.properties.PzlCustomerKeyId.__text,
+                  projectKeyId:b.content.properties.PzlProjectKeyId.__text,
                   resourceKeyId:b.content.properties.PzlResourceKeyId.__text,
                   dateImported:b.content.properties.PzlDateImported.__text,
                   lastUpdatedOn:b.content.properties.PzlLastUpdatedOn.__text,
