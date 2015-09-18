@@ -19,22 +19,26 @@
         <br>
         <label class="item item-input item-select">
           <div class="input-label">
-            Project
-          </div>
-          <select>
-            <option>Puzzlepart</option>
-            <option selected>Assist 365</option>
-            <option>99x Internal</option>
-          </select>
-        </label>
-        <label class="item item-input item-select">
-          <div class="input-label">
             Customer
           </div>
-          <select>
+          <select ng-model='customerTitle' ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList'>
+<!--
             <option>99x</option>
             <option selected>Puzzlepart</option>
             <option>Compello</option>
+-->
+          </select>
+        </label>
+         <label class="item item-input item-select">
+          <div class="input-label">
+            Project
+          </div>
+          <select ng-model='projectTitle' ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects'>
+<!--
+            <option>Puzzlepart</option>
+            <option selected>Assist 365</option>
+            <option>99x Internal</option>
+-->
           </select>
         </label>
         <br><br>
