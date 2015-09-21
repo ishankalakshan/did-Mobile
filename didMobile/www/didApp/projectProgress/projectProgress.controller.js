@@ -17,8 +17,9 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
 
     (function () {
         setProjectDetails();
-        getCustomerTitle($scope.project.customerKeyId);
-        getProjecTitle($scope.project.projectKeyId)
+        getCustomerTitle($scope.project.customerKeyId)
+        getProjecTitle($scope.project.projectKeyId) 
+        getProjects($scope.project.customerKeyId)
     })();
 
     function setProjectDetails() {
@@ -43,25 +44,30 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     };
 
     function getCustomerTitle(key) {
+            var i = 0;
         $scope.customerList.forEach(function (result) {
+            ++i;
             if (result.id == key) {
-                customerTitle = result.title;
+                customerTitle = i;
                 return customerTitle;
             }
         })
     };
 
     function getProjecTitle(projectKey) {
+        var j =0;
         $scope.projectList.forEach(function (result) {
+            ++j;
             if (result.id == projectKey) {
-                projectTitle = result.title;
+                projectTitle = j;
                 return projectTitle;
             }
         })
     };
-
-    $scope.customerTitle = projectTitle;
-    $scope.projectTitle = customerTitle;
+    
+    console.log($scope.customerList);
+    $scope.customerTitle = $scope.customerList[customerTitle-1]
+    $scope.projectTitle = $scope.projectList[projectTitle-1]
 
     console.log($scope.customerTitle);
     console.log($scope.projectTitle);
@@ -79,8 +85,10 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     }
 
     $scope.setSelectedProject = function (project) {
-        $scope.projectTitle = project;
+        if(project!=null){
+            $scope.projectTitle = project;
         $scope.project.projectKeyId = project.id;
+        } 
     }
 
 };

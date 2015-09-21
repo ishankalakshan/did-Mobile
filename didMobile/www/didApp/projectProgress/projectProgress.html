@@ -21,7 +21,7 @@
           <div class="input-label">
             Customer
           </div>
-          <select ng-model='customerTitle' ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList'>
+          <select ng-model='customerTitle' ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
 <!--
             <option>99x</option>
             <option selected>Puzzlepart</option>
@@ -33,7 +33,7 @@
           <div class="input-label">
             Project
           </div>
-          <select ng-model='projectTitle' ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects'>
+          <select ng-model='projectTitle' ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
 <!--
             <option>Puzzlepart</option>
             <option selected>Assist 365</option>
