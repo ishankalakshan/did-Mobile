@@ -21,7 +21,7 @@ function dayprogressCtrl($scope,$stateParams,$q,didAppDataService,didAppDataStor
 
   function setDayTimeSheet(date){
     $scope.timesheet.forEach(function(entry){
-      if (moment(entry.startTime).format('MMM, dddd DD')==date) {
+      if (moment(entry.startTime).format('MMM, dddd DD YYYY')==date) {
             $scope.dayTimeSheet.push(entry);
       }//end if
     });//end forEach

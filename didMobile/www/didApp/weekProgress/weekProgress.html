@@ -27,14 +27,13 @@
       </ion-list>
       <br>
       <br>
-      <br>
       <div class="padding">
         <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'">
           This is What I DID
         </button>
-        <button class="button button-block button-outline button-balanced" ng-disabled='true' ng-show="stateWeek=='Confirmed'">
-          Already Confirmed
-        </button>
+        <center>
+            <img ng-src="img/confirmed.png" alt="" ng-show="stateWeek=='Confirmed'">
+        </center>  
       </div>
     </ion-content>
 </ion-view>

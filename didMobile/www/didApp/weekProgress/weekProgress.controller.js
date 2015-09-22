@@ -202,7 +202,6 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
     function setWeekTimeSheet(weekNumber, yearNumber) {
         for (var i = 1; i < 6; i++) {
             var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')  
-            console.log(weekStartDate)
             $scope.weeklyTimesheet.push({
                 date: moment(weekStartDate, 'MMM, dddd DD YYYY').format('ddd'),
                 dateFull: weekStartDate,
@@ -210,7 +209,6 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
                 state: getStateOfDay(weekStartDate)
             });         
         }; //end for
-        console.log($scope.weeklyTimesheet);
     };
 
     $scope.addOneWeek = function () {
