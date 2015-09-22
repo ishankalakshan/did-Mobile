@@ -13,7 +13,10 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
     $scope.customerList = [];
 
     var allWeekTimeEntries = [];
-    
+    var noOfWeeksInYear = '';
+
+
+
     (function () {
         didAppDataService.getProjects()
             .then(function (result) {
@@ -29,8 +32,8 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageProjects($scope.projectList);
             });
-    })();//load project data to localDataStorage Service
-    
+    })(); //load project data to localDataStorage Service
+
     (function () {
         didAppDataService.getCustomers()
             .then(function (result) {
@@ -45,7 +48,13 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
             });
-    })();//load customers data to localDataStorage Service
+    })(); //load customers data to localDataStorage Service
+    
+    (function () {
+        var test = moment(String(6) + ' ' + 2015, 'WW YYYY').endOf('isoWeek').day(-2).format('MMM, dddd DD')
+        //console.log(test)
+    })()
+
 
     function initialize() {
         didAppDataService.getTimeEntries()
@@ -88,6 +97,14 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
 
     initialize()
 
+    function weeksInYear(year) {
+        noOfWeeksInYear = Math.max(
+            moment(new Date(year, 11, 31)).isoWeek(), moment(new Date(year, 11, 31 - 7)).isoWeek()
+        );
+        return noOfWeeksInYear
+    }
+
+
     $scope.refreshData = function () {
         $scope.timesheet = [];
         allWeekTimeEntries = [];
@@ -100,8 +117,8 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
     function getWeekStartEnd(weekNumber, yearNumber) {
         var weekStartEnd = {
             weekNumber: weekNumber,
-            weekStart: moment(String(weekNumber) + yearNumber, 'WWYYYY').startOf('isoWeek').format('MMM, dddd DD'),
-            weekEnd: moment(String(weekNumber) + yearNumber, 'WWYYYY').endOf('isoWeek').day(-2).format('MMM, dddd DD')
+            weekStart: moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').format('MMM, dddd DD'),
+            weekEnd: moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').endOf('isoWeek').day(-2).format('MMM, dddd DD')
         };
         return weekStartEnd;
     }; //end of getWeekStartEnd()
@@ -126,7 +143,7 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
             return '-';
         } else {
             allWeekTimeEntries.forEach(function (day) {
-                if (moment(day.startTime).format('MMM, dddd DD') == date) {
+                if (moment(day.startTime).format('MMM, dddd DD YYYY') == date) {
                     totalHours += day.duration * 1
                 }
             }); //end foreach
@@ -138,7 +155,7 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
         var suggestCount = 0;
         if (allWeekTimeEntries.length !== 0) {
             allWeekTimeEntries.forEach(function (day) {
-                if (moment(day.startTime).format('MMM, dddd DD') == date && day.state == 'Suggested') {
+                if (moment(day.startTime).format('MMM, dddd DD YYYY') == date && day.state == 'Suggested') {
                     suggestCount += 1
                 }
             }); //end foreach
@@ -184,38 +201,51 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
 
     function setWeekTimeSheet(weekNumber, yearNumber) {
         for (var i = 1; i < 6; i++) {
-            var weekStartDate = moment(String(weekNumber) + yearNumber, 'WWYYYY').startOf('isoWeek').day(i).format('MMM, dddd DD')
+            var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')  
+            console.log(weekStartDate)
             $scope.weeklyTimesheet.push({
-                date: moment(weekStartDate, 'MMM, dddd DD').format('ddd'),
+                date: moment(weekStartDate, 'MMM, dddd DD YYYY').format('ddd'),
                 dateFull: weekStartDate,
                 hours: getTotalHoursPerDay(weekStartDate),
                 state: getStateOfDay(weekStartDate)
-            });
+            });         
         }; //end for
+        console.log($scope.weeklyTimesheet);
     };
 
     $scope.addOneWeek = function () {
-        if (moment().format('WW') >= $scope.weekCount) {
-            $scope.weekCount += 1;
-            console.log($scope.weekCount);
-            $scope.weeklyTimesheet = [];
-            $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
-            getAllWeekEntries($scope.weekCount, $scope.yearCount);
-            setWeekTimeSheet($scope.weekCount, $scope.yearCount);
-            $scope.stateWeek = getStateOfWeek();
+        weeksInYear($scope.yearCount)
+
+        if ($scope.weekCount == noOfWeeksInYear) {
+            $scope.weekCount = 0;
+            $scope.yearCount += 1;
         }
+
+        $scope.weekCount += 1;
+        console.log($scope.weekCount);
+        $scope.weeklyTimesheet = [];
+        //$scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
+        getAllWeekEntries($scope.weekCount, $scope.yearCount);
+        setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+        $scope.stateWeek = getStateOfWeek();
+
     }; //end of addOneWeek()
 
     $scope.substractOneWeek = function () {
-        if ($scope.weekCount >= 2) {
-            $scope.weekCount -= 1;
-            console.log($scope.weekCount);
-            $scope.weeklyTimesheet = [];
-            $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
-            getAllWeekEntries($scope.weekCount, $scope.yearCount);
-            setWeekTimeSheet($scope.weekCount, $scope.yearCount);
-            $scope.stateWeek = getStateOfWeek();
+        weeksInYear($scope.yearCount - 1)
+
+        if ($scope.weekCount == 1) {
+            $scope.weekCount = noOfWeeksInYear + 1
+            $scope.yearCount -= 1;
         }
+
+        $scope.weekCount -= 1;
+        console.log($scope.weekCount);
+        $scope.weeklyTimesheet = [];
+       // $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
+        getAllWeekEntries($scope.weekCount, $scope.yearCount);
+        setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+        $scope.stateWeek = getStateOfWeek();
     }; //end of substractOneWeek()
 
     $scope.onLoad = function () {
