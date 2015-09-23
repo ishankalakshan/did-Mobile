@@ -92,6 +92,7 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
                 didAppDataStoreService.loadTolocalStorageTimesheet($scope.timesheet);
                 getAllWeekEntries($scope.weekCount, $scope.yearCount);
                 setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+                $scope.stateWeek = getStateOfWeek();
             });
     }
 
