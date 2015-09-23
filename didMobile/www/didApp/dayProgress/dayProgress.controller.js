@@ -1,46 +1,31 @@
 angular.module('didApp.dayProgressController', ['angularMoment'])
 
-.controller('dayProgressCtrl',['$scope','$stateParams','didAppDataService',dayprogressCtrl])
+.controller('dayProgressCtrl',['$scope','$stateParams','$q','didAppDataService','didAppDataStoreService',dayprogressCtrl])
 
-function dayprogressCtrl($scope,$stateParams,didAppDataService){
+function dayprogressCtrl($scope,$stateParams,$q,didAppDataService,didAppDataStoreService){
 
   $scope.date = $stateParams.selectedDate;
-  $scope.timesheet = [];
-  var allDayTimeEntries = [];
+  $scope.timesheet = didAppDataStoreService.getlocalStorageTimesheet();
   $scope.dayTimeSheet = [];
 
   function initialize(){
-    didAppDataService.loadData($scope)
-    console.log($scope.timesheet);
+    setDayTimeSheet($scope.date);
   }
 
   initialize();
 
   $scope.refreshData = function () {
+    $scope.dayTimeSheet = [];
     setDayTimeSheet($scope.date);
-    console.log($scope.dayTimeSheet);
   }
 
-  function getAllDayEntries(date){
-    allDayTimeEntries = [];
+  function setDayTimeSheet(date){
     $scope.timesheet.forEach(function(entry){
-      if (moment(entry.startTime).format('MMM, dddd DD')==date) {
-            allDayTimeEntries.push(entry);
+      if (moment(entry.startTime).format('MMM, dddd DD YYYY')==date) {
+            $scope.dayTimeSheet.push(entry);
       }//end if
     });//end forEach
     $scope.$broadcast('scroll.refreshComplete');
-    return allDayTimeEntries;
   };
-
-  function setDayTimeSheet(date){
-    getAllDayEntries(date).forEach(function(entry){
-      $scope.dayTimeSheet.push({
-        title : entry.title,
-        state : entry.state
-      });
-    });
-  };
-
-
 
 };

@@ -17,7 +17,7 @@
         <ion-item ng-repeat='day in weeklyTimesheet'>
           <div class="row">
             <div class="col">{{day.date}}</div>
-            <div class="col">{{day.hours}}</div>
+            <div class="col">{{day.hours}} h</div>
             <div class="col"><button class="button button-small button-clear" ui-sref='tab.dayProgress({selectedDate :day.dateFull})'>
               <i class='icon icon-approved' ng-show={{day.state}}></i>
               <i class='icon icon-suggested' ng-hide={{day.state}}></i>
@@ -27,14 +27,13 @@
       </ion-list>
       <br>
       <br>
-      <br>
       <div class="padding">
         <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'">
           This is What I DID
         </button>
-        <button class="button button-block button-outline button-balanced" ng-disabled='true' ng-show="stateWeek=='Confirmed'">
-          Already Confirmed
-        </button>
+        <center>
+            <img ng-src="img/confirmed.png" alt="" ng-show="stateWeek=='Confirmed'">
+        </center>  
       </div>
     </ion-content>
 </ion-view>

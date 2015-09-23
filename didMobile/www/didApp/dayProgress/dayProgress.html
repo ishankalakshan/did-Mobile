@@ -4,9 +4,21 @@
       <div class="list">
         <div class="item item-button-right" ng-repeat='entry in dayTimeSheet'>
           {{entry.title}}
-          <button class="button button-clear" ui-sref='tab.projectProgress'>
-            <i class="icon icon-edit"></i>
-            <i class="icon icon-ignore" ng-show='false'></i>
+          <button class="button button-clear" ui-sref='tab.projectProgress({selectedId : entry.id })'>
+                        
+            <i class="icon icon-ignore" ng-show="entry.state=='UserIgnored'"></i>
+            <i class="icon icon-ignore" ng-show="entry.state=='SystemIgnored'"></i>
+            
+            
+            <i class="icon icon-edit" ng-show="entry.state=='Suggested'"></i>
+            <i class="icon icon-edit" ng-show="entry.state=='Imported'"></i>
+            
+            <i class="icon icon-approved" ng-show="entry.state=='Approved'"></i>
+            
+            <i class="icon icon-ignore" ng-show="entry.state=='SystemConfirmed'"></i>
+            <i class="icon icon-ignore" ng-show="entry.state=='UserConfirmed'"></i>
+
+            
           </button>
         </div>
       </div>

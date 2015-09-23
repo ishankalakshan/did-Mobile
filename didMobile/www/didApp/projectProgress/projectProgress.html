@@ -4,45 +4,49 @@
         <br>
         <label class="item item-input">
           <span class="input-label">Start Time</span>
-          <input type="text">
+        <input type="text" ng-model="project.startTime" ng-disabled="project.state=='Approved'">
         </label>
         <label class="item item-input">
           <span class="input-label">End Time</span>
-          <input type="text">
+          <input type="text" ng-model='project.endTime' ng-disabled="project.state=='Approved'">
         </label>
         <br><br>
         <label class="item item-input">
           <span class="input-label">Duration</span>
-          <input type="text" ng-disabled='true'>
+          <span>{{getDuration(project.startTime,project.endTime)}}</span>
         </label>
         <br>
         <br>
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Project
-          </div>
-          <select>
-            <option>Puzzlepart</option>
-            <option selected>Assist 365</option>
-            <option>99x Internal</option>
-          </select>
-        </label>
         <label class="item item-input item-select">
           <div class="input-label">
             Customer
           </div>
-          <select>
+          <select ng-model='customerTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
+<!--
             <option>99x</option>
             <option selected>Puzzlepart</option>
             <option>Compello</option>
+-->
+          </select>
+        </label>
+         <label class="item item-input item-select">
+          <div class="input-label">
+            Project
+          </div>
+          <select ng-model='projectTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
+<!--
+            <option>Puzzlepart</option>
+            <option selected>Assist 365</option>
+            <option>99x Internal</option>
+-->
           </select>
         </label>
         <br><br>
       </div>
       <div class="button-bar">
-        <button class="button button-icon button-dark button-clear"><i class="icon ion-ios-locked"></i></button>
-        <button class="button button-icon button-balanced button-clear"><i class="icon ion-ios-checkmark"></i></button>
-        <button class="button button-icon button-assertive button-clear"><i class="icon ion-ios-close"></i></button>
+        <button class="button button-icon button-dark button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-locked"></i></button>
+        <button class="button button-icon button-balanced button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-checkmark"></i></button>
+        <button class="button button-icon button-assertive button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-close"></i></button>
       </div>
     </ion-content>
 </ion-view>
