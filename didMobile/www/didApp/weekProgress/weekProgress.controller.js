@@ -15,8 +15,6 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
     var allWeekTimeEntries = [];
     var noOfWeeksInYear = '';
 
-
-
     (function () {
         didAppDataService.getProjects()
             .then(function (result) {
@@ -49,11 +47,22 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
             });
     })(); //load customers data to localDataStorage Service
-    
+
     (function () {
-        var test = moment(String(6) + ' ' + 2015, 'WW YYYY').endOf('isoWeek').day(-2).format('MMM, dddd DD')
-        //console.log(test)
+
     })()
+
+    $scope.$on('home.clicked',function(){
+        $scope.timesheet = [];
+        allWeekTimeEntries = [];
+        $scope.weeklyTimesheet = [];
+        $scope.timesheet = didAppDataStoreService.getlocalStorageTimesheet();
+        $scope.weekCount = moment().format('WW') * 1;
+        $scope.yearCount = moment().format('YYYY') * 1;
+        getAllWeekEntries($scope.weekCount, $scope.yearCount);
+        setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+        $scope.stateWeek = getStateOfWeek();           
+    });
 
 
     function initialize() {
@@ -202,13 +211,13 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
 
     function setWeekTimeSheet(weekNumber, yearNumber) {
         for (var i = 1; i < 6; i++) {
-            var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')  
+            var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')
             $scope.weeklyTimesheet.push({
                 date: moment(weekStartDate, 'MMM, dddd DD YYYY').format('ddd'),
                 dateFull: weekStartDate,
                 hours: getTotalHoursPerDay(weekStartDate),
                 state: getStateOfDay(weekStartDate)
-            });         
+            });
         }; //end for
     };
 
@@ -241,7 +250,7 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
         $scope.weekCount -= 1;
         console.log($scope.weekCount);
         $scope.weeklyTimesheet = [];
-       // $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
+        // $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
         getAllWeekEntries($scope.weekCount, $scope.yearCount);
         setWeekTimeSheet($scope.weekCount, $scope.yearCount);
         $scope.stateWeek = getStateOfWeek();

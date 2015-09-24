@@ -2,7 +2,7 @@
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
   <!-- weekProgress Tab -->
-  <ion-tab title="Home" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/weekProgress">
+  <ion-tab title="Home" cache-view="false" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" on-deselect="clearHistory()" on-select='setToCurrentWeek()' ng-click="selectTabWithIndex(0)"  href="#/tab/weekProgress">
     <ion-nav-view nav-clear name="tab-home"></ion-nav-view>
   </ion-tab>
 
@@ -10,6 +10,5 @@
   <ion-tab title="Settings" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/settings">
     <ion-nav-view name="tab-settings"></ion-nav-view>
   </ion-tab>
-
 
 </ion-tabs>

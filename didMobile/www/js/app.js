@@ -8,7 +8,8 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.settingsController',
                            'didApp.service',
                            'didApp.loginService',
-                           'didApp.dataStoreService'
+                           'didApp.dataStoreService',
+                           'didApp.tabsController'
                           ])
 
 .run(function($ionicPlatform) {
@@ -36,7 +37,8 @@ var didApp = angular.module('didApp', ['ionic',
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'didApp/tabs.html'
+    templateUrl: 'didApp/tabs.html',
+    controller : 'tabsCtrl'
   })
   .state('tab.weekProgress',{
         url:'/weekProgress',
