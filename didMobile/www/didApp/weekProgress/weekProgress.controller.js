@@ -109,8 +109,8 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
     $scope.refreshData = function () {
         $scope.timesheet = [];
         allWeekTimeEntries = [];
-        $scope.weekCount = moment().format('WW') * 1;
-        $scope.yearCount = moment().format('YYYY') * 1;
+        //$scope.weekCount = moment().format('WW') * 1;
+        //$scope.yearCount = moment().format('YYYY') * 1;
         $scope.weeklyTimesheet = [];
         initialize();
     };
