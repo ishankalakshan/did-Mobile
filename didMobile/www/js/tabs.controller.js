@@ -4,8 +4,9 @@ angular.module('didApp.tabsController', ['angularMoment'])
 
 function tabsCtrl($scope,$ionicHistory,$ionicTabsDelegate,$rootScope){
         
-    $scope.$on("$ionicView.afterLeave", function () {
-         $ionicHistory.clearCache();
+    $scope.$on("$ionicView.afterEnter", function () {
+         //$ionicHistory.clearCache();
+        $rootScope.$broadcast('home.clicked');
  }); 
     $scope.selectTabWithIndex = function(index) {
     
