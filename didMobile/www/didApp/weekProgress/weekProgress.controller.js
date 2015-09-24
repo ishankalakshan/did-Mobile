@@ -14,6 +14,7 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
 
     var allWeekTimeEntries = [];
     var noOfWeeksInYear = '';
+    var isInitialLoad = false;
 
     (function () {
         didAppDataService.getProjects()
@@ -47,23 +48,6 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
             });
     })(); //load customers data to localDataStorage Service
-
-    (function () {
-
-    })()
-
-    $scope.$on('home.clicked',function(){
-        $scope.timesheet = [];
-        allWeekTimeEntries = [];
-        $scope.weeklyTimesheet = [];
-        $scope.timesheet = didAppDataStoreService.getlocalStorageTimesheet();
-        $scope.weekCount = moment().format('WW') * 1;
-        $scope.yearCount = moment().format('YYYY') * 1;
-        getAllWeekEntries($scope.weekCount, $scope.yearCount);
-        setWeekTimeSheet($scope.weekCount, $scope.yearCount);
-        $scope.stateWeek = getStateOfWeek();           
-    });
-
 
     function initialize() {
         didAppDataService.getTimeEntries()
@@ -102,10 +86,25 @@ function weekProgressCtrl($scope, $stateParams, $ionicLoading, didAppDataService
                 getAllWeekEntries($scope.weekCount, $scope.yearCount);
                 setWeekTimeSheet($scope.weekCount, $scope.yearCount);
                 $scope.stateWeek = getStateOfWeek();
+                isInitialLoad = true;
             });
     }
 
     initialize()
+
+    $scope.$on('home.clicked', function () {
+        if (isInitialLoad) {
+            $scope.timesheet = [];
+            allWeekTimeEntries = [];
+            $scope.weeklyTimesheet = [];
+            $scope.timesheet = didAppDataStoreService.getlocalStorageTimesheet();
+            $scope.weekCount = moment().format('WW') * 1;
+            $scope.yearCount = moment().format('YYYY') * 1;
+            getAllWeekEntries($scope.weekCount, $scope.yearCount);
+            setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+            $scope.stateWeek = getStateOfWeek();
+        };
+    });
 
     function weeksInYear(year) {
         noOfWeeksInYear = Math.max(
