@@ -6,8 +6,9 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
-    $scope.timesheet = didAppDataStoreService.getlocalStorageTimesheet();
-    $scope.projectList = didAppDataStoreService.getlocalStorageProjects();
+
+    var timesheet = didAppDataStoreService.getlocalStorageTimesheet();
+    var projectList = didAppDataStoreService.getlocalStorageProjects();
     $scope.customerList = didAppDataStoreService.getlocalStorageCustomers();
     $scope.filteredProjects = [];
 
@@ -18,12 +19,12 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     (function () {
         setProjectDetails();
         getCustomerTitle($scope.project.customerKeyId)
-        getProjecTitle($scope.project.projectKeyId) 
+        getProjecTitle($scope.project.projectKeyId)
         getProjects($scope.project.customerKeyId)
     })();
 
     function setProjectDetails() {
-        $scope.timesheet.forEach(function (result) {
+        timesheet.forEach(function (result) {
             if (result.id == $scope.id) {
                 $scope.project.startTime = moment(result.startTime).format('hh:mm A')
                 $scope.project.endTime = moment(result.endTime).format('hh:mm A')
@@ -36,7 +37,7 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     };
 
     function getProjects(customerKey) {
-        $scope.projectList.forEach(function (result) {
+        projectList.forEach(function (result) {
             if (result.customerKeyId == customerKey) {
                 $scope.filteredProjects.push(result);
             }
@@ -44,7 +45,7 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     };
 
     function getCustomerTitle(key) {
-            var i = 0;
+        var i = 0;
         $scope.customerList.forEach(function (result) {
             ++i;
             if (result.id == key) {
@@ -55,8 +56,8 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     };
 
     function getProjecTitle(projectKey) {
-        var j =0;
-        $scope.projectList.forEach(function (result) {
+        var j = 0;
+        projectList.forEach(function (result) {
             ++j;
             if (result.id == projectKey) {
                 projectTitle = j;
@@ -64,17 +65,10 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
             }
         })
     };
-    
-    console.log($scope.customerList);
-    $scope.customerTitle = $scope.customerList[customerTitle-1]
-    $scope.projectTitle = $scope.projectList[projectTitle-1]
 
-    console.log($scope.customerTitle);
-    console.log($scope.projectTitle);
 
-    $scope.getDuration = function (start, end) {
-        return moment.utc(moment(end, "hh:mm A").diff(moment(start, "hh:mm A"))).format("HH:mm")
-    };
+    $scope.customerTitle = $scope.customerList[customerTitle - 1]
+    $scope.projectTitle = projectList[projectTitle - 1]
 
 
     $scope.setSelectedCustomer = function (customer) {
@@ -85,10 +79,10 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     }
 
     $scope.setSelectedProject = function (project) {
-        if(project!=null){
+        if (project != null) {
             $scope.projectTitle = project;
-        $scope.project.projectKeyId = project.id;
-        } 
+            $scope.project.projectKeyId = project.id;
+        }
     }
 
 };

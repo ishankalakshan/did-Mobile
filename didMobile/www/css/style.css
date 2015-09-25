@@ -29,12 +29,29 @@
   content: url('icons/icon-edit.png');
   width: 30px;
   height: 30px;
+  margin-top: 4px
 }
 .icon-ignore{
   content: url('icons/icon-ignore.png');
   width: 30px;
   height: 30px;
 }
-.button-bar{
+.button-bar.button-bar-bg{
   background-color: #FDF3E2;
+}
+.badge-note{
+    font-size: 13px;
+    color: #BDC7C7;
+    margin-left: 15px;
+}
+.badge-status{
+    margin-left: 2%;
+    width: 75px !important;
+    line-height: 30px;
+    border-radius: 50px
+
+}
+.img-approved{
+    height: 20% !important;
+    width: 55% !important;
 }
