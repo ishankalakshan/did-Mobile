@@ -5,10 +5,11 @@
          <ion-list>
           <ion-item class="item item-text-wrap item-button-right" ng-repeat='entry in dayTimeSheet'>
             {{entry.title}}
-                <span class='badge-note'>{{entry.customerKey + ' ' + entry.projectKey}}</span>
+                
                 <span class="badge badge-balanced icon-badge" ng-show="entry.state=='Approved'||entry.state=='SystemConfirmed'||entry.state=='UserConfirmed'">{{entry.hours}}</span>
                 <span class="badge badge-energized" ng-show="entry.state=='Suggested'||entry.state=='Imported'">{{entry.hours}}</span>
                 <span class="badge badge-assertive" ng-show="entry.state=='UserIgnored'||entry.state=='SystemIgnored'">{{entry.hours}}</span>
+
 
                 <button class="button button-clear" ui-sref='tab.projectProgress({selectedId : entry.id })'>
 
@@ -22,6 +23,8 @@
 
 
                 </button>
+                <br>
+                <span class='badge-note'>{{entry.customerKey + ' ' + entry.projectKey}}</span>
           </ion-item>
         </ion-list>
 <!--
