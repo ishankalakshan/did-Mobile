@@ -1,8 +1,8 @@
 angular.module('didApp.projectProgressController', ['angularMoment'])
 
-.controller('projectProgressCtrl', ['$scope', '$stateParams', 'didAppDataStoreService', projectProgressCtrl])
+.controller('projectProgressCtrl', ['$scope','$state', '$stateParams', 'didAppDataStoreService', projectProgressCtrl])
 
-function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
+function projectProgressCtrl($scope,$state,$stateParams, didAppDataStoreService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
@@ -14,6 +14,7 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
 
     var customerTitle = '';
     var projectTitle = '';
+    var date;
 
 
     (function () {
@@ -26,6 +27,7 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
     function setProjectDetails() {
         timesheet.forEach(function (result) {
             if (result.id == $scope.id) {
+                 date =  moment(result.startTime).format('MMM, dddd DD YYYY')
                 $scope.project.startTime = moment(result.startTime).format('hh:mm A')
                 $scope.project.endTime = moment(result.endTime).format('hh:mm A')
                 $scope.project.duration = result.duration
@@ -83,6 +85,10 @@ function projectProgressCtrl($scope, $stateParams, didAppDataStoreService) {
             $scope.projectTitle = project;
             $scope.project.projectKeyId = project.id;
         }
+    }
+    
+    $scope.updateStatePrivate = function(){
+        $state.go('tab.dayProgress',{selectedDate: date });
     }
 
 };

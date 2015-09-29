@@ -45,12 +45,49 @@
 }
 .badge-status{
     margin-left: 2%;
-    width: 75px !important;
+    width: 16vw !important;
     line-height: 30px;
-    border-radius: 50px
-
+/*    border-radius: 50px;*/
+    color: Black !important;
+    font-size: 3.5vw;
 }
 .img-approved{
     height: 20% !important;
     width: 55% !important;
 }
+.success-image{
+    margin-top: 50px;
+    height: 50%;
+    width: 50%;
+    margin-bottom: 50px;
+}
+.success-message{
+    color: green;
+    white-space: normal;
+}
+.ion-item.icon-badge {
+  padding-right: 80px; /* This value seems enough for a commonly-maxed 99+ or 999 badge. */
+}
+.icon-ignore-hours{
+    content: url('icons/ignoredHours.png');
+    width: 30px;
+    height: 30px;   
+}
+.badge.badge-balanced{
+    background-color: #94E674;
+}
+.badge.badge-energized{
+    background-color: #F8DF5D;
+}
+.badge.badge-assertive{
+    background-color: #D56161;
+}
+.item.item-button-right .badge {
+    right: 55px !important;
+}
+.item-button-right{
+    padding-right: 85px;
+}
+
+
+

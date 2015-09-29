@@ -4,52 +4,22 @@
         
          <ion-list>
           <ion-item class="item item-text-wrap item-button-right" ng-repeat='entry in dayTimeSheet'>
-            {{entry.title}}
-                
-                <span class="badge badge-balanced icon-badge" ng-show="entry.state=='Approved'||entry.state=='SystemConfirmed'||entry.state=='UserConfirmed'">{{entry.hours}}</span>
-                <span class="badge badge-energized" ng-show="entry.state=='Suggested'||entry.state=='Imported'">{{entry.hours}}</span>
-                <span class="badge badge-assertive" ng-show="entry.state=='UserIgnored'||entry.state=='SystemIgnored'">{{entry.hours}}</span>
-
-
+            {{entry.title}}     
+                <span class="badge badge-balanced icon-badge" ng-show="entry.state=='Approved'||entry.state=='SystemConfirmed'||entry.state=='UserConfirmed'">{{entry.hours}}h</span>
+                <span class="badge badge-energized" ng-show="entry.state=='Suggested'||entry.state=='Imported'">{{entry.hours}}h</span>
+                <span class="badge badge-assertive" ng-show="entry.state=='UserIgnored'||entry.state=='SystemIgnored'">{{entry.hours}}h</span>
                 <button class="button button-clear" ui-sref='tab.projectProgress({selectedId : entry.id })'>
-
                     <i class="icon icon-ignore" ng-show="entry.state=='UserIgnored'"></i>
                     <i class="icon icon-ignore" ng-show="entry.state=='SystemIgnored'"></i>
                     <i class="icon icon-edit" ng-show="entry.state=='Suggested'"></i>
                     <i class="icon icon-edit" ng-show="entry.state=='Imported'"></i>
                     <i class="icon icon-approved" ng-show="entry.state=='Approved'"></i>
-                    <i class="icon icon-ignore" ng-show="entry.state=='SystemConfirmed'"></i>
-                    <i class="icon icon-ignore" ng-show="entry.state=='UserConfirmed'"></i>
-
-
+                    <i class="icon icon-approved" ng-show="entry.state=='SystemConfirmed'"></i>
+                    <i class="icon icon-approved" ng-show="entry.state=='UserConfirmed'"></i>
                 </button>
                 <br>
                 <span class='badge-note'>{{entry.customerKey + ' ' + entry.projectKey}}</span>
           </ion-item>
         </ion-list>
-<!--
-        <div class="list">
-            <div class="item item-text-wrap item-button-right" ng-repeat='entry in dayTimeSheet'>
-                {{entry.title}}
-                <span class='badge-note'>{{entry.customerKey + ' ' + entry.projectKey}}</span>
-                <span class="badge badge-balanced icon-badge" ng-show="entry.state=='Approved'||entry.state=='SystemConfirmed'||entry.state=='UserConfirmed'">{{entry.hours}}h</span>
-                <span class="badge badge-energized" ng-show="entry.state=='Suggested'||entry.state=='Imported'">{{entry.hours}}h</span>
-                <span class="badge badge-assertive" ng-show="entry.state=='UserIgnored'||entry.state=='SystemIgnored'">{{entry.hours}}h</span>
-
-                <button class="button button-clear" ui-sref='tab.projectProgress({selectedId : entry.id })'>
-
-                    <i class="icon icon-ignore" ng-show="entry.state=='UserIgnored'"></i>
-                    <i class="icon icon-ignore" ng-show="entry.state=='SystemIgnored'"></i>
-                    <i class="icon icon-edit" ng-show="entry.state=='Suggested'"></i>
-                    <i class="icon icon-edit" ng-show="entry.state=='Imported'"></i>
-                    <i class="icon icon-approved" ng-show="entry.state=='Approved'"></i>
-                    <i class="icon icon-ignore" ng-show="entry.state=='SystemConfirmed'"></i>
-                    <i class="icon icon-ignore" ng-show="entry.state=='UserConfirmed'"></i>
-
-
-                </button>
-            </div>
-        </div>
--->
     </ion-content>
 </ion-view>

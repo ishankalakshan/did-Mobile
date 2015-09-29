@@ -9,7 +9,9 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.service',
                            'didApp.loginService',
                            'didApp.dataStoreService',
-                           'didApp.tabsController'
+                           'didApp.tabsController',
+                           'didApp.successScreenController',
+                           'didApp.errorScreenController'
                           ])
 
 .run(function($ionicPlatform) {
@@ -69,6 +71,15 @@ var didApp = angular.module('didApp', ['ionic',
     },
     params : { selectedId:null}
   })
+  .state('tab.confirmed',{
+        url:'/confirmed',
+        views: {
+          'tab-home': {
+            templateUrl: 'didApp/WhatIDid/successScreen.html',
+            controller: 'successScreenCtrl',
+          }
+        }
+      })
   .state('tab.settings', {
     url: '/settings',
     views: {

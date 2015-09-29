@@ -13,13 +13,10 @@ function dayprogressCtrl($scope, $stateParams,didAppDataService, didAppDataStore
 
     function initialize() {
         setDayTimeSheet($scope.date);
+        console.log(moment($scope.date).endOf('year').format('YYYY-MM-DD'))
     }
 
     initialize();
-    
-//    console.log(timesheet)
- //   console.log(customerList)
-//    console.log(projectList)
 
     $scope.refreshData = function () {
         $scope.dayTimeSheet = [];

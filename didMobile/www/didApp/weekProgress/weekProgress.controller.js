@@ -1,8 +1,8 @@
 angular.module('didApp.weekProgressController', ['angularMoment'])
 
-.controller('weekProgressCtrl', ['$scope', '$rootScope', '$stateParams', '$ionicLoading', 'didAppDataService', 'didAppDataStoreService', weekProgressCtrl])
+.controller('weekProgressCtrl', ['$scope', '$rootScope','$state', '$stateParams', '$ionicLoading', '$ionicPopup', 'didAppDataService', 'didAppDataStoreService', weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAppDataService, didAppDataStoreService) {
+function weekProgressCtrl($scope, $rootScope,$state ,$stateParams, $ionicLoading, $ionicPopup, didAppDataService, didAppDataStoreService) {
 
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
@@ -88,7 +88,6 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
                 $scope.stateWeek = getStateOfWeek();
                 isNotInitialLoad = true;
                 $scope.summaryHours = getConfirmedHoursPerWeek();
-                console.log($scope.timesheet)
             });
     } //load timesheet data to localDataStorage Service
 
@@ -122,7 +121,7 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
         }); //end forEach
         $scope.$broadcast('scroll.refreshComplete');
         return allWeekTimeEntries;
-    };
+    };//end of getAllWeekEntries
 
     function getTotalHoursPerDay(date) {
         var totalHours = 0;
@@ -189,7 +188,13 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
 
     function setWeekTimeSheet(weekNumber, yearNumber) {
         for (var i = 1; i < 6; i++) {
-            var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')
+            
+            var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')      
+//           var yearEnd = moment($scope.date).clone().endOf('year').format('MMM, dddd DD YYYY')
+//            if(weekStartDate==yearEnd){
+//                console.log('ok')
+//                break;
+//            }
             $scope.weeklyTimesheet.push({
                 date: moment(weekStartDate, 'MMM, dddd DD YYYY').format('ddd'),
                 dateFull: weekStartDate,
@@ -205,18 +210,18 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
         var totalIgnoredHours = 0;
 
         if (allWeekTimeEntries.length == 0) {
-            return [0,0,0];
+            return [0, 0, 0];
         } else {
             for (var i = 0; i < allWeekTimeEntries.length; i++) {
-                if (allWeekTimeEntries[i].state == 'SystemConfirmed' || allWeekTimeEntries[i].state == 'UserConfirmed'||allWeekTimeEntries[i].state == 'Approved') {
+                if (allWeekTimeEntries[i].state == 'SystemConfirmed' || allWeekTimeEntries[i].state == 'UserConfirmed' || allWeekTimeEntries[i].state == 'Approved') {
                     totalConfirmedHours += allWeekTimeEntries[i].duration * 1
-                } 
-                    if (allWeekTimeEntries[i].state == 'Suggested' || allWeekTimeEntries[i].state == 'Imported') {
-                        totalUnconfirmedHours += allWeekTimeEntries[i].duration * 1
-                    } 
-                        if (allWeekTimeEntries[i].state == 'SystemIgnored' || allWeekTimeEntries[i].state == 'UserIgnored') {
-                            totalIgnoredHours += allWeekTimeEntries[i].duration * 1
-                        }
+                }
+                if (allWeekTimeEntries[i].state == 'Suggested' || allWeekTimeEntries[i].state == 'Imported') {
+                    totalUnconfirmedHours += allWeekTimeEntries[i].duration * 1
+                }
+                if (allWeekTimeEntries[i].state == 'SystemIgnored' || allWeekTimeEntries[i].state == 'UserIgnored') {
+                    totalIgnoredHours += allWeekTimeEntries[i].duration * 1
+                }
             }; //end for
             return [totalConfirmedHours, totalUnconfirmedHours, totalIgnoredHours];
         }
@@ -230,7 +235,7 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
         requestTimesheet();
         requestCustomers();
         requestProjects();
-    };
+    };//end of refreshData
 
     $scope.addOneWeek = function () {
         weeksInYear($scope.yearCount)
@@ -282,6 +287,20 @@ function weekProgressCtrl($scope, $rootScope, $stateParams, $ionicLoading, didAp
             setWeekTimeSheet($scope.weekCount, $scope.yearCount);
             $scope.stateWeek = getStateOfWeek();
         };
-    });
+    }); 
+
+    $scope.showConfirm = function () {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Confirm This is What i did',
+            template: 'Are you sure you want to confirm?'
+        });
+        confirmPopup.then(function (res) {
+            if (res) {
+                $state.go('tab.confirmed')
+            } else {
+                console.log('You are not sure');
+            }
+        });
+    };//end of showConfirm
 
 }; //end of weekProgressCtrl

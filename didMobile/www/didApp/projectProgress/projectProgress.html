@@ -22,11 +22,6 @@
             Customer
           </div>
           <select ng-model='customerTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
-<!--
-            <option>99x</option>
-            <option selected>Puzzlepart</option>
-            <option>Compello</option>
--->
           </select>
         </label>
          <label class="item item-input item-select">
@@ -34,17 +29,12 @@
             Project
           </div>
           <select ng-model='projectTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
-<!--
-            <option>Puzzlepart</option>
-            <option selected>Assist 365</option>
-            <option>99x Internal</option>
--->
           </select>
         </label>
         <br><br>
       </div>
       <div class="button-bar button-bar-bg">
-        <button class="button button-icon button-dark button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-locked"></i></button>
+        <button class="button button-icon button-dark button-clear" ng-click="updateStatePrivate()" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-locked"></i></button>
         <button class="button button-icon button-balanced button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-checkmark"></i></button>
         <button class="button button-icon button-assertive button-clear" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-close"></i></button>
       </div>
