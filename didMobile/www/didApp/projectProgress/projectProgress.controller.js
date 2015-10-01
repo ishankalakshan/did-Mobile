@@ -28,6 +28,7 @@ function projectProgressCtrl($scope,$state,$stateParams, didAppDataStoreService)
         timesheet.forEach(function (result) {
             if (result.id == $scope.id) {
                  date =  moment(result.startTime).format('MMM, dddd DD YYYY')
+                $scope.project.title = result.title;
                 $scope.project.startTime = moment(result.startTime).format('hh:mm A')
                 $scope.project.endTime = moment(result.endTime).format('hh:mm A')
                 $scope.project.duration = result.duration
@@ -88,7 +89,7 @@ function projectProgressCtrl($scope,$state,$stateParams, didAppDataStoreService)
     }
     
     $scope.updateStatePrivate = function(){
-        $state.go('tab.dayProgress',{selectedDate: date });
+        $state.go('dayProgress',{selectedDate: date });
     }
 
 };

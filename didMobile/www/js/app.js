@@ -11,7 +11,8 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.dataStoreService',
                            'didApp.tabsController',
                            'didApp.successScreenController',
-                           'didApp.errorScreenController'
+                           'didApp.errorScreenController',
+                           'didApp.leftSidemenuController'
                           ])
 
 .run(function($ionicPlatform) {
@@ -35,59 +36,36 @@ var didApp = angular.module('didApp', ['ionic',
         templateUrl:'didApp/login/login.html',
         controller:'loginCtrl'
       })
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'didApp/tabs.html',
-    controller : 'tabsCtrl'
-  })
-  .state('tab.weekProgress',{
+  .state('weekProgress',{
         url:'/weekProgress',
-        views: {
-          'tab-home': {
-            templateUrl: 'didApp/weekProgress/weekProgress.html',
-            controller: 'weekProgressCtrl',
-          }
-        }
+        templateUrl: 'didApp/weekProgress/weekProgress.html',
+        controller: 'weekProgressCtrl'
       })
-  .state('tab.dayProgress', {
+  .state('dayProgress', {
       url: '/dayProgress',
-      views: {
-        'tab-home': {
-          templateUrl: 'didApp/dayProgress/dayProgress.html',
-          controller: 'dayProgressCtrl'
-        }
-      },
+      templateUrl: 'didApp/dayProgress/dayProgress.html',
+      controller: 'dayProgressCtrl',
       params : { selectedDate:null}
     })
-  .state('tab.projectProgress', {
+  .state('projectProgress', {
     url: '/projectProgress',
-    views: {
-      'tab-home': {
-        templateUrl: 'didApp/projectProgress/projectProgress.html',
-        controller: 'projectProgressCtrl'
-      }
-    },
+    templateUrl: 'didApp/projectProgress/projectProgress.html',
+    controller: 'projectProgressCtrl',
     params : { selectedId:null}
   })
-  .state('tab.confirmed',{
+  .state('confirmed',{
         url:'/confirmed',
-        views: {
-          'tab-home': {
             templateUrl: 'didApp/WhatIDid/successScreen.html',
-            controller: 'successScreenCtrl',
-          }
-        }
+            controller: 'successScreenCtrl'
       })
-  .state('tab.settings', {
-    url: '/settings',
-    views: {
-      'tab-settings': {
-        templateUrl: 'didApp/settings/settings.html',
-        controller: 'settingsCtrl'
-      }
-    }
-  })
+//  .state('tab.settings', {
+//    url: '/settings',
+//    views: {
+//      'tab-settings': {
+//        templateUrl: 'didApp/settings/settings.html',
+//        controller: 'settingsCtrl'
+//      }
+//    }
+//  })
   $urlRouterProvider.otherwise('/login');
 });

@@ -36,6 +36,11 @@
   width: 30px;
   height: 30px;
 }
+.icon-private{
+  content: url('icons/private.png');
+  width: 30px;
+  height: 30px;
+}
 .button-bar.button-bar-bg{
   background-color: #FDF3E2;
 }
@@ -74,10 +79,10 @@
     height: 30px;   
 }
 .badge.badge-balanced{
-    background-color: #94E674;
+    background-color: #6B9C68;
 }
 .badge.badge-energized{
-    background-color: #F8DF5D;
+    background-color: #F2961B;
 }
 .badge.badge-assertive{
     background-color: #D56161;
@@ -87,6 +92,55 @@
 }
 .item-button-right{
     padding-right: 85px;
+}
+.numberCircle{
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+
+    width:15vw ;
+    height: 15vw;
+    padding-top: 5vw;
+    
+    background: #fff;
+    border: 2px solid green;
+    color: #666;
+    text-align: center;
+    
+    font: 3.5vw Arial, sans-serif;
+}
+.numberCircle.confirmed{
+    border: 2px solid #6B9C68;  
+}
+.numberCircle.unconfirmed{
+    border: 2px solid #F2961B;  
+}
+.numberCircle.ignored{
+    border: 2px solid #D56161;  
+}
+.buttonCircle{
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+
+    width:10vw ;
+    height: 12vw;
+    padding: 1vw;
+    padding-top: 2vw;
+    
+    background: #fff;
+    border: 2px solid green;
+    color: #666;
+    text-align: center;
+    
+    font: 3.5vw Arial, sans-serif;
+}
+.buttonCircle.private{
+    border: 2px solid #929292;  
+}
+.buttonCircle.confirm{
+    border: 2px solid #6B9C68;  
+}
+.buttonCircle.ignore{
+    border: 2px solid #D56161;  
 }
 
 

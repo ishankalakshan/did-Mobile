@@ -7,7 +7,7 @@ function loginCtrl($scope,$state,$ionicPopup,didApploginService){
 
   ionic.Platform.ready(function(){
     if (didApploginService.autoLogin()) {
-      $state.go('tab.weekProgress');
+      $state.go('weekProgress');
     }
   });
 
@@ -16,7 +16,7 @@ function loginCtrl($scope,$state,$ionicPopup,didApploginService){
 
     if (isAuthenticated) {
       $scope.user ={};
-      $state.go('tab.weekProgress');
+      $state.go('weekProgress');
     }else {
       var alertPopup = $ionicPopup.alert({
       title: 'Access Denied!',

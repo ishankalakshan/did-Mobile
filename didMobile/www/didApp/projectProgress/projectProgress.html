@@ -1,42 +1,72 @@
-<ion-view view-title="Mobile Hackathon">
+<ion-view view-title="{{project.title}}">
     <ion-content class=padding>
-      <div class="list">
-        <br>
-        <label class="item item-input">
-          <span class="input-label">Start Time</span>
-            <span>{{project.startTime}}</span>
-        </label>
-        <label class="item item-input">
-          <span class="input-label">End Time</span>
-            <span>{{project.endTime}}</span>
-        </label>
-        <br><br>
-        <label class="item item-input">
-          <span class="input-label">Duration</span>
-          <span>{{project.duration}}</span>
-        </label>
-        <br>
-        <br>
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Customer
-          </div>
-          <select ng-model='customerTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
-          </select>
-        </label>
-         <label class="item item-input item-select">
-          <div class="input-label">
-            Project
-          </div>
-          <select ng-model='projectTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
-          </select>
-        </label>
-        <br><br>
-      </div>
+        <div class="list">
+            <br>
+            <label class="item item-input">
+                <span class="input-label">Start Time</span>
+                <span>{{project.startTime}}</span>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">End Time</span>
+                <span>{{project.endTime}}</span>
+            </label>
+            <br>
+            <br>
+            <label class="item item-input">
+                <span class="input-label">Duration</span>
+                <span>{{project.duration}}</span>
+            </label>
+            <br>
+            <br>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Customer
+                </div>
+                <select ng-model='customerTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Project
+                </div>
+                <select ng-model='projectTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
+                </select>
+            </label>
+            <br>
+            <br>
+        </div>
+        <!--
       <div class="button-bar button-bar-bg">
         <button class="button button-icon button-dark button-clear" ng-click="updateStatePrivate()" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-locked"></i></button>
         <button class="button button-icon button-balanced button-clear" ng-click="updateStatePrivate()" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-checkmark"></i></button>
         <button class="button button-icon button-assertive button-clear" ng-click="updateStatePrivate()" ng-disabled="project.state=='Approved'"><i class="icon ion-ios-close"></i></button>
       </div>
+  -->
+        <center>
+            <div class="table">
+            <div class="row">
+                <div class="col">
+                    <div class=" button buttonCircle private" ng-click="updateStatePrivate()">
+                        <i class="icon icon-private"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class=" button buttonCircle confirm" ng-click="updateStatePrivate()">
+                        <i class="icon icon-approved"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class=" button buttonCircle ignore" ng-click="updateStatePrivate()">
+                        <i class="icon icon-ignore"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Private</div>
+                <div class="col">Confirm</div>
+                <div class="col">Ignore</div>
+            </div>
+        </div>
+        </center>
     </ion-content>
 </ion-view>

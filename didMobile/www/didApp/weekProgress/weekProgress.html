@@ -1,13 +1,15 @@
-<ion-view view-title="{{'Week ' + weekCount}}" hide-back-button='true'>
+<ion-view on-swipe-left="addOneWeek()" on-swipe-right="substractOneWeek()" view-title="{{'Week ' + weekCount}}" hide-back-button='true'>
 
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click='addOneWeek()'>
+<!--
+        <button class="button button-clear" ui-sref='leftSideMenu'>
             <i class='icon ion-ios-plus-outline'></i>
         </button>
+-->
     </ion-nav-buttons>
     <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click='substractOneWeek()'>
-            <i class='icon ion-ios-minus-outline'></i>
+        <button class="button button-clear" ng-click='showActionSheet()'>
+            <i class='icon ion-navicon'></i>
         </button>
     </ion-nav-buttons>
 
@@ -19,7 +21,7 @@
                     <div class="col">{{day.date}}</div>
                     <div class="col">{{day.hours}} h</div>
                     <div class="col">
-                        <button class="button button-small button-clear" ui-sref='tab.dayProgress({selectedDate :day.dateFull})'>
+                        <button class="button button-small button-clear" ui-sref='dayProgress({selectedDate :day.dateFull})'>
                             <i class='icon icon-approved' ng-show={{day.state}}></i>
                             <i class='icon icon-suggested' ng-hide={{day.state}}></i>
                         </button>
@@ -28,17 +30,23 @@
             </ion-item>
         </ion-list>
         <br>
-        <br>
         <div class="padding">
             <center>
-                <div class="button-bar">
-                    <button class="button button-clear"><span class="badge badge-balanced badge-status">{{summaryHours[0]}}h</span></button>
-                    <button class="button button-clear"><span class="badge badge-energized badge-status">{{summaryHours[1]}}h</span></button>
-                    <button class="button button-clear"><span class="badge badge-assertive badge-status">{{summaryHours[2]}}h</span></button>    
-                </div>
+               <div class="table">
+                  <div class="row">
+                   <div class="col"><div class="numberCircle confirmed">{{summaryHours[0]}}h</div></div>
+                   <div class="col"><div class="numberCircle unconfirmed">{{summaryHours[1]}}h</div></div>
+                   <div class="col"><div class="numberCircle ignored">{{summaryHours[2]}}h</div></div>
+                  </div>  
+                  <div class="row">
+                   <div class="col">Confirmed</div>
+                   <div class="col">Unconfirmed</div>
+                   <div class="col">Ignored</div>
+                  </div>               
+               </div>
             </center>
             <br>
-            <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'" ui-sref='tab.confirmed'>
+            <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'" ui-sref='confirmed'>
                 This is What I DID
             </button>
             <center class="padding">

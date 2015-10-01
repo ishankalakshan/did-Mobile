@@ -1,8 +1,18 @@
 angular.module('didApp.weekProgressController', ['angularMoment'])
 
-.controller('weekProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', 'didAppDataService', 'didAppDataStoreService', weekProgressCtrl])
+.controller('weekProgressCtrl', ['$scope',
+                                 '$rootScope',
+                                 '$state',
+                                 '$stateParams',
+                                 '$ionicLoading',
+                                 '$ionicPopup',
+                                 '$ionicActionSheet',
+                                 '$timeout',
+                                 'didAppDataService',
+                                 'didApploginService',
+                                 'didAppDataStoreService', weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, didAppDataService, didAppDataStoreService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, didAppDataService, didApploginService, didAppDataStoreService) {
 
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
@@ -273,6 +283,30 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         $scope.stateWeek = getStateOfWeek();
         $scope.summaryHours = getConfirmedHoursPerWeek();
     }; //end of substractOneWeek()
+
+    $scope.showActionSheet = function () {
+
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+            buttons: [
+               ],
+            destructiveText: 'Logout',
+            cancelText: 'Cancel',
+            cancel: function () {
+                // add cancel code..
+            },
+            destructiveButtonClicked: function () {
+                    didApploginService.logout();
+                    $state.go('login')
+                
+            }
+        });
+
+        //hide the sheet after two seconds
+        $timeout(function () {
+            hideSheet();
+        }, 2000);
+    }
 
     $rootScope.$on('home.clicked', function () {
         if (isNotInitialLoad) {
