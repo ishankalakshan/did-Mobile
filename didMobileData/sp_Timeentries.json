@@ -15214,7 +15214,7 @@
                         },
                         "PzlState": {
                             "__prefix": "d",
-                            "__text": "Suggested"
+                            "__text": "UserIgnored"
                         },
                         "PzlCategory": {
                             "_m:null": "true",

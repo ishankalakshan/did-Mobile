@@ -38,11 +38,12 @@
                 </div>
             </center>
             <br>
-            <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'" ng-click='showConfirm()'>
+            <button class="button button-block button-balanced" ng-show="stateWeek=='DidIt'" ui-sref='tab.confirmed'>
                 This is What I DID
             </button>
-            <center>
-                <img ng-src="img/confirmed.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">
+            <center class="padding">
+               <button ng-disabled="true" class=" button button-block button-outline button-balanced" ng-show="stateWeek=='Confirmed'">Confirmed</button>
+<!--                <img ng-src="img/success.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">-->
             </center>
         </div>
     </ion-content>

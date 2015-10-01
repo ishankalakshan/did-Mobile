@@ -1,6 +1,6 @@
 angular.module('didApp.service', [])
 
-.service('didAppDataService', ['$http', '$rootScope', didAppDataService]);
+.service('didAppDataService', ['$http', didAppDataService]);
 
 function didAppDataService($http) {
 
