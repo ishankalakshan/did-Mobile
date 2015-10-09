@@ -14,7 +14,9 @@ namespace Pzl.Did.Api.Models
         public string Description { get; set; }
         public string State { get; set; }
         public string CustomerKeyId { get; set; }
+        public string CustomerKey { get; set; }
         public string ProjectKeyId { get; set; }
+        public string ProjectKey { get; set; }
         public string ResourceKeyId { get; set; }
         public string WeekNumber { get; set; }
         public string YearNumber { get; set; }
@@ -55,14 +57,17 @@ namespace Pzl.Did.Api.Models
                 {
                     State = item["PzlState"].ToString();
                 }
-                if (item["PzlCustomerKey"]!=null)
-                {
-                   CustomerKeyId = item["PzlCustomerKey"].ToString();
-                }
-                if (item["PzlProjectKey"] != null)
-                {
-                   ProjectKeyId = item["PzlProjectKey"].ToString();
-                }
+
+                var customer = item["PzlCustomerKey"] as FieldLookupValue;
+                if (customer == null) return;
+                CustomerKeyId = customer.LookupId.ToString();
+                CustomerKey = customer.LookupValue;
+
+                var project = item["PzlProjectKey"] as FieldLookupValue;
+                if (project == null) return;
+                ProjectKeyId = project.LookupId.ToString();
+                ProjectKey = project.LookupValue;
+
                 if (item["PzlWeekNumber"] !=null)
                 {
                     WeekNumber = item["PzlWeekNumber"].ToString();

@@ -37,5 +37,19 @@
                                            "<FieldRef Name='PzlYearNumber' />" +
                                            "<FieldRef Name='ID' /></ViewFields> " +
                                            "</View>";
+        public const string Projects = @"<View>  
+                                         <ViewFields><FieldRef Name='ID' />
+                                         <FieldRef Name='PzlKey' />
+                                         <FieldRef Name='Title' />
+                                         <FieldRef Name='PzlCustomerKey' />
+                                         </ViewFields> 
+                                         </View>";
+        public const string Customers = @"<View>  
+                                          <ViewFields>
+                                          <FieldRef Name='Title' />
+                                          <FieldRef Name='PzlKey' />
+                                          <FieldRef Name='ID' />
+                                          </ViewFields> 
+                                          </View>";  
     }
 }

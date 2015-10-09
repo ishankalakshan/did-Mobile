@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
@@ -23,9 +22,7 @@ namespace Pzl.Did.Api.Controllers
                 var query = string.Format(Query.ResourceId, username);  
 
                 const string listTitle = List.Resources;
-
                 var list = sc.RetrieveListItem(query, listTitle);
-
                 var idList = list.Select(item => new ResourceModel(item)).ToList();
 
                 return idList.Count == 0 ? null : idList;
@@ -37,14 +34,39 @@ namespace Pzl.Did.Api.Controllers
             }
             
         }
-
-        [Route("api/authentication/{token}")] //VjvQy3TEYz3dfdc3FJ8mXZZL1pyn2RbWzQPzftm21Bs=
-        public List<ResourceModel> GetAuthenticationWithToken(string token)
+/*        [Route("api/authentication/{username}/{password}")]
+        public IHttpActionResult GetAuthenticationWithCredentials(string username, string password)
         {
+
             try
             {
                 var url = ConfigurationManager.AppSettings["url"];
-                var cred = Token.GetCredentialsFromToken(token);
+                var sc = new SharepointContext(url, username, password);
+                var query = string.Format(Query.ResourceId, username);
+
+                const string listTitle = List.Resources;
+                var list = sc.RetrieveListItem(query, listTitle);
+                var idList = list.Select(item => new ResourceModel(item)).ToList();
+
+                return Ok(idList.Count == 0 ? null : idList);
+            }
+            catch (IdcrlException)
+            {
+
+                return null;
+            }
+        }*/
+
+        [Route("api/authentication")] 
+        public List<ResourceModel> GetAuthenticationWithToken()
+        {
+            try
+            {
+               var headerValues = Request.Headers.GetValues("Authorization");
+               var token1 = headerValues.FirstOrDefault();
+
+                var url = ConfigurationManager.AppSettings["url"];
+                var cred = Token.GetCredentialsFromToken(token1);
                 var sc = new SharepointContext(url,cred[0], cred[1]);
                 var query = string.Format(Query.ResourceId, cred[0]);  
 
