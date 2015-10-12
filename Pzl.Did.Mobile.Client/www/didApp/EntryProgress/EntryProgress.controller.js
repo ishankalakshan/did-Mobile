@@ -1,8 +1,8 @@
 angular.module('didApp.EntryProgressController', ['angularMoment'])
 
-.controller('EntryProgressCtrl', ['$scope','$state', '$stateParams', 'didAppDataStoreService', EntryProgressCtrl])
+.controller('EntryProgressCtrl', ['$scope','$rootScope','$state', '$stateParams', 'didAppDataStoreService', EntryProgressCtrl])
 
-function EntryProgressCtrl($scope,$state,$stateParams, didAppDataStoreService) {
+function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStoreService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
@@ -91,5 +91,7 @@ function EntryProgressCtrl($scope,$state,$stateParams, didAppDataStoreService) {
     $scope.updateStatePrivate = function(){
         $state.go('dayProgress',{selectedDate: date });
     }
+    
+    
 
 };

@@ -13,7 +13,7 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  'didApploginService',
                                  'didAppDataStoreService', weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading,didAppDataService, didApploginService, didAppDataStoreService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService) {
 
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
@@ -63,11 +63,10 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
 
     function requestTimesheet() {
         $ionicLoading.show({
-                  template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
-                });
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
+        });
         didAppDataService.getTimeEntries()
             .then(function (result) {
-                console.log(result)
                 result.data.forEach(function (b) {
                     $scope.timesheet.push({
                         id: b.Id,
@@ -77,7 +76,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                         duration: b.Duration,
                         timezone: b.Timezone,
                         description: b.Description,
-                        state: b.State,                   
+                        state: b.State,
                         customerKeyId: b.CustomerKeyId,
                         projectKeyId: b.ProjectKeyId,
                         resourceKeyId: b.ResourceKeyId,
@@ -85,6 +84,9 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                         yearNumber: b.YearNumber
                     });
                 });
+            }, function (err) {
+                console.log(err)
+                $ionicLoading.hide();
             })
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageTimesheet($scope.timesheet);
@@ -94,9 +96,12 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 isNotInitialLoad = true;
                 $scope.summaryHours = getConfirmedHoursPerWeek();
                 $ionicLoading.hide();
+            }, function (err) {
+                console.log(err);
+                $ionicLoading.hide();
             });
     } //load timesheet data to localDataStorage Service
-    
+
     requestTimesheet()
     requestCustomers()
     requestProjects()
@@ -232,6 +237,8 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         $scope.timesheet = [];
         allWeekTimeEntries = [];
         $scope.weeklyTimesheet = [];
+        $scope.projectList = [];
+        $scope.customerList = [];
         requestTimesheet();
         requestCustomers();
         requestProjects();
@@ -286,9 +293,9 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 // add cancel code..
             },
             destructiveButtonClicked: function () {
-                    $rootScope.$broadcast("logout");
-                    $state.go('login')
-                
+                $rootScope.$broadcast("logout");
+                $state.go('login')
+
             }
         });
 

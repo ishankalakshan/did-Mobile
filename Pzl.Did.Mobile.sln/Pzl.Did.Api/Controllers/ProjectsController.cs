@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
@@ -35,6 +36,11 @@ namespace Pzl.Did.Api.Controllers
 
                 return null;
             }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
     }
 }
