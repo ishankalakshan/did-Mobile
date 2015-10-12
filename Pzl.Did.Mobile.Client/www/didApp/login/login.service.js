@@ -7,7 +7,12 @@ function didApploginService($http) {
     var uri = 'http://localhost:52882/api/authentication'
     
     this.authenticateCredentials = function(username,password){
-        return $http.get(uri + '/' + username + '/' + password)
+        var Indata = {username:username,password:password}
+        return $http({
+                  method  : 'POST',
+                  url     : uri,
+                  data    : JSON.stringify(Indata)
+                 })
     }
     
 /*    this.authenticateCredentials = function(username,password){

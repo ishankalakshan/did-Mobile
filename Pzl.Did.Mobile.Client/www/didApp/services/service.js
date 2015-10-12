@@ -4,23 +4,20 @@ angular.module('didApp.service', [])
 
 function didAppDataService($http) {
     
-    var authenticationUri = 'http://localhost.fiddler:55614/api/authentication';
+    var TimeEntriesUri = 'http://localhost:52882/api/TimeEntries';
+    var ProjectsUri = 'http://localhost:52882/api/Projects';
+    var CustomersUri = 'http://localhost:52882/api/Customers';
 
     this.getTimeEntries = function () {
-        return $http.get('http://localhost/didmobiledata/sp_Timeentries.json?callback=JSON_CALLBACK');
+        return $http.get(TimeEntriesUri);
     };
 
     this.getProjects = function () {
-        return $http.get('http://localhost/didmobiledata/sp_Projects.json');
+        return $http.get(ProjectsUri);
     };
     
     this.getCustomers = function(){
-        return $http.get('http://localhost/didmobiledata/sp_Customers.json');
+        return $http.get(CustomersUri);
     };
-    
-//    this.getWebAPI = function(){
-//        return $http.get(authenticationUri);
-//    };
-    
-
+        
 };

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
@@ -12,11 +13,13 @@ namespace Pzl.Did.Api.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CustomersController : ApiController
     {
-        [Route("api/customers/{token}")]
-        public List<CustomerModel> GetProjectsList(string token)
+        [Route("api/customers")]
+        public List<CustomerModel> GetProjectsList()
         {
             try
             {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
                 var cred = Token.GetCredentialsFromToken(token);
                 var url = ConfigurationManager.AppSettings["url"];
 
@@ -32,6 +35,10 @@ namespace Pzl.Did.Api.Controllers
             {
 
                 return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

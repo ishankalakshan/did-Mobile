@@ -12,11 +12,13 @@ namespace Pzl.Did.Api.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProjectsController : ApiController
     {
-        [Route("api/projects/{token}")]
-        public List<ProjectModel> GetProjectsList(string token)
+        [Route("api/projects")]
+        public List<ProjectModel> GetProjectsList()
         {
             try
             {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
                 var cred = Token.GetCredentialsFromToken(token);
                 var url = ConfigurationManager.AppSettings["url"];
 

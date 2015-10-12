@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
@@ -12,16 +13,18 @@ namespace Pzl.Did.Api.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TimeEntriesController : ApiController
     {
-        [Route("api/timeentries/{token}")]
-        public List<TimeEntryModel> GetTimeEntriesList(string token)
+        [Route("api/timeentries")]
+        public List<TimeEntryModel> GetTimeEntriesList()
         {
             try
             {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
                 var cred = Token.GetCredentialsFromToken(token);
                 var url = ConfigurationManager.AppSettings["url"];
 
-                var sc = new SharepointContext(url,cred[0], cred[1]);
-                var query = string.Format(Query.TimeEntries,"20");
+                var sc = new SharepointContext(url, cred[0], cred[1]);
+                var query = string.Format(Query.TimeEntries, "20");
 
                 var list = sc.RetrieveListItem(query, List.TimeEntries);
                 var timeEntriesList = list.Select(item => new TimeEntryModel(item)).ToList();
@@ -32,6 +35,10 @@ namespace Pzl.Did.Api.Controllers
             {
 
                 return null;
+            }
+            catch (Exception)
+            {
+                return null ;
             }
         }
     }

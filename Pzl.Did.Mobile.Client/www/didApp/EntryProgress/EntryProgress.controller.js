@@ -1,8 +1,8 @@
-angular.module('didApp.projectProgressController', ['angularMoment'])
+angular.module('didApp.EntryProgressController', ['angularMoment'])
 
-.controller('projectProgressCtrl', ['$scope','$state', '$stateParams', 'didAppDataStoreService', projectProgressCtrl])
+.controller('EntryProgressCtrl', ['$scope','$state', '$stateParams', 'didAppDataStoreService', EntryProgressCtrl])
 
-function projectProgressCtrl($scope,$state,$stateParams, didAppDataStoreService) {
+function EntryProgressCtrl($scope,$state,$stateParams, didAppDataStoreService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};

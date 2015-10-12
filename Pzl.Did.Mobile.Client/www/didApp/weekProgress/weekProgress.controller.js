@@ -8,11 +8,12 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  '$ionicPopup',
                                  '$ionicActionSheet',
                                  '$timeout',
+                                 '$ionicLoading',
                                  'didAppDataService',
                                  'didApploginService',
                                  'didAppDataStoreService', weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, didAppDataService, didApploginService, didAppDataStoreService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading,didAppDataService, didApploginService, didAppDataStoreService) {
 
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
@@ -29,12 +30,13 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
     function requestProjects() {
         didAppDataService.getProjects()
             .then(function (result) {
-                result.data.feed.entry.forEach(function (b) {
+                result.data.forEach(function (b) {
                     $scope.projectList.push({
-                        id: b.content.properties.Id.__text,
-                        title: b.content.properties.Title.__text,
-                        customerKeyId: b.content.properties.PzlCustomerKeyId.__text,
-                        key: b.content.properties.PzlKey.__text
+                        id: b.Id,
+                        title: b.Title,
+                        customerKeyId: b.CustomerKeyId,
+                        customerKey: b.CustomerKey,
+                        key: b.Key
                     });
                 });
             })
@@ -46,11 +48,11 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
     function requestCustomers() {
         didAppDataService.getCustomers()
             .then(function (result) {
-                result.data.feed.entry.forEach(function (b) {
+                result.data.forEach(function (b) {
                     $scope.customerList.push({
-                        id: b.content.properties.Id.__text,
-                        title: b.content.properties.Title.__text,
-                        key: b.content.properties.PzlKey.__text
+                        id: b.Id,
+                        title: b.Title,
+                        key: b.Key
                     });
                 });
             })
@@ -60,34 +62,27 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
     } //load customers data to localDataStorage Service
 
     function requestTimesheet() {
+        $ionicLoading.show({
+                  template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
+                });
         didAppDataService.getTimeEntries()
             .then(function (result) {
-                result.data.feed.entry.forEach(function (b) {
+                console.log(result)
+                result.data.forEach(function (b) {
                     $scope.timesheet.push({
-                        id: b.content.properties.Id.__text,
-                        title: b.content.properties.Title.__text,
-                        startTime: b.content.properties.PzlStartTime.__text,
-                        endTime: b.content.properties.PzlEndTime.__text,
-                        duration: b.content.properties.PzlDurationHours.__text,
-
-                        timezone: b.content.properties.PzlTimeZone.__text,
-                        description: b.content.properties.PzlDescription.__text,
-                        state: b.content.properties.PzlState.__text,
-                        category: b.content.properties.PzlCategory.__text,
-                        location: b.content.properties.PzlLocation.__text,
-
-                        organizer: b.content.properties.PzlOrganizer.__text,
-                        customerKeyId: b.content.properties.PzlCustomerKeyId.__text,
-                        projectKeyId: b.content.properties.PzlProjectKeyId.__text,
-                        resourceKeyId: b.content.properties.PzlResourceKeyId.__text,
-                        dateImported: b.content.properties.PzlDateImported.__text,
-                        lastUpdatedOn: b.content.properties.PzlLastUpdatedOn.__text,
-
-                        sourceSystemId: b.content.properties.PzlSourceSystemId.__text,
-                        weekNumber: b.content.properties.PzlWeekNumber.__text,
-                        yearNumber: b.content.properties.PzlYearNumber.__text,
-                        modified: b.content.properties.Modified.__text,
-                        created: b.content.properties.Created.__text
+                        id: b.Id,
+                        title: b.Title,
+                        startTime: b.StartTime,
+                        endTime: b.EndTime,
+                        duration: b.Duration,
+                        timezone: b.Timezone,
+                        description: b.Description,
+                        state: b.State,                   
+                        customerKeyId: b.CustomerKeyId,
+                        projectKeyId: b.ProjectKeyId,
+                        resourceKeyId: b.ResourceKeyId,
+                        weekNumber: b.WeekNumber,
+                        yearNumber: b.YearNumber
                     });
                 });
             })
@@ -98,22 +93,13 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 $scope.stateWeek = getStateOfWeek();
                 isNotInitialLoad = true;
                 $scope.summaryHours = getConfirmedHoursPerWeek();
+                $ionicLoading.hide();
             });
     } //load timesheet data to localDataStorage Service
     
-//    function testWebAPI(){
-//        didAppDataService.getWebAPI()
-//            .then(function (result) {
-//                console.log(result)
-//            },function(err){
-//            console.log(err);
-//        })
-//    }
-
     requestTimesheet()
     requestCustomers()
     requestProjects()
-    //testWebAPI();
 
     function weeksInYear(year) {
         noOfWeeksInYear = Math.max(
@@ -210,11 +196,6 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         for (var i = 1; i < 6; i++) {
 
             var weekStartDate = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').day(i).format('MMM, dddd DD YYYY')
-                //           var yearEnd = moment($scope.date).clone().endOf('year').format('MMM, dddd DD YYYY')
-                //            if(weekStartDate==yearEnd){
-                //                console.log('ok')
-                //                break;
-                //            }
             $scope.weeklyTimesheet.push({
                 date: moment(weekStartDate, 'MMM, dddd DD YYYY').format('ddd'),
                 dateFull: weekStartDate,

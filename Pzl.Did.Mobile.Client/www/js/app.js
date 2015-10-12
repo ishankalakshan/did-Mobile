@@ -4,7 +4,7 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.weekProgressController',
                            'didApp.loginController',
                            'didApp.dayProgressController',
-                           'didApp.projectProgressController',
+                           'didApp.EntryProgressController',
                            'didApp.settingsController',
                            'didApp.service',
                            'didApp.loginService',
@@ -47,10 +47,10 @@ var didApp = angular.module('didApp', ['ionic',
       controller: 'dayProgressCtrl',
       params : { selectedDate:null}
     })
-  .state('projectProgress', {
-    url: '/projectProgress',
-    templateUrl: 'didApp/projectProgress/projectProgress.html',
-    controller: 'projectProgressCtrl',
+  .state('EntryProgress', {
+    url: '/EntryProgress',
+    templateUrl: 'didApp/EntryProgress/EntryProgress.html',
+    controller: 'EntryProgressCtrl',
     params : { selectedId:null}
   })
   .state('confirmed',{

@@ -1,7 +1,7 @@
 angular.module('didApp.loginController', ['angularMoment'])
-    .controller('loginCtrl', ['$scope', '$http', '$rootScope', '$state', '$ionicPopup', 'didApploginService', loginCtrl])
+    .controller('loginCtrl', ['$scope', '$http', '$rootScope', '$state', '$ionicPopup','$ionicLoading', 'didApploginService', loginCtrl])
 
-function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginService) {
+function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,didApploginService) {
 
     $scope.user = {
         username: 'ishankaw@99x.lk',
@@ -16,11 +16,16 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
 
         (function () {
             if (LOCAL_AUTH_KEY != null) {
+                $ionicLoading.show({
+                  template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
+                });
                 didApploginService.authenticateToken(LOCAL_AUTH_KEY)
                     .then(function (result) {
                             if (result.data != null) {
                                 $state.go('weekProgress');
+                                $ionicLoading.hide();
                             } else {
+                                $ionicLoading.hide();
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Access Denied!',
                                     template: 'Sorry, Invalid Credentials'
@@ -28,6 +33,7 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
                             }
                         },
                         function (err) {
+                            $ionicLoading.hide();
                             console.log(err);
                         });
             }
@@ -50,21 +56,15 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
     function loadUserCrendentials() {
         LOCAL_AUTH_KEY = window.localStorage.getItem("LOCAL_AUTH_KEY");
         $http.defaults.headers.common['Authorization'] = LOCAL_AUTH_KEY;
-        console.log(LOCAL_AUTH_KEY)
     }
 
     function storeUserCredentials(token) {
 
-        console.log(token.toString())
         var decrypted = CryptoJS.AES.decrypt(token, key, {
             iv: iv
         });
-        console.log(decrypted.toString(CryptoJS.enc.Utf8));
-
         LOCAL_AUTH_KEY = token.toString()
-
         window.localStorage.setItem("LOCAL_AUTH_KEY", token.toString());
-
         $http.defaults.headers.common['Authorization'] = token;
     }
 
@@ -81,6 +81,9 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
                 template: 'Please enter a valid email and a password!'
             });
         } else {
+            $ionicLoading.show({
+              template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
+            });
             didApploginService.authenticateCredentials(user.username, user.password)
                 .then(function (result) {
                     $scope.user = {};
@@ -89,12 +92,15 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
                         console.log(resourceId)
                         storeUserCredentials(generateToken(user.username, user.password, resourceId));
                         $state.go('weekProgress');
+                        $ionicLoading.hide();
                     } else if (result.data == null) {
+                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: 'Alert',
                             template: 'Invalid credentials.Please try again'
                         });
                     } else {
+                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: 'Alert',
                             template: 'Login Failed.Please try again'
@@ -102,6 +108,7 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, didApploginSe
                     }
 
                 }, function (err) {
+                    $ionicLoading.hide();
                     console.log(err);
                 })
         }
