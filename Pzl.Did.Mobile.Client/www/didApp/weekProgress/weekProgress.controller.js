@@ -39,6 +39,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                         key: b.Key
                     });
                 });
+
             })
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageProjects($scope.projectList);
@@ -55,6 +56,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                         key: b.Key
                     });
                 });
+
             })
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
@@ -84,6 +86,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                         yearNumber: b.YearNumber
                     });
                 });
+
             }, function (err) {
                 console.log(err)
                 $ionicLoading.hide();
@@ -255,7 +258,6 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         $scope.weekCount += 1;
         console.log($scope.weekCount);
         $scope.weeklyTimesheet = [];
-        //$scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
         getAllWeekEntries($scope.weekCount, $scope.yearCount);
         setWeekTimeSheet($scope.weekCount, $scope.yearCount);
         $scope.stateWeek = getStateOfWeek();

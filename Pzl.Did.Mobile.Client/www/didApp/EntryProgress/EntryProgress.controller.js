@@ -84,14 +84,13 @@ function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStor
     $scope.setSelectedProject = function (project) {
         if (project != null) {
             $scope.projectTitle = project;
+            console.log($scope.projectTitle)
             $scope.project.projectKeyId = project.id;
         }
     }
     
-    $scope.updateStatePrivate = function(){
-        $state.go('dayProgress',{selectedDate: date });
+    $scope.updateStateConfirm = function(){
+        console.log($scope.project.customerKeyId)
+        console.log($scope.project.projectKeyId)        
     }
-    
-    
-
 };

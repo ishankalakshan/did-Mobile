@@ -59,14 +59,18 @@ namespace Pzl.Did.Api.Models
                 }
 
                 var customer = item["PzlCustomerKey"] as FieldLookupValue;
-                if (customer == null) return;
-                CustomerKeyId = customer.LookupId.ToString();
-                CustomerKey = customer.LookupValue;
-
+                if (customer != null)
+                {
+                    CustomerKeyId = customer.LookupId.ToString();
+                    CustomerKey = customer.LookupValue; 
+                }
+                
                 var project = item["PzlProjectKey"] as FieldLookupValue;
-                if (project == null) return;
-                ProjectKeyId = project.LookupId.ToString();
-                ProjectKey = project.LookupValue;
+                if (project != null)
+                {
+                    ProjectKeyId = project.LookupId.ToString();
+                    ProjectKey = project.LookupValue;
+                }
 
                 if (item["PzlWeekNumber"] !=null)
                 {

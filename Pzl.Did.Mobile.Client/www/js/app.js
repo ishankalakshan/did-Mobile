@@ -12,7 +12,8 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.tabsController',
                            'didApp.successScreenController',
                            'didApp.errorScreenController',
-                           'didApp.leftSidemenuController'
+                           'didApp.leftSidemenuController',
+                           'didApp.EntryProgressService'
                           ])
 
 .run(function($ionicPlatform) {

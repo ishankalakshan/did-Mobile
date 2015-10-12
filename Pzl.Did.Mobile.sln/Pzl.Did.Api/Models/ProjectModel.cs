@@ -19,19 +19,22 @@ namespace Pzl.Did.Api.Models
                 {
                     Id = item["ID"].ToString();
                 }
-                if (item["PzlKey"] != null)
-                {
-                    Title = item["PzlKey"].ToString();
-                }
                 if (item["Title"] != null)
                 {
-                    Key = item["Title"].ToString();
+                    Title = item["Title"].ToString();
+                }
+                if (item["PzlKey"] != null)
+                {
+                    Key = item["PzlKey"].ToString();
                 }
 
                 var customer = item["PzlCustomerKey"] as FieldLookupValue;
-                if (customer == null) return;
-                CustomerKeyId = customer.LookupId.ToString();
-                CustomerKey = customer.LookupValue.ToString();
+                if (customer != null)
+                {
+                    CustomerKeyId = customer.LookupId.ToString();
+                    CustomerKey = customer.LookupValue.ToString();
+                }
+                
             }
             catch (Exception)
             {
