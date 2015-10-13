@@ -24,7 +24,7 @@ namespace Pzl.SharePoint.Client
             catch (Exception e)
             {
 
-                throw e;
+                throw;
             } 
         }
 
@@ -51,7 +51,7 @@ namespace Pzl.SharePoint.Client
             catch (Exception e)
             {
 
-                throw e;
+                throw;
             }
         }
 
@@ -69,11 +69,11 @@ namespace Pzl.SharePoint.Client
             catch (Exception e)
             {
 
-                throw e;
+                throw;
             }
         }
 
-        public bool UpdateListItem(string id,string listTitle,string columnName,string lookUpId)
+        public bool UpdateListItem(string id, string listTitle, string columnName, string value)
         {
             try
             {
@@ -81,7 +81,29 @@ namespace Pzl.SharePoint.Client
                 var oList = web.Lists.GetByTitle(listTitle);
                 var oListItem = oList.GetItemById(id);
 
-                var lv = new FieldLookupValue {LookupId = Convert.ToInt32(lookUpId)};
+                oListItem[columnName] = value;
+
+                oListItem.Update();
+                _context.ExecuteQuery();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public bool UpdateListItemWithLookUp(string id,string listTitle,string columnName,string value)
+        {
+            try
+            {
+                var web = _context.Web;
+                var oList = web.Lists.GetByTitle(listTitle);
+                var oListItem = oList.GetItemById(id);
+
+                var lv = new FieldLookupValue { LookupId = Convert.ToInt32(value) };
 
                 oListItem[columnName] = lv;
 
@@ -93,7 +115,7 @@ namespace Pzl.SharePoint.Client
             catch (Exception e)
             {
 
-                throw e;
+                throw;
             }
         }
     }

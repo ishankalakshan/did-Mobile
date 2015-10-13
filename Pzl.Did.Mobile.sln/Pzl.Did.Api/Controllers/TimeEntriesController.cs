@@ -47,7 +47,7 @@ namespace Pzl.Did.Api.Controllers
 
         [Route("api/timeentries")]
         [HttpPost]
-        public bool PostAprroveTheWeek()
+        public bool PostTaskUserCofirmed()
         {
             try
             {
@@ -65,8 +65,9 @@ namespace Pzl.Did.Api.Controllers
                 var customerKeyId = (string)obj["customerKeyId"];
                 var projectKeyId = (string)obj["projectKeyId"];
 
-                sc.UpdateListItem(id, List.TimeEntries, "PzlCustomerKey", customerKeyId);
-                sc.UpdateListItem(id, List.TimeEntries, "PzlProjectKey", projectKeyId);
+                sc.UpdateListItemWithLookUp(id, List.TimeEntries, Column.PzlCustomerKey, customerKeyId);
+                sc.UpdateListItemWithLookUp(id, List.TimeEntries, Column.PzlProjectKey, projectKeyId);
+                sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.UserConfirmed);
 
                 return true;
             }

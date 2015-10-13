@@ -52,4 +52,19 @@
                                           </ViewFields> 
                                           </View>";  
     }
+
+    public class Column
+    {
+        public const string PzlCustomerKey = "PzlCustomerKey";
+        public const string PzlProjectKey = "PzlProjectKey";
+        public const string PzlState = "PzlState";
+    }
+
+    public class State
+    {
+        public const string UserConfirmed = "UserConfirmed";
+        public const string UserIgnored = "UserIgnored";
+        public const string Approved = "Approved";
+    }
+
 }
