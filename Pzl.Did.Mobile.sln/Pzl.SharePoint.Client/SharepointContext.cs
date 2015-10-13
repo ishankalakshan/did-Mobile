@@ -72,5 +72,29 @@ namespace Pzl.SharePoint.Client
                 throw e;
             }
         }
+
+        public bool UpdateListItem(string id,string listTitle,string columnName,string lookUpId)
+        {
+            try
+            {
+                var web = _context.Web;
+                var oList = web.Lists.GetByTitle(listTitle);
+                var oListItem = oList.GetItemById(id);
+
+                var lv = new FieldLookupValue {LookupId = Convert.ToInt32(lookUpId)};
+
+                oListItem[columnName] = lv;
+
+                oListItem.Update();
+                _context.ExecuteQuery();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
     }
 }

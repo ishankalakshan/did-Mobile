@@ -32,8 +32,7 @@ namespace Pzl.Did.Api.Controllers
                 var sc = new SharepointContext(url,username, password);
                 var query = string.Format(Query.ResourceId, username);  
 
-                const string listTitle = List.Resources;
-                var list = sc.RetrieveListItem(query, listTitle);
+                var list = sc.RetrieveListItem(query, List.Resources);
                 var idList = list.Select(item => new ResourceModel(item)).ToList();
 
                 return idList.Count == 0 ? null : idList;

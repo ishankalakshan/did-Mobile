@@ -1,8 +1,8 @@
 angular.module('didApp.EntryProgressController', ['angularMoment'])
 
-.controller('EntryProgressCtrl', ['$scope','$rootScope','$state', '$stateParams', 'didAppDataStoreService', EntryProgressCtrl])
+.controller('EntryProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'didAppDataStoreService', 'EntryProgressService', EntryProgressCtrl])
 
-function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStoreService) {
+function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, didAppDataStoreService, EntryProgressService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
@@ -27,7 +27,7 @@ function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStor
     function setProjectDetails() {
         timesheet.forEach(function (result) {
             if (result.id == $scope.id) {
-                 date =  moment(result.startTime).format('MMM, dddd DD YYYY')
+                date = moment(result.startTime).format('MMM, dddd DD YYYY')
                 $scope.project.title = result.title;
                 $scope.project.startTime = moment(result.startTime).format('hh:mm A')
                 $scope.project.endTime = moment(result.endTime).format('hh:mm A')
@@ -77,6 +77,7 @@ function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStor
     $scope.setSelectedCustomer = function (customer) {
         $scope.customerTitle = customer;
         $scope.project.customerKeyId = customer.id;
+        $scope.customerKey = customer.key;
         $scope.filteredProjects = [];
         getProjects(customer.id)
     }
@@ -84,13 +85,27 @@ function EntryProgressCtrl($scope,$rootScope,$state,$stateParams, didAppDataStor
     $scope.setSelectedProject = function (project) {
         if (project != null) {
             $scope.projectTitle = project;
-            console.log($scope.projectTitle)
             $scope.project.projectKeyId = project.id;
+            $scope.projectKey = project.key;
         }
     }
-    
-    $scope.updateStateConfirm = function(){
-        console.log($scope.project.customerKeyId)
-        console.log($scope.project.projectKeyId)        
+
+    $scope.updateStateConfirm = function () {
+        if ($scope.project.customerKeyId == null) {
+            console.log('Error 1')
+            return
+        }
+        if ($scope.project.projectKeyId == null) {
+            console.log('Error 2')
+            return
+        }
+        if ($scope.id == null) {
+            console.log('Error 3')
+            return
+        }
+        EntryProgressService.ApproveThisWeek($scope.id, $scope.customerKey,
+            $scope.project.customerKeyId,
+            $scope.projectKey,
+            $scope.project.projectKeyId)
     }
 };
