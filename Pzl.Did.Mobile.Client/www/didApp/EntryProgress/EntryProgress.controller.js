@@ -108,4 +108,18 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, didAppDataS
             $scope.projectKey,
             $scope.project.projectKeyId)
     }
+    
+    $scope.ignoreEntry = function(){
+        EntryProgressService.ignoreEntry($scope.id)
+        .then(function(result){
+            console.log(result)
+        })
+    }
+    
+    $scope.privateEntry = function(){
+        EntryProgressService.privateEntry($scope.id)
+        .then(function(result){
+            console.log(result)
+        })
+    }
 };

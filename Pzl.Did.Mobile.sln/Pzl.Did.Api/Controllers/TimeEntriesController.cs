@@ -47,7 +47,7 @@ namespace Pzl.Did.Api.Controllers
 
         [Route("api/timeentries")]
         [HttpPost]
-        public bool PostTaskUserCofirmed()
+        public bool PostEntryUserCofirmed()
         {
             try
             {
@@ -74,6 +74,62 @@ namespace Pzl.Did.Api.Controllers
             catch (Exception)
             {
                     
+                throw;
+            }
+        }
+
+        [Route("api/timeentries/ignore")]
+        [HttpPost]
+        public bool PostIgnoreEntru()
+        {
+            try
+            {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
+
+                var url = ConfigurationManager.AppSettings["url"];
+                var cred = Token.GetCredentialsFromToken(token);
+                var sc = new SharepointContext(url, cred[0], cred[1]);
+
+                var oSr = new StreamReader(HttpContext.Current.Request.InputStream);
+                var sContent = oSr.ReadToEnd();
+                var obj = JObject.Parse(sContent);
+                var id = (string)obj["id"];
+
+                sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.UserIgnored);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Route("api/timeentries/private")]
+        [HttpPost]
+        public bool PostPrivateEntry()
+        {
+            try
+            {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
+
+                var url = ConfigurationManager.AppSettings["url"];
+                var cred = Token.GetCredentialsFromToken(token);
+                var sc = new SharepointContext(url, cred[0], cred[1]);
+
+                var oSr = new StreamReader(HttpContext.Current.Request.InputStream);
+                var sContent = oSr.ReadToEnd();
+                var obj = JObject.Parse(sContent);
+                var id = (string)obj["id"];
+
+                sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.UserIgnored);
+                return true;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
