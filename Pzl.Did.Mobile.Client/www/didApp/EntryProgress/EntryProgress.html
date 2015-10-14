@@ -22,14 +22,14 @@
                 <div class="input-label">
                     Customer
                 </div>
-                <select ng-model='customerTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
+                <select ng-model='customerTitle' ng-disabled="project.state=='Approved'||project.state=='IgnoreApproved'" ng-change='setSelectedCustomer(customerTitle)' ng-options='customer.title for customer in customerList track by customer.title'>
                 </select>
             </label>
             <label class="item item-input item-select">
                 <div class="input-label">
                     Project
                 </div>
-                <select ng-model='projectTitle' ng-disabled="project.state=='Approved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
+                <select ng-model='projectTitle' ng-disabled="project.state=='Approved'||project.state=='IgnoreApproved'" ng-change='setSelectedProject(projectTitle)' ng-options='project.title for project in filteredProjects track by project.title'>
                 </select>
             </label>
             <br>

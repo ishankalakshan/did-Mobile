@@ -14,16 +14,7 @@ function didApploginService($http) {
                   data    : JSON.stringify(Indata)
                  })
     }
-    
-/*    this.authenticateCredentials = function(username,password){
-        var Indata = {param:username,password}
-        return $http({
-                  method  : 'POST',
-                  url     : 'http://localhost:52882/api/authentication',
-                  data    : Indata
-                 })
-    }*/
-    
+       
     this.authenticateToken = function(){
         return $http.get(uri)
     }

@@ -36,6 +36,10 @@ namespace Pzl.Did.Api.Controllers
 
                 return null;
             }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
             catch (Exception ex)
             {
                 throw ex;

@@ -65,6 +65,7 @@
         public const string UserConfirmed = "UserConfirmed";
         public const string UserIgnored = "UserIgnored";
         public const string Approved = "Approved";
+        public const string IgnoreApproved = "IgnoreApproved";
     }
 
 }

@@ -89,7 +89,6 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
                     $scope.user = {};
                     if (result.data != null) {
                         resourceId = result.data[0].Id;
-                        console.log(resourceId)
                         storeUserCredentials(generateToken(user.username, user.password, resourceId));
                         $state.go('weekProgress');
                         $ionicLoading.hide();

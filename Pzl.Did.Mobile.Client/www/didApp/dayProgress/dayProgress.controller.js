@@ -51,7 +51,6 @@ function dayprogressCtrl($scope, $rootScope, $stateParams, didAppDataService, di
     function getCustomerKey(customerId) {
         for (var i = 0; i < customerList.length; i++) {
             if (customerList[i].id == customerId) {
-                console.log(customerList[i])
                 return customerList[i].key
             }
         }

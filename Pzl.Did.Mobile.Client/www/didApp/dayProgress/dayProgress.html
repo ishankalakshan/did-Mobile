@@ -11,6 +11,7 @@
                 <button class="button button-clear" ui-sref='EntryProgress({selectedId : entry.id })'>
                     <i class="icon icon-ignore" ng-show="entry.state=='UserIgnored'"></i>
                     <i class="icon icon-ignore" ng-show="entry.state=='SystemIgnored'"></i>
+                    <i class="icon icon-ignore" ng-show="entry.state=='IgnoreApproved'"></i>
                     <i class="icon icon-edit" ng-show="entry.state=='Suggested'"></i>
                     <i class="icon icon-edit" ng-show="entry.state=='Imported'"></i>
                     <i class="icon icon-approved" ng-show="entry.state=='Approved'"></i>

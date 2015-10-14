@@ -11,9 +11,11 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  '$ionicLoading',
                                  'didAppDataService',
                                  'didApploginService',
-                                 'didAppDataStoreService', weekProgressCtrl])
+                                 'didAppDataStoreService',
+                                 'WeekProgressService',
+                                 weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService,WeekProgressService) {
 
     
     $scope.timesheet = [];
@@ -188,13 +190,10 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 }
             }); //end foreach
             if (approvedCount > 0) {
-                console.log('Display already confirmed');
                 return 'Confirmed';
             } else if (suggestedCount > 0) {
-                console.log('dont display button');
                 return 'Suggested';
             } else if (suggestedCount == 0 && approvedCount == 0) {
-                console.log('Display this is what i DId button');
                 return 'DidIt';
             }
         } else {
@@ -233,6 +232,9 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 if (allWeekTimeEntries[i].state == 'SystemIgnored' || allWeekTimeEntries[i].state == 'UserIgnored') {
                     totalIgnoredHours += allWeekTimeEntries[i].duration * 1
                 }
+                if (allWeekTimeEntries[i].state == 'IgnoreApproved') {
+                    totalIgnoredHours += allWeekTimeEntries[i].duration * 1
+                }
             }; //end for
             return [totalConfirmedHours, totalUnconfirmedHours, totalIgnoredHours];
         }
@@ -258,7 +260,6 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         }
 
         $scope.weekCount += 1;
-        console.log($scope.weekCount);
         $scope.weeklyTimesheet = [];
         getAllWeekEntries($scope.weekCount, $scope.yearCount);
         setWeekTimeSheet($scope.weekCount, $scope.yearCount);
@@ -276,7 +277,6 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         }
 
         $scope.weekCount -= 1;
-        console.log($scope.weekCount);
         $scope.weeklyTimesheet = [];
         // $scope.weekStartend = getWeekStartEnd($scope.weekCount, $scope.yearCount);
         getAllWeekEntries($scope.weekCount, $scope.yearCount);
@@ -310,9 +310,27 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
     }
     
     $scope.ApproveWeek = function(){
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
+        });
+        var thisWeeksConfirmedIds = [];
+        var thisWeeksIgnoredIds = [];
         
         allWeekTimeEntries.forEach(function(result){
-            console.log(result)
+            if(result.state=='UserConfirmed'||result.state=='SystemConfirmed'){
+                thisWeeksConfirmedIds.push({id:result.id})
+            }else if(result.state=='UserIgnored'||result.state=='SystemUserIgnored') {
+                thisWeeksIgnoredIds.push({id:result.id})
+            }
+            
+        })
+        
+        WeekProgressService.ApproveThisWeek(thisWeeksConfirmedIds,thisWeeksIgnoredIds)
+        .then(function(result){
+           $scope.refreshData()
+        },function(err){
+            console.log(err)
+            $ionicLoading.hide()
         })
     }
 

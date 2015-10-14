@@ -13,7 +13,8 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.successScreenController',
                            'didApp.errorScreenController',
                            'didApp.leftSidemenuController',
-                           'didApp.EntryProgressService'
+                           'didApp.EntryProgressService',
+                           'didApp.WeekProgressService'
                           ])
 
 .run(function($ionicPlatform) {
@@ -59,14 +60,5 @@ var didApp = angular.module('didApp', ['ionic',
             templateUrl: 'didApp/WhatIDid/successScreen.html',
             controller: 'successScreenCtrl'
       })
-//  .state('tab.settings', {
-//    url: '/settings',
-//    views: {
-//      'tab-settings': {
-//        templateUrl: 'didApp/settings/settings.html',
-//        controller: 'settingsCtrl'
-//      }
-//    }
-//  })
   $urlRouterProvider.otherwise('/login');
 });

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Microsoft.SharePoint.Client;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Pzl.Did.Api.Models;
 using Pzl.SharePoint.Client;
@@ -47,7 +48,7 @@ namespace Pzl.Did.Api.Controllers
 
         [Route("api/timeentries")]
         [HttpPost]
-        public bool PostEntryUserCofirmed()
+        public bool PostConfirmEntry()
         {
             try
             {
@@ -125,6 +126,58 @@ namespace Pzl.Did.Api.Controllers
                 var id = (string)obj["id"];
 
                 sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.UserIgnored);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Route("api/timeentries/approve")]
+        [HttpPost]
+        public bool PostApproveWeek()
+        {
+            try
+            {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
+
+                var url = ConfigurationManager.AppSettings["url"];
+                var cred = Token.GetCredentialsFromToken(token);
+                var sc = new SharepointContext(url, cred[0], cred[1]);
+
+                var oSr = new StreamReader(HttpContext.Current.Request.InputStream);
+                var sContent = oSr.ReadToEnd();
+                var obj = JObject.Parse(sContent);
+                var confirmed = obj["confirmed"];
+                var ignored = obj["ignored"];
+
+                var con = JsonConvert.SerializeObject(confirmed);
+                var ig = JsonConvert.SerializeObject(ignored);
+
+                var confirmedIds = JArray.Parse(con);
+                var ignoredIds = JArray.Parse(ig);
+
+                for (var j = 0; j < confirmedIds.Count; j++)
+                {
+                    var entry = confirmedIds[j];
+                    var id = (string)entry["id"];
+                    sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.Approved);
+                }
+
+                for (var j = 0; j < ignoredIds.Count; j++)
+                {
+                    var entry = ignoredIds[j];
+                    var id = (string)entry["id"];
+                    sc.UpdateListItem(id, List.TimeEntries, Column.PzlState, State.IgnoreApproved);
+                }
+                
+
+
+                
+                
                 return true;
             }
             catch (Exception)

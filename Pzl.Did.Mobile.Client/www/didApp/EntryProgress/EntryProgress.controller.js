@@ -112,7 +112,7 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
         $ionicLoading.show({
             template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
         });
-        EntryProgressService.ApproveThisWeek($scope.id, $scope.customerKey,
+        EntryProgressService.confirmEntry($scope.id, $scope.customerKey,
                 $scope.project.customerKeyId,
                 $scope.projectKey,
                 $scope.project.projectKeyId)
