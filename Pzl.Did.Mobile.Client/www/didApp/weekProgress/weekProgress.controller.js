@@ -15,6 +15,7 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
 
 function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService) {
 
+    
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
     $scope.yearCount = moment().format('YYYY') * 1;
@@ -98,10 +99,11 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 $scope.stateWeek = getStateOfWeek();
                 isNotInitialLoad = true;
                 $scope.summaryHours = getConfirmedHoursPerWeek();
+                $rootScope.$broadcast("RefreshComplete");
                 $ionicLoading.hide();
             }, function (err) {
                 console.log(err);
-                $ionicLoading.hide();
+                $ionicLoading.hide()
             });
     } //load timesheet data to localDataStorage Service
 
@@ -306,5 +308,16 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
             hideSheet();
         }, 2000);
     }
+    
+    $scope.ApproveWeek = function(){
+        
+        allWeekTimeEntries.forEach(function(result){
+            console.log(result)
+        })
+    }
+
+    $rootScope.$on('refreshData', function () {
+        $scope.refreshData();
+    });
 
 }; //end of weekProgressCtrl

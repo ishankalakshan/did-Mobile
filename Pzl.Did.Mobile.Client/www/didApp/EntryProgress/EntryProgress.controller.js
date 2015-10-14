@@ -1,8 +1,8 @@
 angular.module('didApp.EntryProgressController', ['angularMoment'])
 
-.controller('EntryProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'didAppDataStoreService', 'EntryProgressService', EntryProgressCtrl])
+.controller('EntryProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$ionicLoading','$ionicPopup','didAppDataStoreService', 'EntryProgressService', EntryProgressCtrl])
 
-function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, didAppDataStoreService, EntryProgressService) {
+function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading,$ionicPopup,didAppDataStoreService, EntryProgressService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
@@ -92,34 +92,73 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, didAppDataS
 
     $scope.updateStateConfirm = function () {
         if ($scope.project.customerKeyId == null) {
-            console.log('Error 1')
+            var alertPopup = $ionicPopup.alert({
+                            title: 'Alert',
+                            template: 'Select a Customer'
+                        });
             return
         }
         if ($scope.project.projectKeyId == null) {
-            console.log('Error 2')
+            var alertPopup = $ionicPopup.alert({
+                            title: 'Alert',
+                            template: 'Select a Project'
+                        });
             return
         }
         if ($scope.id == null) {
             console.log('Error 3')
             return
         }
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
+        });
         EntryProgressService.ApproveThisWeek($scope.id, $scope.customerKey,
-            $scope.project.customerKeyId,
-            $scope.projectKey,
-            $scope.project.projectKeyId)
+                $scope.project.customerKeyId,
+                $scope.projectKey,
+                $scope.project.projectKeyId)
+            .then(function () {
+                $ionicLoading.hide()
+                $rootScope.$broadcast("refreshData");
+                $state.go('dayProgress', {
+                    selectedDate: date
+                })
+            }, function (err) {
+                $ionicLoading.hide()
+                console.log(err)
+            })
     }
-    
-    $scope.ignoreEntry = function(){
+
+    $scope.ignoreEntry = function () {
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
+        });
         EntryProgressService.ignoreEntry($scope.id)
-        .then(function(result){
-            console.log(result)
-        })
+            .then(function (result) {
+                $ionicLoading.hide()
+                $rootScope.$broadcast("refreshData");
+                $state.go('dayProgress', {
+                    selectedDate: date
+                })
+            }, function (err) {
+                $ionicLoading.hide()
+                console.log(err)
+            })
     }
-    
-    $scope.privateEntry = function(){
+
+    $scope.privateEntry = function () {
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
+        });
         EntryProgressService.privateEntry($scope.id)
-        .then(function(result){
-            console.log(result)
-        })
+            .then(function (result) {
+                $ionicLoading.hide()
+                $rootScope.$broadcast("refreshData");
+                $state.go('dayProgress', {
+                    selectedDate: date
+                })
+            }, function (err) {
+                $ionicLoading.hide()
+                console.log(err)
+            })
     }
 };
