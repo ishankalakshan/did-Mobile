@@ -124,6 +124,10 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
                 })
             }, function (err) {
                 $ionicLoading.hide()
+                var alertPopup = $ionicPopup.alert({
+                            title: 'Error',
+                            template: 'Error occured while updaing informaion.Please try again later.'
+                        });
                 console.log(err)
             })
     }
@@ -141,6 +145,10 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
                 })
             }, function (err) {
                 $ionicLoading.hide()
+                var alertPopup = $ionicPopup.alert({
+                            title: 'Error',
+                            template: 'Error occured while updaing informaion.Please try again later.'
+                        });
                 console.log(err)
             })
     }
@@ -158,6 +166,10 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
                 })
             }, function (err) {
                 $ionicLoading.hide()
+                var alertPopup = $ionicPopup.alert({
+                            title: 'Error',
+                            template: 'Error occured while updaing informaion.Please try again later.'
+                        });
                 console.log(err)
             })
     }

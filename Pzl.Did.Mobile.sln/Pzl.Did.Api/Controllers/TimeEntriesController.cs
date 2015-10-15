@@ -81,7 +81,7 @@ namespace Pzl.Did.Api.Controllers
 
         [Route("api/timeentries/ignore")]
         [HttpPost]
-        public bool PostIgnoreEntru()
+        public bool PostIgnoreEntry()
         {
             try
             {

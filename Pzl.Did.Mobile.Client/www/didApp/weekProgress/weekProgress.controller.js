@@ -13,11 +13,11 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  'didApploginService',
                                  'didAppDataStoreService',
                                  'WeekProgressService',
-                                 weekProgressCtrl])
+                                  weekProgressCtrl])
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService,WeekProgressService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService, WeekProgressService) {
 
-    
+
     $scope.timesheet = [];
     $scope.weekCount = moment().format('WW') * 1;
     $scope.yearCount = moment().format('YYYY') * 1;
@@ -308,30 +308,34 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
             hideSheet();
         }, 2000);
     }
-    
-    $scope.ApproveWeek = function(){
+
+    $scope.ApproveWeek = function () {
         $ionicLoading.show({
             template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
         });
         var thisWeeksConfirmedIds = [];
         var thisWeeksIgnoredIds = [];
-        
-        allWeekTimeEntries.forEach(function(result){
-            if(result.state=='UserConfirmed'||result.state=='SystemConfirmed'){
-                thisWeeksConfirmedIds.push({id:result.id})
-            }else if(result.state=='UserIgnored'||result.state=='SystemUserIgnored') {
-                thisWeeksIgnoredIds.push({id:result.id})
+
+        allWeekTimeEntries.forEach(function (result) {
+            if (result.state == 'UserConfirmed' || result.state == 'SystemConfirmed') {
+                thisWeeksConfirmedIds.push({
+                    id: result.id
+                })
+            } else if (result.state == 'UserIgnored' || result.state == 'SystemUserIgnored') {
+                thisWeeksIgnoredIds.push({
+                    id: result.id
+                })
             }
-            
+
         })
-        
-        WeekProgressService.ApproveThisWeek(thisWeeksConfirmedIds,thisWeeksIgnoredIds)
-        .then(function(result){
-           $scope.refreshData()
-        },function(err){
-            console.log(err)
-            $ionicLoading.hide()
-        })
+
+        WeekProgressService.ApproveThisWeek(thisWeeksConfirmedIds, thisWeeksIgnoredIds)
+            .then(function (result) {
+                $scope.refreshData()
+            }, function (err) {
+                console.log(err)
+                $ionicLoading.hide()
+            })
     }
 
     $rootScope.$on('refreshData', function () {

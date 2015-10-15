@@ -59,7 +59,6 @@ function dayprogressCtrl($scope, $rootScope, $stateParams, didAppDataService, di
     function getProjectKey(projectId) {
         for (var i = 0; i < projectList.length; i++) {
             if (projectList[i].id == projectId) {
-                console.log(projectList[i])
                 return projectList[i].key
             }
         }

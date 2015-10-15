@@ -24,10 +24,9 @@ namespace Pzl.Did.Api.Controllers
                 var oSr = new StreamReader(HttpContext.Current.Request.InputStream);
                 var sContent = oSr.ReadToEnd();
                 var obj = JObject.Parse(sContent);
-                var username = (string)obj["username"];
-                var password = (string)obj["password"];
-                
-
+                var username = Token.DecryptStringAes((string)obj["username"]);
+                var password = Token.DecryptStringAes((string)obj["password"]);
+ 
                 var url = ConfigurationManager.AppSettings["url"];
                 var sc = new SharepointContext(url,username, password);
                 var query = string.Format(Query.ResourceId, username);  

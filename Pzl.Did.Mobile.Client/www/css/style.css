@@ -8,8 +8,12 @@
   height: 200px;
   width: 150px;
 }
-.bar-energized{
-  background-color: orange;
+.bar-custom{
+  background-color: #0092a7;
+}
+.button.button-custom{
+    background-color: #0092a7;
+    color: black; 
 }
 .button .button-block .button-energized{
   background-color: orange;
@@ -124,7 +128,7 @@
     width:10vw ;
     height: 12vw;
     padding: 1vw;
-    padding-top: 2vw;
+    padding-top: 2.1vw;
     
     background: #fff;
     border: 2px solid green;
@@ -134,13 +138,19 @@
     font: 3.5vw Arial, sans-serif;
 }
 .buttonCircle.private{
-    border: 2px solid #929292;  
+    border: 2px solid #929292; 
+    height: 10vw !important;
+    width: 10vw !important;
 }
 .buttonCircle.confirm{
-    border: 2px solid #6B9C68;  
+    border: 2px solid #6B9C68;
+    height: 10vw !important;
+    width: 10vw !important;
 }
 .buttonCircle.ignore{
-    border: 2px solid #D56161;  
+    border: 2px solid #D56161;
+    height: 10vw !important;
+    width: 10vw !important;
 }
 
 

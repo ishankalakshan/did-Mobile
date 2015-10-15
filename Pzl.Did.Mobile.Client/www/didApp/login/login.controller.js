@@ -1,7 +1,7 @@
 angular.module('didApp.loginController', ['angularMoment'])
-    .controller('loginCtrl', ['$scope', '$http', '$rootScope', '$state', '$ionicPopup','$ionicLoading', 'didApploginService', loginCtrl])
+    .controller('loginCtrl', ['$scope', '$http', '$rootScope', '$state', '$ionicPopup', '$ionicLoading', 'didApploginService', loginCtrl])
 
-function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,didApploginService) {
+function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading, didApploginService) {
 
     $scope.user = {
         username: 'ishankaw@99x.lk',
@@ -14,30 +14,30 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
 
     loadUserCrendentials();
 
-        (function () {
-            if (LOCAL_AUTH_KEY != null) {
-                $ionicLoading.show({
-                  template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
-                });
-                didApploginService.authenticateToken(LOCAL_AUTH_KEY)
-                    .then(function (result) {
-                            if (result.data != null) {
-                                $state.go('weekProgress');
-                                $ionicLoading.hide();
-                            } else {
-                                $ionicLoading.hide();
-                                var alertPopup = $ionicPopup.alert({
-                                    title: 'Access Denied!',
-                                    template: 'Sorry, Invalid Credentials'
-                                });
-                            }
-                        },
-                        function (err) {
+    (function () {
+        if (LOCAL_AUTH_KEY != null) {
+            $ionicLoading.show({
+                template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
+            });
+            didApploginService.authenticateToken(LOCAL_AUTH_KEY)
+                .then(function (result) {
+                        if (result.data != null) {
+                            $state.go('weekProgress');
                             $ionicLoading.hide();
-                            console.log(err);
-                        });
-            }
-        })();
+                        } else {
+                            $ionicLoading.hide();
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Access Denied!',
+                                template: 'Sorry, Invalid Credentials'
+                            });
+                        }
+                    },
+                    function (err) {
+                        $ionicLoading.hide();
+                        console.log(err);
+                    });
+        }
+    })();
 
     function generateToken(username, password, resourceId) {
 
@@ -53,6 +53,18 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
         return encrypted
     };
 
+    function encrypt(plaintext) {
+
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(plaintext), key, {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+        return encrypted
+    }
+
     function loadUserCrendentials() {
         LOCAL_AUTH_KEY = window.localStorage.getItem("LOCAL_AUTH_KEY");
         $http.defaults.headers.common['Authorization'] = LOCAL_AUTH_KEY;
@@ -60,9 +72,9 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
 
     function storeUserCredentials(token) {
 
-        var decrypted = CryptoJS.AES.decrypt(token, key, {
+        /*var decrypted = CryptoJS.AES.decrypt(token, key, {
             iv: iv
-        });
+        });*/
         LOCAL_AUTH_KEY = token.toString()
         window.localStorage.setItem("LOCAL_AUTH_KEY", token.toString());
         $http.defaults.headers.common['Authorization'] = token;
@@ -82,9 +94,10 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
             });
         } else {
             $ionicLoading.show({
-              template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
+                template: "<div><i class='fa fa-spinner fa-spin'></i> Signing In...</div>"
             });
-            didApploginService.authenticateCredentials(user.username, user.password)
+
+            didApploginService.authenticateCredentials(encrypt(user.username).toString(), encrypt(user.password).toString())
                 .then(function (result) {
                     $scope.user = {};
                     if (result.data != null) {
@@ -95,19 +108,23 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup,$ionicLoading,
                     } else if (result.data == null) {
                         $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
-                            title: 'Alert',
+                            title: 'Warning',
                             template: 'Invalid credentials.Please try again'
                         });
                     } else {
                         $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
-                            title: 'Alert',
+                            title: 'Error',
                             template: 'Login Failed.Please try again'
                         });
                     }
 
                 }, function (err) {
                     $ionicLoading.hide();
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Network Error',
+                        template: 'Could not connect to the network.'
+                    });
                     console.log(err);
                 })
         }
