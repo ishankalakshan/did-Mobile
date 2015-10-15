@@ -4,7 +4,6 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  '$rootScope',
                                  '$state',
                                  '$stateParams',
-                                 '$ionicLoading',
                                  '$ionicPopup',
                                  '$ionicActionSheet',
                                  '$timeout',
@@ -13,9 +12,9 @@ angular.module('didApp.weekProgressController', ['angularMoment'])
                                  'didApploginService',
                                  'didAppDataStoreService',
                                  'WeekProgressService',
-                                  weekProgressCtrl])
+                                  weekProgressCtrl]);
 
-function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService, WeekProgressService) {
+function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, didAppDataService, didApploginService, didAppDataStoreService, WeekProgressService) {
 
 
     $scope.timesheet = [];
@@ -43,6 +42,8 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                     });
                 });
 
+            }, function (err) {
+                console.log(err);
             })
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageProjects($scope.projectList);
@@ -60,6 +61,8 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                     });
                 });
 
+            }, function (err) {
+                console.log(err)
             })
             .then(function () {
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
@@ -250,6 +253,27 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
         requestCustomers();
         requestProjects();
     }; //end of refreshData
+    
+    function refreshDataFromLocalStorage(){
+        console.log('ok')
+        $scope.timesheet = [];
+        allWeekTimeEntries = [];
+        $scope.weeklyTimesheet = [];
+        $scope.projectList = [];
+        $scope.customerList = [];
+        
+        $scope.timesheet=didAppDataStoreService.getlocalStorageTimesheet();
+        $scope.projectList = didAppDataStoreService.getlocalStorageProjects();
+        $scope.customerList = didAppDataStoreService.getlocalStorageCustomers();
+        
+        getAllWeekEntries($scope.weekCount, $scope.yearCount);
+        setWeekTimeSheet($scope.weekCount, $scope.yearCount);
+        $scope.stateWeek = getStateOfWeek();
+        $scope.summaryHours = getConfirmedHoursPerWeek();
+        
+        $rootScope.$broadcast("RefreshComplete")
+
+    }
 
     $scope.addOneWeek = function () {
         weeksInYear($scope.yearCount)
@@ -321,7 +345,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
                 thisWeeksConfirmedIds.push({
                     id: result.id
                 })
-            } else if (result.state == 'UserIgnored' || result.state == 'SystemUserIgnored') {
+            } else if (result.state == 'UserIgnored' || result.state == 'SystemIgnored') {
                 thisWeeksIgnoredIds.push({
                     id: result.id
                 })
@@ -331,15 +355,21 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadin
 
         WeekProgressService.ApproveThisWeek(thisWeeksConfirmedIds, thisWeeksIgnoredIds)
             .then(function (result) {
-                $scope.refreshData()
+                if(result.data){
+                   didAppDataStoreService.updateEntryApproved(thisWeeksConfirmedIds, thisWeeksIgnoredIds)                  
+                    $ionicLoading.hide() 
+                }  
             }, function (err) {
                 console.log(err)
                 $ionicLoading.hide()
             })
+        .then(function(result){
+            $rootScope.$broadcast("refreshData")
+        })
     }
 
     $rootScope.$on('refreshData', function () {
-        $scope.refreshData();
+        refreshDataFromLocalStorage();
     });
 
 }; //end of weekProgressCtrl

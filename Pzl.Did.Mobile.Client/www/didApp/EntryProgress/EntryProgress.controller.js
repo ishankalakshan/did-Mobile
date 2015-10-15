@@ -1,8 +1,8 @@
 angular.module('didApp.EntryProgressController', ['angularMoment'])
 
-.controller('EntryProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$ionicLoading','$ionicPopup','didAppDataStoreService', 'EntryProgressService', EntryProgressCtrl])
+.controller('EntryProgressCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', 'didAppDataStoreService', 'EntryProgressService', EntryProgressCtrl])
 
-function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading,$ionicPopup,didAppDataStoreService, EntryProgressService) {
+function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, didAppDataStoreService, EntryProgressService) {
 
     $scope.id = $stateParams.selectedId;
     $scope.project = {};
@@ -93,16 +93,16 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
     $scope.updateStateConfirm = function () {
         if ($scope.project.customerKeyId == null) {
             var alertPopup = $ionicPopup.alert({
-                            title: 'Alert',
-                            template: 'Select a Customer'
-                        });
+                title: 'Alert',
+                template: 'Select a Customer'
+            });
             return
         }
         if ($scope.project.projectKeyId == null) {
             var alertPopup = $ionicPopup.alert({
-                            title: 'Alert',
-                            template: 'Select a Project'
-                        });
+                title: 'Alert',
+                template: 'Select a Project'
+            });
             return
         }
         if ($scope.id == null) {
@@ -112,22 +112,23 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
         $ionicLoading.show({
             template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
         });
-        EntryProgressService.confirmEntry($scope.id, $scope.customerKey,
-                $scope.project.customerKeyId,
-                $scope.projectKey,
-                $scope.project.projectKeyId)
-            .then(function () {
-                $ionicLoading.hide()
-                $rootScope.$broadcast("refreshData");
-                $state.go('dayProgress', {
-                    selectedDate: date
-                })
+        EntryProgressService.confirmEntry($scope.id, $scope.project.customerKeyId, $scope.project.projectKeyId)
+            .then(function (result) {
+                if (result.data) {
+                    didAppDataStoreService.updateEntryCustomerProjectState($scope.id, $scope.project.customerKeyId, $scope.project.projectKeyId, "UserConfirmed")
+                    $rootScope.$broadcast("refreshData");
+                    $ionicLoading.hide()
+                    $state.go('dayProgress', {
+                        selectedDate: date
+                    })
+                }
+
             }, function (err) {
                 $ionicLoading.hide()
                 var alertPopup = $ionicPopup.alert({
-                            title: 'Error',
-                            template: 'Error occured while updaing informaion.Please try again later.'
-                        });
+                    title: 'Error',
+                    template: 'Error occured while updaing informaion.Please try again later.'
+                });
                 console.log(err)
             })
     }
@@ -138,17 +139,18 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
         });
         EntryProgressService.ignoreEntry($scope.id)
             .then(function (result) {
-                $ionicLoading.hide()
-                $rootScope.$broadcast("refreshData");
-                $state.go('dayProgress', {
-                    selectedDate: date
-                })
+                didAppDataStoreService.updateEntryState($scope.id,"UserIgnored")
+                    $rootScope.$broadcast("refreshData");
+                    $ionicLoading.hide()
+                    $state.go('dayProgress', {
+                        selectedDate: date
+                    })     
             }, function (err) {
                 $ionicLoading.hide()
                 var alertPopup = $ionicPopup.alert({
-                            title: 'Error',
-                            template: 'Error occured while updaing informaion.Please try again later.'
-                        });
+                    title: 'Error',
+                    template: 'Error occured while updaing informaion.Please try again later.'
+                });
                 console.log(err)
             })
     }
@@ -159,17 +161,18 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
         });
         EntryProgressService.privateEntry($scope.id)
             .then(function (result) {
-                $ionicLoading.hide()
-                $rootScope.$broadcast("refreshData");
-                $state.go('dayProgress', {
-                    selectedDate: date
-                })
+                didAppDataStoreService.updateEntryState($scope.id,"UserIgnored")
+                    $rootScope.$broadcast("refreshData");
+                    $ionicLoading.hide()
+                    $state.go('dayProgress', {
+                        selectedDate: date
+                    })
             }, function (err) {
                 $ionicLoading.hide()
                 var alertPopup = $ionicPopup.alert({
-                            title: 'Error',
-                            template: 'Error occured while updaing informaion.Please try again later.'
-                        });
+                    title: 'Error',
+                    template: 'Error occured while updaing informaion.Please try again later.'
+                });
                 console.log(err)
             })
     }

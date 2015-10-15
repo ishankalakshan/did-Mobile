@@ -6,8 +6,8 @@ function EntryProgressService($http) {
     
     var uri = 'http://localhost:52882/api/timeentries'
     
-    this.confirmEntry = function(id,customerKey,customerKeyId,projectKey,projectKeyId){
-        var Indata = {id:id,customerKey:customerKey,customerKeyId:customerKeyId,projectKey:projectKey,projectKeyId:projectKeyId}
+    this.confirmEntry = function(id,customerKeyId,projectKeyId){
+        var Indata = {id:id,customerKeyId:customerKeyId,projectKeyId:projectKeyId}
         return $http({
                   method  : 'POST',
                   url     : uri,
