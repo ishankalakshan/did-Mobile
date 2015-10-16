@@ -9,21 +9,20 @@ namespace Pzl.SharePoint.Client
     {
         private readonly ClientContext _context;
 
-        public SharepointContext( string url , string username, string password)
+        public SharepointContext( string siteUrl , string username, string password)
         {
             try
             {
-                var cred = GetSharePointOnlineCredentials(username, password);
-                var context = new ClientContext(url)
+                var credentials = GetSharePointOnlineCredentials(username, password);
+                var context = new ClientContext(siteUrl)
                 {
-                    Credentials = cred
+                    Credentials = credentials
                 };
 
                 _context = context;
             }
             catch (Exception e)
             {
-
                 throw;
             } 
         }
@@ -34,7 +33,6 @@ namespace Pzl.SharePoint.Client
             {
                 if (password == null)
                 {
-
                     throw new ArgumentNullException("password");
                 }
 
@@ -50,12 +48,11 @@ namespace Pzl.SharePoint.Client
             }
             catch (Exception e)
             {
-
                 throw;
             }
         }
 
-        public IEnumerable<ListItem> RetrieveListItem(string query, string listTitle)
+        public IEnumerable<ListItem> RetrieveListItems(string query, string listTitle)
         {
             try
             {
@@ -68,12 +65,11 @@ namespace Pzl.SharePoint.Client
             }
             catch (Exception e)
             {
-
                 throw;
             }
         }
 
-        public bool UpdateListItem(string id, string listTitle, string columnName, string value)
+        /*public bool UpdateListItem(string id, string listTitle, string columnName, string value)
         {
             try
             {
@@ -90,12 +86,28 @@ namespace Pzl.SharePoint.Client
             }
             catch (Exception e)
             {
-
                 throw;
             }
+        }*/
+
+        public bool UpdateListItem(string listItemId, string listTitle, Dictionary<string, object> values)
+        {
+            var web = _context.Web;
+            var sharepointList = web.Lists.GetByTitle(listTitle);
+            var sharepointListItem = sharepointList.GetItemById(listItemId);
+            
+            foreach (var listItem in values)
+            {
+                sharepointListItem[listItem.Key] = listItem.Value;
+            }
+
+            sharepointListItem.Update();
+            _context.ExecuteQuery();
+
+            return true;
         }
 
-        public bool UpdateListItemWithLookUp(string id,string listTitle,string columnName,string value)
+        /*public bool UpdateListItemWithLookUp(string id,string listTitle,string columnName,string value)
         {
             try
             {
@@ -114,9 +126,8 @@ namespace Pzl.SharePoint.Client
             }
             catch (Exception e)
             {
-
                 throw;
             }
-        }
+        }*/
     }
 }

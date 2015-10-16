@@ -20,27 +20,24 @@ namespace Pzl.Did.Api.Controllers
             {
                 var headerValues = Request.Headers.GetValues("Authorization");
                 var token = headerValues.FirstOrDefault();
-                var cred = Token.GetCredentialsFromToken(token);
-                var url = ConfigurationManager.AppSettings["url"];
+                var credentialsFromToken = Token.GetCredentialsFromToken(token);
 
-                var sc = new SharepointContext(url, cred[0], cred[1]);
-                var query = string.Format(Query.Projects);
+                var siteUrl = ConfigurationManager.AppSettings["url"];
+                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
 
-                var list = sc.RetrieveListItem(query, List.Projects);
-                var projectsList = list.Select(item => new ProjectModel(item)).ToList();
+                var retrievedListItems = sharepointContext.RetrieveListItems(Query.Projects, List.Projects);
+                var projectsList = retrievedListItems.Select(item => new ProjectModel(item)).ToList();
 
                 return projectsList.Count == 0 ? null : projectsList;
             }
             catch (IdcrlException)
             {
-
                 return null;
             }
             catch (Exception)
             {
                 return null;
             }
-
         }
     }
 }

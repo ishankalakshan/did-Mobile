@@ -17,7 +17,6 @@ namespace Pzl.SharePoint.Client
             }
             catch (Exception)
             {
-                    
                 throw;
             }
               

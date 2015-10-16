@@ -10,7 +10,7 @@ function EntryProgressService($http) {
         var Indata = {id:id,customerKeyId:customerKeyId,projectKeyId:projectKeyId}
         return $http({
                   method  : 'POST',
-                  url     : uri,
+                  url     : uri+"/confirm",
                   data    : JSON.stringify(Indata)
                  })
     }   

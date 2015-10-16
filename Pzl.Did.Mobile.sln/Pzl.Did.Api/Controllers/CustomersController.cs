@@ -20,20 +20,18 @@ namespace Pzl.Did.Api.Controllers
             {
                 var headerValues = Request.Headers.GetValues("Authorization");
                 var token = headerValues.FirstOrDefault();
-                var cred = Token.GetCredentialsFromToken(token);
-                var url = ConfigurationManager.AppSettings["url"];
+                var credentialsFromToken = Token.GetCredentialsFromToken(token);
 
-                var sc = new SharepointContext(url, cred[0], cred[1]);
-                var query = string.Format(Query.Customers);
+                var siteUrl = ConfigurationManager.AppSettings["url"];
+                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
 
-                var list = sc.RetrieveListItem(query, List.Customers);
-                var customerList = list.Select(item => new CustomerModel(item)).ToList();
+                var retrievedListItems = sharepointContext.RetrieveListItems(Query.Customers, List.Customers);
+                var customerList = retrievedListItems.Select(item => new CustomerModel(item)).ToList();
 
                 return customerList.Count == 0 ? null : customerList;
             }
             catch (IdcrlException)
             {
-
                 return null;
             }
             catch (InvalidOperationException)

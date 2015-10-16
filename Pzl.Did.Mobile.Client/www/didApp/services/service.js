@@ -8,9 +8,18 @@ function didAppDataService($http) {
     var ProjectsUri = 'http://localhost:52882/api/Projects';
     var CustomersUri = 'http://localhost:52882/api/Customers';
 
-    this.getTimeEntries = function () {
-        return $http.get(TimeEntriesUri);
+    /*this.getTimeEntries = function (weekNumber,yearNumber) {
+        return $http.get(TimeEntriesUri+'/'+weekNumber+'/'+yearNumber);
     };
+    */
+    this.getTimeEntries = function(initialWeeks){
+        var Indata = {initialWeeks}
+        return $http({
+                  method  : 'POST',
+                  url     : TimeEntriesUri,
+                  data    : JSON.stringify(Indata)
+                 })
+    }  
 
     this.getProjects = function () {
         return $http.get(ProjectsUri);

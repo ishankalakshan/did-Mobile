@@ -18,58 +18,54 @@ namespace Pzl.Did.Api.Controllers
         [Route("api/authentication")]
         [HttpPost]
         public List<ResourceModel> AuthenticationWithCredentials()
-        {   
+        {
             try
             {
-                var oSr = new StreamReader(HttpContext.Current.Request.InputStream);
-                var sContent = oSr.ReadToEnd();
-                var obj = JObject.Parse(sContent);
-                var username = Token.DecryptStringAes((string)obj["username"]);
-                var password = Token.DecryptStringAes((string)obj["password"]);
- 
-                var url = ConfigurationManager.AppSettings["url"];
-                var sc = new SharepointContext(url,username, password);
-                var query = string.Format(Query.ResourceId, username);  
+                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
+                var retrievedPostData = streamReader.ReadToEnd();
+                var jObject = JObject.Parse(retrievedPostData);
+                var username = Token.DecryptStringAes((string)jObject["username"]);
+                var password = Token.DecryptStringAes((string)jObject["password"]);
 
-                var list = sc.RetrieveListItem(query, List.Resources);
-                var idList = list.Select(item => new ResourceModel(item)).ToList();
+                var siteUrl = ConfigurationManager.AppSettings["url"];
+                var sharepointContext = new SharepointContext(siteUrl, username, password);
+                var query = string.Format(Query.ResourceId, username);
+
+                var retrievedListItems = sharepointContext.RetrieveListItems(query, List.Resources);
+                var idList = retrievedListItems.Select(item => new ResourceModel(item)).ToList();
 
                 return idList.Count == 0 ? null : idList;
             }
             catch (IdcrlException)
             {
-
                 return null;
             }
-            
         }
-        
-        [Route("api/authentication")] 
+
+        [Route("api/authentication")]
         public List<ResourceModel> GetAuthenticationWithToken()
         {
             try
             {
-               var headerValues = Request.Headers.GetValues("Authorization");
-               var token = headerValues.FirstOrDefault();
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
 
-                var url = ConfigurationManager.AppSettings["url"];
-                var cred = Token.GetCredentialsFromToken(token);
-                var sc = new SharepointContext(url,cred[0], cred[1]);
-                var query = string.Format(Query.ResourceId, cred[0]);  
+                var siteUrl = ConfigurationManager.AppSettings["url"];
+                var credentialsFromToken = Token.GetCredentialsFromToken(token);
+                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
+                var query = string.Format(Query.ResourceId, credentialsFromToken[0]);
 
                 const string listTitle = List.Resources;
 
-                var list = sc.RetrieveListItem(query, listTitle);
-                var idList = list.Select(item => new ResourceModel(item)).ToList();
+                var retrievedListItems = sharepointContext.RetrieveListItems(query, listTitle);
+                var idList = retrievedListItems.Select(item => new ResourceModel(item)).ToList();
 
                 return idList.Count == 0 ? null : idList;
             }
             catch (IdcrlException)
             {
-
                 return null;
             }
-            
         }
     }
 }
