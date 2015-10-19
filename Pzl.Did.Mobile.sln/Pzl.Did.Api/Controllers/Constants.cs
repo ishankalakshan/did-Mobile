@@ -42,7 +42,35 @@
                                             <FieldRef Name='PzlWeekNumber' />
                                             <FieldRef Name='PzlYearNumber' />
                                             <FieldRef Name='ID' /></ViewFields> 
-                                                  </View>"; 
+                                                  </View>";
+        public const string TimeEntries2 = @"<View>  
+                                                <Query> 
+                                                   <Where><And><And><Geq>
+                                                   <FieldRef Name='PzlStartTime' />
+                                                   <Value Type='DateTime'>{0}</Value>
+                                                   </Geq><Leq><FieldRef Name='PzlEndTime' />
+                                                   <Value Type='DateTime'>{1}</Value>
+                                                   </Leq></And><Eq>
+                                                   <FieldRef Name='PzlResourceKey' LookupId='True' />
+                                                   <Value Type='Lookup'>{2}</Value></Eq></And></Where> 
+                                                </Query> 
+                                                 <ViewFields>
+                                                 <FieldRef Name='Title' /> 
+                                                 <FieldRef Name='PzlStartTime' />
+                                                 <FieldRef Name='PzlEndTime' />
+                                                 <FieldRef Name='PzlDurationHours' />
+                                                 <FieldRef Name='ID' />
+                                                 <FieldRef Name='ID' />
+                                                 <FieldRef Name='PzlTimeZone' />
+                                                 <FieldRef Name='PzlDescription' />
+                                                 <FieldRef Name='PzlState' />
+                                                 <FieldRef Name='PzlCustomerKey' />
+                                                 <FieldRef Name='PzlProjectKey' />
+                                                 <FieldRef Name='PzlResourceKey' />
+                                                 <FieldRef Name='PzlWeekNumber' />
+                                                 <FieldRef Name='PzlYearNumber' />
+                                                 </ViewFields> 
+                                          </View>";
         public const string Projects = @"<View>  
                                          <ViewFields><FieldRef Name='ID' />
                                          <FieldRef Name='PzlKey' />

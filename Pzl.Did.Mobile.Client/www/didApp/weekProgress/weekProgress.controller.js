@@ -26,75 +26,71 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     $scope.customerList = [];
 
     var allWeekTimeEntries = [];
-    
-    function getFutureWeeks(weekNumber, yearNumber) {
-            var weeks = [];
-            var noOfWeeksInYear = weeksInYear(yearNumber);
-            for (i = 0; i < 4; i++) {
-                ++weekNumber;
-                if (weekNumber > noOfWeeksInYear) {
-                    weekNumber = 1;
-                    yearNumber = yearNumber + 1;
-                    noOfWeeksInYear = weeksInYear(yearNumber);
-                }
-                weeks.push({
-                        week: weekNumber,
-                        year: yearNumber
-                    })
-                    
-            }
-            return weeks;
+    var startDate = '';
+    var endDate = '';
+
+    function getInitialWeekRange(weekNumber, yearNumber) {
+
+        if (weekNumber == weeksInYear(yearNumber)) {
+            weekNumber = 0;
+            yearNumber += 1;
+        }
+        if (weekNumber == 1) {
+            weekNumber = weeksInYear(yearNumber - 1) + 1
+            yearNumber -= 1;
         }
 
-    function getPastWeeks(weekNumber, yearNumber) {
-            var weeks = [];
-            var noOfWeeksInPreviousYear = weeksInYear(yearNumber - 1);
+        startDate = moment(String(weekNumber - 1) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').format()
+        endDate = moment(String(weekNumber + 1) + ' ' + yearNumber, 'WW YYYY').endOf('isoWeek').day(-2).format()
 
-            for (i = 0; i < 4; i++) {
+        return [startDate, endDate]
+    }
 
-                if (weekNumber == 0) {
-                    weekNumber = noOfWeeksInPreviousYear;
-                    yearNumber = yearNumber - 1;
-                    noOfWeeksInPreviousYear = weeksInYear(yearNumber - 1);
-                }
-                weeks.push({
-                        week: weekNumber,
-                        year: yearNumber
-                    })
-                    --weekNumber;
-            }
-            return weeks;
-        }
+    function getPreviousWeeks(startDay) {
 
-    function requestTimesheet(weekNumber, yearNumber) {
+        var endDate = moment(startDay).subtract(1, 'd').format()
+        startDate = moment(startDay).subtract(21, 'd').format()
+
+        return [startDate, endDate]
+    }
+
+    function getFutureWeeks(endDay) {
+
+        var startDate = moment(endDay).add(3, 'd').format()
+        endDate = moment(endDay).add(21, 'd').format()
+        
+        return [startDate, endDate]
+    }
+
+    function setTimeEntriesData(result) {
+        result.data.forEach(function (b) {
+            $scope.timesheet.push({
+                id: b.Id,
+                title: b.Title,
+                startTime: b.StartTime,
+                endTime: b.EndTime,
+                duration: b.Duration,
+                timezone: b.Timezone,
+                description: b.Description,
+                state: b.State,
+                customerKeyId: b.CustomerKeyId,
+                projectKeyId: b.ProjectKeyId,
+                resourceKeyId: b.ResourceKeyId,
+                weekNumber: b.WeekNumber,
+                yearNumber: b.YearNumber
+            });
+        });
+    }
+
+
+    function requestTimesheet(start, end) {
         $ionicLoading.show({
             template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
         });
-        
-        var initialWeeks= (getPastWeeks(weekNumber, yearNumber)).concat(getFutureWeeks(weekNumber, yearNumber));
 
-        console.log(initialWeeks)
-
-        didAppDataService.getTimeEntries(initialWeeks)
+        didAppDataService.getTimeEntries(start, end)
             .then(function (result) {
-                result.data.forEach(function (b) {
-                    $scope.timesheet.push({
-                        id: b.Id,
-                        title: b.Title,
-                        startTime: b.StartTime,
-                        endTime: b.EndTime,
-                        duration: b.Duration,
-                        timezone: b.Timezone,
-                        description: b.Description,
-                        state: b.State,
-                        customerKeyId: b.CustomerKeyId,
-                        projectKeyId: b.ProjectKeyId,
-                        resourceKeyId: b.ResourceKeyId,
-                        weekNumber: b.WeekNumber,
-                        yearNumber: b.YearNumber
-                    });
-                });
-
+                setTimeEntriesData(result);
             }, function (err) {
                 console.log(err)
                 $ionicLoading.hide();
@@ -112,7 +108,29 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
                 $ionicLoading.hide()
             });
     } //load timesheet data to localDataStorage Service
-    
+
+    function requestPreviousTimesheet(start, end) {
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
+        });
+
+        didAppDataService.getTimeEntries(start, end)
+            .then(function (result) {
+                setTimeEntriesData(result);
+            }, function (err) {
+                console.log(err)
+                $ionicLoading.hide();
+            })
+            .then(function () {
+                didAppDataStoreService.loadTolocalStorageTimesheet($scope.timesheet);
+                refreshDataFromLocalStorage()
+                $ionicLoading.hide();
+            }, function (err) {
+                console.log(err);
+                $ionicLoading.hide()
+            });
+    }
+
     function requestProjects() {
         didAppDataService.getProjects()
             .then(function (result) {
@@ -153,7 +171,8 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
             });
     } //load customers data to localDataStorage Service
 
-    requestTimesheet($scope.weekCount, YearCount)
+    var range = getInitialWeekRange($scope.weekCount, YearCount)
+    requestTimesheet(range[0], range[1])
     requestCustomers()
     requestProjects()
 
@@ -289,7 +308,8 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
         $scope.weeklyTimesheet = [];
         $scope.projectList = [];
         $scope.customerList = [];
-        requestTimesheet($scope.weekCount, YearCount);
+        var range = getInitialWeekRange($scope.weekCount, YearCount)
+        requestTimesheet(range[0], range[1])
         requestCustomers();
         requestProjects();
     }; //end of refreshData
@@ -322,6 +342,17 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
             $scope.weekCount = 0;
             YearCount += 1;
         }
+        
+        //console.log(endDate)
+        //console.log(moment(String($scope.weekCount) + ' ' + YearCount, 'WW YYYY').endOf('isoWeek').day(-2).format())
+
+        if (moment(String($scope.weekCount) + ' ' + YearCount, 'WW YYYY').endOf('isoWeek').day(-2).format() == endDate) {
+            allWeekTimeEntries = []
+            
+            var range = getFutureWeeks(endDate);
+            requestPreviousTimesheet(range[0], range[1])
+        }
+        
 
         $scope.weekCount += 1;
         $scope.weeklyTimesheet = [];
@@ -340,13 +371,23 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
             YearCount -= 1;
         }
 
+        if (moment(String($scope.weekCount) + ' ' + YearCount, 'WW YYYY').startOf('isoWeek').format() == startDate) {
+            allWeekTimeEntries = []
+            var range = getPreviousWeeks(startDate);
+            requestPreviousTimesheet(range[0], range[1])
+        }
+
         $scope.weekCount -= 1;
         $scope.weeklyTimesheet = [];
+
+
         // $scope.weekStartend = getWeekStartEnd($scope.weekCount, YearCount);
         getAllWeekEntries($scope.weekCount, YearCount);
         setWeekTimeSheet($scope.weekCount, YearCount);
         $scope.stateWeek = getStateOfWeek();
         $scope.summaryHours = getConfirmedHoursPerWeek();
+
+
     }; //end of substractOneWeek()
 
     $scope.showActionSheet = function () {

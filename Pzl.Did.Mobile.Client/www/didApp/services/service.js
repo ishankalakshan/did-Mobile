@@ -12,8 +12,8 @@ function didAppDataService($http) {
         return $http.get(TimeEntriesUri+'/'+weekNumber+'/'+yearNumber);
     };
     */
-    this.getTimeEntries = function(initialWeeks){
-        var Indata = {initialWeeks}
+    this.getTimeEntries = function(startTime, endTime){
+        var Indata = {startTime:startTime, endTime:endTime}
         return $http({
                   method  : 'POST',
                   url     : TimeEntriesUri,

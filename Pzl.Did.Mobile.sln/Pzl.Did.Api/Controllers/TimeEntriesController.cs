@@ -27,23 +27,20 @@ namespace Pzl.Did.Api.Controllers
                 var token = headerValues.FirstOrDefault();
                 var credentialsFromToken = Token.GetCredentialsFromToken(token);
 
-                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-                var retrivedPostData = streamReader.ReadToEnd();
-                var jObject = JObject.Parse(retrivedPostData);
-                var listOfWeeks = JArray.Parse(JsonConvert.SerializeObject(jObject["initialWeeks"]));
-
                 var siteUrl = ConfigurationManager.AppSettings["url"];
                 var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
 
-                foreach (var week in listOfWeeks)
-                {
-                    var query = string.Format(Query.TimeEntries, "20", (string)week["week"], (string)week["year"]);
-                    var retrievedListItems = sharepointContext.RetrieveListItems(query, List.TimeEntries);
-                    var timeEntriesList = retrievedListItems.Select(item => new TimeEntryModel(item)).ToList();
+                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
+                var retrivedPostData = streamReader.ReadToEnd();
+                var jObject = JObject.Parse(retrivedPostData);
+                var startTime = (DateTime) jObject["startTime"];
+                var endTime = (DateTime)jObject["endTime"];
 
-                    return timeEntriesList.Count == 0 ? null : timeEntriesList;
-                }
-                return null;
+                var query = string.Format(Query.TimeEntries2, startTime.ToUniversalTime().ToString("u"), endTime.ToUniversalTime().ToString("u"),"20");
+                var retrievedListItems = sharepointContext.RetrieveListItems(query, List.TimeEntries);
+                var timeEntriesList = retrievedListItems.Select(item => new TimeEntryModel(item)).ToList();
+
+                return timeEntriesList.Count == 0 ? null : timeEntriesList;;
             }
             catch (IdcrlException)
             {
