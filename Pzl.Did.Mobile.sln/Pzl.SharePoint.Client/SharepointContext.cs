@@ -129,5 +129,23 @@ namespace Pzl.SharePoint.Client
                 throw;
             }
         }*/
+
+        public bool AddListItem(string listTitle, Dictionary<string, object> updateValues)
+        {
+            var web = _context.Web;
+            var sharepointList = web.Lists.GetByTitle(listTitle);
+
+            var itemCreateInformation = new ListItemCreationInformation();
+            var newItem = sharepointList.AddItem(itemCreateInformation);
+            newItem["PzlResourceKeyId"] = updateValues["ResourceKeyId"];
+            newItem["PzlImportFromDate"] = updateValues["ImportFromDate"];
+            newItem["PzlImportToDate"] = updateValues["ImportToDate"];
+
+            newItem.Update();
+
+            _context.ExecuteQuery(); 
+
+            return false;
+        }
     }
 }

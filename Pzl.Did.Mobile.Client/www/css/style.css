@@ -152,6 +152,15 @@
     height: 10vw !important;
     width: 10vw !important;
 }
+.button-clear.custom-color{
+    color: black;
+    line-height:15px;
+}
+.bar .button.button-clear {
+    font-size: 13px;
+    font-weight:400;
+}
+
 
 
 

@@ -8,11 +8,22 @@ function WeekProgressService($http) {
     
     this.ApproveThisWeek = function(confirmedIds,IgnoredIds){
         var Indata = {confirmed:confirmedIds,ignored:IgnoredIds}
-        console.log(Indata)
         return $http({
                   method  : 'POST',
                   url     : uri,
                   data    : JSON.stringify(Indata)
                  })
-    }    
+    } 
+    
+    this.addExpressImport = function(resourceId,startDate,endDate){
+        var Indata = {resourceId:resourceId,startDate:startDate,endDate:endDate}
+        console.log(Indata)
+        /*return $http({
+                  method  : 'POST',
+                  url     : uri,
+                  data    : JSON.stringify(Indata)
+                 })*/
+        
+    } 
+    
 };

@@ -41,7 +41,8 @@ var didApp = angular.module('didApp', ['ionic',
   .state('weekProgress',{
         url:'/weekProgress',
         templateUrl: 'didApp/weekProgress/weekProgress.html',
-        controller: 'weekProgressCtrl'
+        controller: 'weekProgressCtrl',
+        params : { resourceId:null}
       })
   .state('dayProgress', {
       url: '/dayProgress',

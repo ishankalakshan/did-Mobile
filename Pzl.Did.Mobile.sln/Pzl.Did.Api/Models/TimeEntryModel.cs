@@ -51,32 +51,29 @@ namespace Pzl.Did.Api.Models
                 }
                 if (item["PzlDescription"] != null)
                 {
-                   Description = item["PzlDescription"].ToString();
+                    Description = item["PzlDescription"].ToString();
                 }
                 if (item["PzlState"] != null)
                 {
                     State = item["PzlState"].ToString();
                 }
-
                 var customer = item["PzlCustomerKey"] as FieldLookupValue;
                 if (customer != null)
                 {
                     CustomerKeyId = customer.LookupId.ToString();
-                    CustomerKey = customer.LookupValue; 
+                    CustomerKey = customer.LookupValue;
                 }
-                
                 var project = item["PzlProjectKey"] as FieldLookupValue;
                 if (project != null)
                 {
                     ProjectKeyId = project.LookupId.ToString();
                     ProjectKey = project.LookupValue;
                 }
-
-                if (item["PzlWeekNumber"] !=null)
+                if (item["PzlWeekNumber"] != null)
                 {
                     WeekNumber = item["PzlWeekNumber"].ToString();
                 }
-                if (item["PzlYearNumber"] !=null)
+                if (item["PzlYearNumber"] != null)
                 {
                     YearNumber = item["PzlYearNumber"].ToString();
                 }
@@ -84,7 +81,7 @@ namespace Pzl.Did.Api.Models
             catch (Exception)
             {
                 throw;
-            } 
+            }
         }
     }
 }

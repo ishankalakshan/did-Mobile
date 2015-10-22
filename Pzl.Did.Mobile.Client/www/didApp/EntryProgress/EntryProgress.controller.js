@@ -91,6 +91,7 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
     }
 
     $scope.updateStateConfirm = function () {
+        console.log($scope.project.customerKeyId)
         if ($scope.project.customerKeyId == null) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Alert',

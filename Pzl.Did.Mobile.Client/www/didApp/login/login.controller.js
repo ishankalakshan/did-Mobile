@@ -22,7 +22,8 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading
             didApploginService.authenticateToken(LOCAL_AUTH_KEY)
                 .then(function (result) {
                         if (result.data != null) {
-                            $state.go('weekProgress');
+                            resourceId = result.data[0].Id;
+                            $state.go('weekProgress',{resourceId:resourceId});
                             $ionicLoading.hide();
                         } else {
                             $ionicLoading.hide();
@@ -103,7 +104,7 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading
                     if (result.data != null) {
                         resourceId = result.data[0].Id;
                         storeUserCredentials(generateToken(user.username, user.password, resourceId));
-                        $state.go('weekProgress');
+                        $state.go('weekProgress',{resourceId:resourceId});
                         $ionicLoading.hide();
                     } else if (result.data == null) {
                         $ionicLoading.hide();

@@ -84,7 +84,7 @@
                                           <FieldRef Name='PzlKey' />
                                           <FieldRef Name='ID' />
                                           </ViewFields> 
-                                          </View>";  
+                                          </View>";
     }
 
     public class Column

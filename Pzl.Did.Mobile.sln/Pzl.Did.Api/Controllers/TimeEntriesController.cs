@@ -33,14 +33,14 @@ namespace Pzl.Did.Api.Controllers
                 var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
                 var retrivedPostData = streamReader.ReadToEnd();
                 var jObject = JObject.Parse(retrivedPostData);
-                var startTime = (DateTime) jObject["startTime"];
+                var startTime = (DateTime)jObject["startTime"];
                 var endTime = (DateTime)jObject["endTime"];
 
-                var query = string.Format(Query.TimeEntries2, startTime.ToUniversalTime().ToString("u"), endTime.ToUniversalTime().ToString("u"),"20");
+                var query = string.Format(Query.TimeEntries2, startTime.ToUniversalTime().ToString("u"), endTime.ToUniversalTime().ToString("u"), "20");
                 var retrievedListItems = sharepointContext.RetrieveListItems(query, List.TimeEntries);
                 var timeEntriesList = retrievedListItems.Select(item => new TimeEntryModel(item)).ToList();
 
-                return timeEntriesList.Count == 0 ? null : timeEntriesList;;
+                return timeEntriesList.Count == 0 ? null : timeEntriesList; 
             }
             catch (IdcrlException)
             {
@@ -120,8 +120,6 @@ namespace Pzl.Did.Api.Controllers
                 throw;
             }
         }
-
-
 
         [Route("api/timeentries/private")]
         [HttpPost]

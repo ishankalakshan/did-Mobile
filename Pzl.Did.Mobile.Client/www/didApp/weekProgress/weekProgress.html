@@ -8,11 +8,15 @@
 -->
     </ion-nav-buttons>
     <ion-nav-buttons side="left">
-        <button class="button button-clear" ng-click='showActionSheet()'>
+        <button class="button button-clear custom-color" ng-click='showActionSheet()'>
             <i class='icon ion-navicon'></i>
         </button>
     </ion-nav-buttons>
-
+    <ion-nav-buttons side="right">
+        <button class="button button-clear custom-color" ng-click='ExpressImport()'>
+            Express<br>Import
+        </button>
+    </ion-nav-buttons>
     <ion-content>
         <ion-refresher on-refresh='refreshData()'></ion-refresher>
         <ion-list>
