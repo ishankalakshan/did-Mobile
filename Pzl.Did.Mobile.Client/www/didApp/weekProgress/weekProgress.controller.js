@@ -24,6 +24,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     $scope.weeklyTimesheet = [];
     $scope.projectList = [];
     $scope.customerList = [];
+    $scope.expressImportState = '';
 
     var allWeekTimeEntries = [];
     var startDate = '';
@@ -170,11 +171,22 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
                 didAppDataStoreService.loadTolocalStorageCustomers($scope.customerList);
             });
     } //load customers data to localDataStorage Service
+    
+    function requestExpressImportStatus(resourceId){
+        WeekProgressService.getExpressImportStatus(resourceId)
+        .then(function(result){
+            $scope.expressImportState = result.data;
+            console.log($scope.expressImportState)
+        },function(err){
+            console.log(err)
+        })
+    }
 
     var range = getInitialWeekRange($scope.weekCount, YearCount)
     requestTimesheet(range[0], range[1])
     requestCustomers()
     requestProjects()
+    requestExpressImportStatus(resourceId)
 
     function weeksInYear(year) {
         return Math.max(
@@ -334,7 +346,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     }
     
     $scope.ExpressImport = function(){
-        addExpressImport($scope.weekCount,YearCount);
+        addExpressImport(resourceId,$scope.weekCount,YearCount);
     }
     
     $scope.refreshData = function () {
@@ -347,6 +359,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
         requestTimesheet(range[0], range[1])
         requestCustomers();
         requestProjects();
+        requestExpressImportStatus(resourceId)
     }; //end of refreshData
 
     $scope.addOneWeek = function () {

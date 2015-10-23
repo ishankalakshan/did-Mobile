@@ -69,27 +69,6 @@ namespace Pzl.SharePoint.Client
             }
         }
 
-        /*public bool UpdateListItem(string id, string listTitle, string columnName, string value)
-        {
-            try
-            {
-                var web = _context.Web;
-                var oList = web.Lists.GetByTitle(listTitle);
-                var oListItem = oList.GetItemById(id);
-
-                oListItem[columnName] = value;
-
-                oListItem.Update();
-                _context.ExecuteQuery();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }*/
-
         public bool UpdateListItem(string listItemId, string listTitle, Dictionary<string, object> values)
         {
             var web = _context.Web;
@@ -130,16 +109,18 @@ namespace Pzl.SharePoint.Client
             }
         }*/
 
-        public bool AddListItem(string listTitle, Dictionary<string, object> updateValues)
+        public bool AddListItem(string listTitle, Dictionary<string, object> addValues)
         {
             var web = _context.Web;
             var sharepointList = web.Lists.GetByTitle(listTitle);
 
             var itemCreateInformation = new ListItemCreationInformation();
             var newItem = sharepointList.AddItem(itemCreateInformation);
-            newItem["PzlResourceKeyId"] = updateValues["ResourceKeyId"];
-            newItem["PzlImportFromDate"] = updateValues["ImportFromDate"];
-            newItem["PzlImportToDate"] = updateValues["ImportToDate"];
+
+            foreach (var item in addValues)
+            {
+                newItem[item.Key] = item.Value;
+            }
 
             newItem.Update();
 

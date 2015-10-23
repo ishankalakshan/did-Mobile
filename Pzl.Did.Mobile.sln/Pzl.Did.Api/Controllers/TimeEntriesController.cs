@@ -17,22 +17,17 @@ namespace Pzl.Did.Api.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TimeEntriesController : ApiController
     {
+        
+
         [Route("api/timeentries")]
         [HttpPost]
         public List<TimeEntryModel> TimeEntriesList()
         {
             try
             {
-                var headerValues = Request.Headers.GetValues("Authorization");
-                var token = headerValues.FirstOrDefault();
-                var credentialsFromToken = Token.GetCredentialsFromToken(token);
+                var sharepointContext = CreateSharepointContext();
+                var jObject = ReadPostedData();
 
-                var siteUrl = ConfigurationManager.AppSettings["url"];
-                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
-
-                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-                var retrivedPostData = streamReader.ReadToEnd();
-                var jObject = JObject.Parse(retrivedPostData);
                 var startTime = (DateTime)jObject["startTime"];
                 var endTime = (DateTime)jObject["endTime"];
 
@@ -58,16 +53,9 @@ namespace Pzl.Did.Api.Controllers
         {
             try
             {
-                var headerValues = Request.Headers.GetValues("Authorization");
-                var token = headerValues.FirstOrDefault();
+                var sharepointContext = CreateSharepointContext();
+                var jObject = ReadPostedData();
 
-                var siteUrl = ConfigurationManager.AppSettings["url"];
-                var credentialsFromToken = Token.GetCredentialsFromToken(token);
-                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
-
-                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-                var retrivedPostData = streamReader.ReadToEnd();
-                var jObject = JObject.Parse(retrivedPostData);
                 var entryId = (string)jObject["id"];
                 var customerKeyId = (string)jObject["customerKeyId"];
                 var projectKeyId = (string)jObject["projectKeyId"];
@@ -87,25 +75,7 @@ namespace Pzl.Did.Api.Controllers
                 throw;
             }
         }
-
-        private void UpdateTimeEntryState(string state)
-        {
-            var headerValues = Request.Headers.GetValues("Authorization");
-            var token = headerValues.FirstOrDefault();
-
-            var siteUrl = ConfigurationManager.AppSettings["url"];
-            var credentialsFromToken = Token.GetCredentialsFromToken(token);
-            var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
-
-            var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-            var retrivedPostData = streamReader.ReadToEnd();
-            var jObject = JObject.Parse(retrivedPostData);
-            var listItemId = (string)jObject["id"];
-
-            sharepointContext.UpdateListItem(listItemId, List.TimeEntries,
-                new Dictionary<string, object>() { { Column.State, state } });
-        }
-
+       
         [Route("api/timeentries/ignore")]
         [HttpPost]
         public bool PostIgnoreEntry()
@@ -142,16 +112,9 @@ namespace Pzl.Did.Api.Controllers
         {
             try
             {
-                var headerValues = Request.Headers.GetValues("Authorization");
-                var token = headerValues.FirstOrDefault();
+                var sharepointContext = CreateSharepointContext();
+                var jObject = ReadPostedData();
 
-                var siteUrl = ConfigurationManager.AppSettings["url"];
-                var credentialsFromToken = Token.GetCredentialsFromToken(token);
-                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
-
-                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-                var retrivedPostData = streamReader.ReadToEnd();
-                var jObject = JObject.Parse(retrivedPostData);
                 var confirmed = jObject["confirmed"];
                 var ignored = jObject["ignored"];
 
@@ -177,6 +140,37 @@ namespace Pzl.Did.Api.Controllers
             {
                 throw;
             }
+        }
+
+        private SharepointContext CreateSharepointContext()
+        {
+            var headerValues = Request.Headers.GetValues("Authorization");
+            var token = headerValues.FirstOrDefault();
+            var credentialsFromToken = Token.GetCredentialsFromToken(token);
+
+            var siteUrl = ConfigurationManager.AppSettings["url"];
+            var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
+
+            return sharepointContext;
+        }
+
+        private JObject ReadPostedData()
+        {
+            var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
+            var retrivedPostData = streamReader.ReadToEnd();
+
+            return JObject.Parse(retrivedPostData);
+        }
+
+        private void UpdateTimeEntryState(string state)
+        {
+            var sharepointContext = CreateSharepointContext();
+            var jObject = ReadPostedData();
+
+            var listItemId = (string)jObject["id"];
+
+            sharepointContext.UpdateListItem(listItemId, List.TimeEntries,
+                new Dictionary<string, object>() { { Column.State, state } });
         }
     }
 }

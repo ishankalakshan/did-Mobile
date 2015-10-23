@@ -6,7 +6,7 @@
         public const string Resources = "Resources";
         public const string Projects = "Projects";
         public const string Customers = "Customers";
-
+        public const string ExpressImports = "ExpressImports";
     }
 
     public class Query
@@ -85,6 +85,15 @@
                                           <FieldRef Name='ID' />
                                           </ViewFields> 
                                           </View>";
+        public const string ExpressImport = @"<View>  
+                                              <Query> 
+                                              <Where><Eq>
+                                              <FieldRef Name='PzlResourceKey' LookupId='True' />
+                                              <Value Type='Lookup'>{0}</Value>
+                                              </Eq></Where> 
+                                              </Query> 
+                                              <ViewFields><FieldRef Name='ID' /></ViewFields> 
+                                              </View>"; 
     }
 
     public class Column
@@ -92,6 +101,11 @@
         public const string CustomerKey = "PzlCustomerKey";
         public const string ProjectKey = "PzlProjectKey";
         public const string State = "PzlState";
+
+        public const string ResourceKey = "PzlResourceKey";
+        public const string ImportFromDate = "PzlImportFromDate";
+        public const string ImportToDate = "PzlImportToDate";
+        public const string Title = "Title";
     }
 
     public class State
