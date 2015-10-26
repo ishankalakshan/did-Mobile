@@ -69,7 +69,5 @@ function didAppDataStoreService() {
             
         })
     }
-    
-    
 
 }

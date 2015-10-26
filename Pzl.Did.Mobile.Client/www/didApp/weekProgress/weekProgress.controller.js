@@ -337,10 +337,24 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     
     function addExpressImport(resourceId,weekNumber,yearNumber){
         
+        $ionicLoading.show({
+            template: "<div><i class='fa fa-spinner fa-spin'></i> Requesting...</div>"
+        });
+
+        
         var weekStart = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').format();
         var weekEnd = moment(String(weekNumber) + ' ' + yearNumber, 'WW YYYY').endOf('isoWeek').day(-2).format();
         
-        WeekProgressService.addExpressImport(resourceId,weekStart,weekEnd);
+        WeekProgressService.addExpressImport(resourceId,weekStart,weekEnd)
+        .then(function(result){
+            if(result.data){
+                $scope.expressImportState = true;
+                $ionicLoading.hide()
+            }
+        },function(err){
+            console.log(err)
+            $ionicLoading.hide()
+        })
             
         console.log(resourceId,weekStart,weekEnd)
     }
