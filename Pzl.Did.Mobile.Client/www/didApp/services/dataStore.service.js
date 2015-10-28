@@ -7,6 +7,7 @@ function didAppDataStoreService() {
     var localStorageTimesheet = [];
     var localStorageProjects = [];
     var localStorageCustomers = [];
+    var localStorageExpressImportState = true;
 
     this.loadTolocalStorageTimesheet = function (data) {
         localStorageTimesheet = data;
@@ -31,6 +32,14 @@ function didAppDataStoreService() {
     this.getlocalStorageCustomers = function(){
         return localStorageCustomers ;
     };
+
+    this.loadlocalStorageExpressImportState = function(data){
+        localStorageExpressImportState = data;
+    }
+
+    this.getlocalStorageExpressImportState = function() {
+        return localStorageExpressImportState;
+    }
 
     this.updateEntryState=function(id,state){
         localStorageTimesheet.forEach(function(entry){

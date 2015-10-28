@@ -11,6 +11,7 @@ function dataLoadCtrl($scope,$rootScope,$state,$stateParams,$ionicLoading,didApp
   (function () {
       didAppDataLoadService.requestProjects();
       didAppDataLoadService.requestCustomers();
+      didAppDataLoadService.requestExpressImportStatus(resourceId);
 
       var range = getInitialWeekRange(week, year);
       didAppDataLoadService.requestTimesheet(range[0], range[1])

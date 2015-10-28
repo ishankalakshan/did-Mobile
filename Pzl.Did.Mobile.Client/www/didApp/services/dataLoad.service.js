@@ -51,12 +51,11 @@ function didAppDataLoadService($ionicLoading,$q,$rootScope,didAppDataService,did
       timesheet = [];
       var q = $q.defer()
       $ionicLoading.show({
-          template: "<div><i class='fa fa-spinner fa-spin'></i> Loading Data...</div>"
+          template: "<div><i class='fa fa-spinner fa-spin'></i> Loading...</div>"
       });
 
       didAppDataService.getTimeEntries(start, end)
           .then(function (result) {
-            console.log(result);
               setTimeEntriesData(result);
           }, function (err) {
               console.log(err)
@@ -98,6 +97,15 @@ function didAppDataLoadService($ionicLoading,$q,$rootScope,didAppDataService,did
               $ionicLoading.hide()
           });
           return q.promise
+  }
+
+  this.requestExpressImportStatus = function(resourceId){
+      didAppDataService.getExpressImportStatus(resourceId)
+      .then(function(result){
+          didAppDataStoreService.loadlocalStorageExpressImportState(result.data)
+      },function(err){
+          console.log(err)
+      })
   }
 
   function setTimeEntriesData(result) {
