@@ -4,78 +4,78 @@ angular.module('didApp.dataStoreService', [])
 
 function didAppDataStoreService() {
 
-    var localStorageTimesheet = [];
-    var localStorageProjects = [];
-    var localStorageCustomers = [];
-    var localStorageExpressImportState = true;
+  var localStorageTimesheet = [];
+  var localStorageProjects = [];
+  var localStorageCustomers = [];
+  var localStorageExpressImportState = true;
 
-    this.loadTolocalStorageTimesheet = function (data) {
-        localStorageTimesheet = data;
-    }
+  this.loadTolocalStorageTimesheet = function(data) {
+    localStorageTimesheet = data;
+  }
 
-    this.getlocalStorageTimesheet = function () {
-        return localStorageTimesheet;
-    }
+  this.getlocalStorageTimesheet = function() {
+    return localStorageTimesheet;
+  }
 
-    this.loadTolocalStorageProjects = function(data){
-        localStorageProjects = data;
-    }
+  this.loadTolocalStorageProjects = function(data) {
+    localStorageProjects = data;
+  }
 
-    this.getlocalStorageProjects = function(){
-        return localStorageProjects ;
-    };
+  this.getlocalStorageProjects = function() {
+    return localStorageProjects;
+  };
 
-    this.loadTolocalStorageCustomers = function(data){
-        localStorageCustomers = data;
-    }
+  this.loadTolocalStorageCustomers = function(data) {
+    localStorageCustomers = data;
+  }
 
-    this.getlocalStorageCustomers = function(){
-        return localStorageCustomers ;
-    };
+  this.getlocalStorageCustomers = function() {
+    return localStorageCustomers;
+  };
 
-    this.loadlocalStorageExpressImportState = function(data){
-        localStorageExpressImportState = data;
-    }
+  this.loadlocalStorageExpressImportState = function(data) {
+    localStorageExpressImportState = data;
+  }
 
-    this.getlocalStorageExpressImportState = function() {
-        return localStorageExpressImportState;
-    }
+  this.getlocalStorageExpressImportState = function() {
+    return localStorageExpressImportState;
+  }
 
-    this.updateEntryState=function(id,state){
-        localStorageTimesheet.forEach(function(entry){
-            if(entry.id==id){
-                entry.state = state
-                return;
-               }
-        })
-    }
+  this.updateEntryState = function(id, state) {
+    localStorageTimesheet.forEach(function(entry) {
+      if (entry.id == id) {
+        entry.state = state
+        return;
+      }
+    })
+  }
 
-    this.updateEntryCustomerProjectState=function(id,customerKeyId,projectKeyId,state){
-        localStorageTimesheet.forEach(function(entry){
-            if(entry.id==id){
-                entry.customerKeyId = customerKeyId
-                entry.projectKeyId = projectKeyId
-                entry.state = state
-                return;
-               }
-        })
-    }
+  this.updateEntryCustomerProjectState = function(id, customerKeyId, projectKeyId, state) {
+    localStorageTimesheet.forEach(function(entry) {
+      if (entry.id == id) {
+        entry.customerKeyId = customerKeyId
+        entry.projectKeyId = projectKeyId
+        entry.state = state
+        return;
+      }
+    })
+  }
 
-    this.updateEntryApproved=function(thisWeeksConfirmedIds, thisWeeksIgnoredIds){
-        localStorageTimesheet.forEach(function(entry){
+  this.updateEntryApproved = function(thisWeeksConfirmedIds, thisWeeksIgnoredIds) {
+    localStorageTimesheet.forEach(function(entry) {
 
-            thisWeeksConfirmedIds.forEach(function(id){
-                if(entry.id==id.id){
-                entry.state = "Approved"
-               }
-            })
+      thisWeeksConfirmedIds.forEach(function(id) {
+        if (entry.id == id.id) {
+          entry.state = "Approved"
+        }
+      })
 
-            thisWeeksIgnoredIds.forEach(function(id){
-                if(entry.id==id.id){
-                entry.state = "IgnoreApproved"
-               }
-            })
+      thisWeeksIgnoredIds.forEach(function(id) {
+        if (entry.id == id.id) {
+          entry.state = "IgnoreApproved"
+        }
+      })
 
-        })
-    }
+    })
+  }
 }
