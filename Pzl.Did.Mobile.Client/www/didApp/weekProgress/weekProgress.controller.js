@@ -32,16 +32,6 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     var endDate = moment(String($scope.weekCount + 1) + ' ' + YearCount, 'WW YYYY').endOf('isoWeek').day(-2).format();
 
     function getInitialWeekRange(weekNumber, yearNumber) {
-
-        if (weekNumber == weeksInYear(yearNumber)) {
-            weekNumber = 0;
-            yearNumber += 1;
-        }
-        if (weekNumber == 1) {
-            weekNumber = weeksInYear(yearNumber - 1) + 1
-            yearNumber -= 1;
-        }
-
         startDate = moment(String(weekNumber - 1) + ' ' + yearNumber, 'WW YYYY').startOf('isoWeek').format()
         endDate = moment(String(weekNumber + 1) + ' ' + yearNumber, 'WW YYYY').endOf('isoWeek').day(-2).format()
         return [startDate, endDate]
