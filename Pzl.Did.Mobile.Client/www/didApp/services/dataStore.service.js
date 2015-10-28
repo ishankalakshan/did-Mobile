@@ -19,19 +19,19 @@ function didAppDataStoreService() {
     this.loadTolocalStorageProjects = function(data){
         localStorageProjects = data;
     }
-    
+
     this.getlocalStorageProjects = function(){
-        return localStorageProjects ; 
+        return localStorageProjects ;
     };
-    
+
     this.loadTolocalStorageCustomers = function(data){
         localStorageCustomers = data;
     }
-    
+
     this.getlocalStorageCustomers = function(){
-        return localStorageCustomers ; 
+        return localStorageCustomers ;
     };
-    
+
     this.updateEntryState=function(id,state){
         localStorageTimesheet.forEach(function(entry){
             if(entry.id==id){
@@ -40,7 +40,7 @@ function didAppDataStoreService() {
                }
         })
     }
-    
+
     this.updateEntryCustomerProjectState=function(id,customerKeyId,projectKeyId,state){
         localStorageTimesheet.forEach(function(entry){
             if(entry.id==id){
@@ -51,23 +51,22 @@ function didAppDataStoreService() {
                }
         })
     }
-    
+
     this.updateEntryApproved=function(thisWeeksConfirmedIds, thisWeeksIgnoredIds){
         localStorageTimesheet.forEach(function(entry){
-            
+
             thisWeeksConfirmedIds.forEach(function(id){
                 if(entry.id==id.id){
                 entry.state = "Approved"
                }
             })
-            
+
             thisWeeksIgnoredIds.forEach(function(id){
                 if(entry.id==id.id){
                 entry.state = "IgnoreApproved"
                }
             })
-            
+
         })
     }
-
 }

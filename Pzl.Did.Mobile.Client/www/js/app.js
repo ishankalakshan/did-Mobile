@@ -1,6 +1,7 @@
 
 var didApp = angular.module('didApp', ['ionic',
                            'angularMoment',
+                           'didApp.dataLoadController',
                            'didApp.weekProgressController',
                            'didApp.loginController',
                            'didApp.dayProgressController',
@@ -11,7 +12,8 @@ var didApp = angular.module('didApp', ['ionic',
                            'didApp.successScreenController',
                            'didApp.errorScreenController',
                            'didApp.EntryProgressService',
-                           'didApp.WeekProgressService'
+                           'didApp.WeekProgressService',
+                           'didApp.dataLoadService'
                           ])
 
 .run(function($ionicPlatform) {
@@ -35,6 +37,12 @@ var didApp = angular.module('didApp', ['ionic',
         templateUrl:'didApp/login/login.html',
         controller:'loginCtrl'
       })
+  .state('dataLoad',{
+            url:'/dataLoad',
+            templateUrl: 'didApp/DataLoad/dataLoad.html',
+            controller: 'dataLoadCtrl',
+            params : { resourceId:null}
+          })
   .state('weekProgress',{
         url:'/weekProgress',
         templateUrl: 'didApp/weekProgress/weekProgress.html',

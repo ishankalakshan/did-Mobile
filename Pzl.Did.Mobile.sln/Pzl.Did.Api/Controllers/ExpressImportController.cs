@@ -57,22 +57,30 @@ namespace Pzl.Did.Api.Controllers
         [HttpPost]
         public bool RetrieveExpressImportStatus()
         {
-            var headerValues = Request.Headers.GetValues("Authorization");
-            var token = headerValues.FirstOrDefault();
-            var credentialsFromToken = Token.GetCredentialsFromToken(token);
+            try
+            {
+                var headerValues = Request.Headers.GetValues("Authorization");
+                var token = headerValues.FirstOrDefault();
+                var credentialsFromToken = Token.GetCredentialsFromToken(token);
 
-            var siteUrl = ConfigurationManager.AppSettings["url"];
-            var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
+                var siteUrl = ConfigurationManager.AppSettings["url"];
+                var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
 
-            var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
-            var retrievedPostData = streamReader.ReadToEnd();
-            var jObject = JObject.Parse(retrievedPostData);
-            var resourceId = (string)jObject["resourceId"];
+                var streamReader = new StreamReader(HttpContext.Current.Request.InputStream);
+                var retrievedPostData = streamReader.ReadToEnd();
+                var jObject = JObject.Parse(retrievedPostData);
+                var resourceId = (string)jObject["resourceId"];
 
-            var query = string.Format(Query.ExpressImport, resourceId);
-            var retrievedListItems = sharepointContext.RetrieveListItems(query,List.ExpressImports);
+                var query = string.Format(Query.ExpressImport, resourceId);
+                var retrievedListItems = sharepointContext.RetrieveListItems(query, List.ExpressImports);
 
-            return retrievedListItems.ToList().Count != 0;
+                return retrievedListItems.ToList().Count != 0;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
         }
     }
 }

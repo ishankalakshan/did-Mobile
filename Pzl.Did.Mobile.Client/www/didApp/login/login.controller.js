@@ -23,7 +23,7 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading
                 .then(function (result) {
                         if (result.data != null) {
                             resourceId = result.data[0].Id;
-                            $state.go('weekProgress',{resourceId:resourceId});
+                            $state.go('dataLoad',{resourceId:resourceId});
                             $ionicLoading.hide();
                         } else {
                             $ionicLoading.hide();
