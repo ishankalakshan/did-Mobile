@@ -16,7 +16,7 @@
         <button class="button button-clear custom-color" ng-hide="expressImportState" ng-click='ExpressImport()'>
             Express<br>Import
         </button>
-        <button class="button button-clear custom-color" ng-disabled='true' ng-show="expressImportState" ng-click=''>
+        <button class="button button-clear custom-color" ng-disabled='false' ng-show="expressImportState" ng-click=''>
             Pending<br>Import
         </button>
     </ion-nav-buttons>
@@ -57,7 +57,8 @@
                 This is What I DID
             </button>
             <center class="padding">
-               <button ng-disabled="true" class=" button button-block button-outline button-balanced" ng-show="stateWeek=='Confirmed'">Confirmed</button>
+               <!-- <button ng-disabled="true" class=" button button-block button-outline button-balanced" ng-show="stateWeek=='Confirmed'">Confirmed</button> -->
+               <label class="text-confirmed" ng-show="stateWeek=='Confirmed'">Confirmed!</label>
 <!--                <img ng-src="img/success.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">-->
             </center>
         </div>

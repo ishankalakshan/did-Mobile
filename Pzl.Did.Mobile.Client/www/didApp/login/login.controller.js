@@ -106,7 +106,7 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading
           if (result.data != null) {
             resourceId = result.data[0].Id;
             storeUserCredentials(generateToken(user.username, user.password, resourceId));
-            $state.go('weekProgress', {
+            $state.go('dataLoad', {
               resourceId: resourceId
             });
             $ionicLoading.hide();

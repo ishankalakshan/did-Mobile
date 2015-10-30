@@ -13,7 +13,7 @@
 }
 .button.button-custom{
     background-color: #0092a7;
-    color: black; 
+    color: black;
 }
 .button .button-block .button-energized{
   background-color: orange;
@@ -80,7 +80,7 @@
 .icon-ignore-hours{
     content: url('icons/ignoredHours.png');
     width: 30px;
-    height: 30px;   
+    height: 30px;
 }
 .badge.badge-balanced{
     background-color: #6B9C68;
@@ -104,22 +104,22 @@
     width:15vw ;
     height: 15vw;
     padding-top: 5vw;
-    
+
     background: #fff;
     border: 2px solid green;
     color: #666;
     text-align: center;
-    
+
     font: 3.5vw Arial, sans-serif;
 }
 .numberCircle.confirmed{
-    border: 2px solid #6B9C68;  
+    border: 2px solid #6B9C68;
 }
 .numberCircle.unconfirmed{
-    border: 2px solid #F2961B;  
+    border: 2px solid #F2961B;
 }
 .numberCircle.ignored{
-    border: 2px solid #D56161;  
+    border: 2px solid #D56161;
 }
 .buttonCircle{
     border-radius: 50%;
@@ -129,16 +129,16 @@
     height: 12vw;
     padding: 1vw;
     padding-top: 2.1vw;
-    
+
     background: #fff;
     border: 2px solid green;
     color: #666;
     text-align: center;
-    
+
     font: 3.5vw Arial, sans-serif;
 }
 .buttonCircle.private{
-    border: 2px solid #929292; 
+    border: 2px solid #929292;
     height: 10vw !important;
     width: 10vw !important;
 }
@@ -160,7 +160,11 @@
     font-size: 13px;
     font-weight:400;
 }
-
-
-
-
+.text-confirmed{
+  width: 200px;
+  font-family: monospace;
+  font-size: 30px;
+  letter-spacing: 7px;
+  color: green;
+  text-decoration:underline;
+}

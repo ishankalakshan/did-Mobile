@@ -37,6 +37,7 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
         $scope.project.state = result.state
       }
     })
+    console.log($scope.project.projectKeyId);
   };
 
   function getProjects(customerKey) {
