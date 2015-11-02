@@ -1,20 +1,23 @@
-<ion-view view-title="DiD It" hide-back-button='true'>
-    <ion-content class='padding'>
+<ion-view view-title="DiD It" hide-back-button='true' hide-nav-bar="true">
+    <ion-content class='login-bg padding'>
       <div class='profile-picture-container'>
         <img ng-src="img/default-profile.png" class='profile-picture'/>
       </div>
       <div class='list list-inset'>
               <label class="item item-input">
-                  <input type="email" required placeholder="Username" name='txtUsername' ng-model='user.username'>
+                  <i class="icon icon-username"></i>
+                  <input class='clear' type="email" required placeholder="Username" name='txtUsername' ng-model='user.username'>
               </label>
+              
               <label class="item item-input">
+                  <i class="icon icon-password"></i>
                   <input type="password" required placeholder="Password" ng-model='user.password'>
               </label>
-              <br>
-              <button class="button button-block button-custom" ng-click='login(user)'>
-              <strong>Login</strong>
-            </button>
-          <p></p>
       </div>
+
+        <button class="button button-block button-custom" ng-click='login(user)'>
+        <strong>Login</strong>
+        </button>
+
     </ion-content>
 </ion-view>

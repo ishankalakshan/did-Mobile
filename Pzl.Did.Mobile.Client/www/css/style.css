@@ -14,6 +14,7 @@
 .button.button-custom{
     background-color: #0092a7;
     color: black;
+    border-style:hidden;;
 }
 .button .button-block .button-energized{
   background-color: orange;
@@ -45,6 +46,16 @@
   width: 30px;
   height: 30px;
 }
+.icon-username{
+  content: url('icons/icon-username.png');
+  width: 25px;
+  height: 25px;
+}
+.icon-password{
+  content: url('icons/icon-password.png');
+  width: 25px;
+  height: 25px;
+}
 .button-bar.button-bar-bg{
   background-color: #FDF3E2;
 }
@@ -62,6 +73,14 @@
 }
 .img-approved{
     height: 20% !important;
+    width: 55% !important;
+}
+.img-username{
+    height: 15% !important;
+    width: 55% !important;
+}
+.img-password{
+    height: 15% !important;
     width: 55% !important;
 }
 .success-image{
@@ -167,4 +186,20 @@
   letter-spacing: 7px;
   color: #6B9C68;
   text-decoration:underline;
+}
+.login-bg{
+  background: rgba(226,226,226,1);
+background: -moz-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(226,226,226,1)), color-stop(100%, rgba(254,254,254,1)));
+background: -webkit-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
+background: -o-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
+background: -ms-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
+background: radial-gradient(ellipse at center, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=1 );
+}
+.login-bg.padding{
+  padding: 60px;
+}
+.list-inset .item.item-input input{
+  margin-left : 12px;
 }

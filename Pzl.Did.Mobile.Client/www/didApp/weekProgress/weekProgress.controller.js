@@ -109,7 +109,7 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
     var totalHours = 0;
 
     if (allWeekTimeEntries.length == 0) {
-      return '-';
+      return '0';
     } else {
       allWeekTimeEntries.forEach(function(day) {
         if (moment(day.startTime).format('MMM, dddd DD YYYY') == date) {
