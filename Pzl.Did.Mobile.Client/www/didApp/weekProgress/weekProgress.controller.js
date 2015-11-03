@@ -122,19 +122,27 @@ function weekProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicPopup,
 
   function getStateOfDay(date) {
     var suggestCount = 0;
+    var approvedCount = 0;
+
     if (allWeekTimeEntries.length !== 0) {
       allWeekTimeEntries.forEach(function(day) {
+        if (moment(day.startTime).format('MMM, dddd DD YYYY') == date && (day.state == 'Approved'||day.state == 'IgnoreApproved')) {
+          approvedCount += 1
+        }
         if (moment(day.startTime).format('MMM, dddd DD YYYY') == date && day.state == 'Suggested') {
           suggestCount += 1
         }
       }); //end foreach
-      if (suggestCount > 0) {
-        return false;
+      if(approvedCount>0){
+        return 'Approved'
+      }
+      else if (suggestCount > 0) {
+        return 'Suggested'
       } else {
-        return true;
+        return 'Confirmed';
       }
     } else {
-      true
+      return 'Suggested'
     }
   }; //end of getStateOfDay
 

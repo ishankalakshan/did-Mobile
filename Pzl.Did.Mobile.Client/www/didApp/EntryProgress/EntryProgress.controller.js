@@ -157,25 +157,25 @@ function EntryProgressCtrl($scope, $rootScope, $state, $stateParams, $ionicLoadi
       })
   }
 
-  $scope.privateEntry = function() {
-    $ionicLoading.show({
-      template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
-    });
-    EntryProgressService.privateEntry($scope.id)
-      .then(function(result) {
-        didAppDataStoreService.updateEntryState($scope.id, "UserIgnored")
-        $rootScope.$broadcast("refreshData");
-        $ionicLoading.hide()
-        $state.go('dayProgress', {
-          selectedDate: date
-        })
-      }, function(err) {
-        $ionicLoading.hide()
-        var alertPopup = $ionicPopup.alert({
-          title: 'Error',
-          template: 'Error occured while updaing informaion.Please try again later.'
-        });
-        console.log(err)
-      })
-  }
+  // $scope.privateEntry = function() {
+  //   $ionicLoading.show({
+  //     template: "<div><i class='fa fa-spinner fa-spin'></i> Updating...</div>"
+  //   });
+  //   EntryProgressService.privateEntry($scope.id)
+  //     .then(function(result) {
+  //       didAppDataStoreService.updateEntryState($scope.id, "UserIgnored")
+  //       $rootScope.$broadcast("refreshData");
+  //       $ionicLoading.hide()
+  //       $state.go('dayProgress', {
+  //         selectedDate: date
+  //       })
+  //     }, function(err) {
+  //       $ionicLoading.hide()
+  //       var alertPopup = $ionicPopup.alert({
+  //         title: 'Error',
+  //         template: 'Error occured while updaing informaion.Please try again later.'
+  //       });
+  //       console.log(err)
+  //     })
+  // }
 };

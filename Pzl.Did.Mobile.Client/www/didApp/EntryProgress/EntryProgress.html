@@ -36,28 +36,18 @@
             <br>
         </div>
         <center>
-            <div class="table">
+            <div class="table" ng-hide="project.state=='Approved'||project.state=='IgnoreApproved'">
             <div class="row">
+                <div class="col"></div>
                 <div class="col">
-                    <div class=" button buttonCircle private" ng-click="privateEntry()">
-                        <i class="icon icon-private"></i>
-                    </div>
+                        <i class="icon icon-confirm"  ng-click="updateStateConfirm()"></i><br>
+                        Confirm
                 </div>
                 <div class="col">
-                    <div class=" button buttonCircle confirm" ng-click="updateStateConfirm()">
-                        <i class="icon icon-approved"></i>
-                    </div>
+                        <i class="icon icon-privateignore" ng-click="ignoreEntry()"></i><br>
+                        Ignore
                 </div>
-                <div class="col">
-                    <div class=" button buttonCircle ignore" ng-click="ignoreEntry()">
-                        <i class="icon icon-ignore"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">Private</div>
-                <div class="col">Confirm</div>
-                <div class="col">Ignore</div>
+                <div class="col"></div>
             </div>
         </div>
         </center>

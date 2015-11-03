@@ -6,16 +6,30 @@
     </ion-nav-buttons>
     <ion-nav-buttons side="left">
         <button class="button button-clear custom-color" ng-hide="expressImportState" ng-click='ExpressImport()'>
-            Express<br>Import
+          <i class='icon icon-import'></i>
         </button>
         <button class="button button-clear custom-color" ng-disabled='false' ng-show="expressImportState" ng-click=''>
-            Pending<br>Import
+            <i class='icon icon-hourglass'></i>
         </button>
     </ion-nav-buttons>
     <ion-content>
         <ion-refresher on-refresh='refreshData()'></ion-refresher>
-        
-        <br>
+        <div class="row">
+          <div class="col hint-row left">
+            <i class='ion-ios-arrow-left'></i>
+            {{'Previous'}}
+          </div>
+          <div class="col"></div>
+          <div class="col hint-row center">
+
+            <i class='ion-ios-arrow-down'></i>
+          </div>
+          <div class="col"></div>
+          <div class="col hint-row righ">
+            {{'Next'}}
+            <i class='ion-ios-arrow-right'></i>
+          </div>
+        </div>
         <ion-list>
             <ion-item ng-repeat='day in weeklyTimesheet' ui-sref='dayProgress({selectedDate :day.dateFull})'>
                 <div class="row">
@@ -24,8 +38,9 @@
                     <div class="col">
                       <center>
                         <button class="button button-small button-clear">
-                            <i class='icon icon-approved' ng-show={{day.state}}></i>
-                            <i class='icon icon-suggested' ng-hide={{day.state}}></i>
+                            <i class='icon icon-approved' ng-show="day.state=='Confirmed'"></i>
+                            <i class='icon icon-coffee' ng-show="day.state=='Approved'"></i>
+                            <i class='icon icon-suggested' ng-show="day.state=='Suggested'"></i>
                         </button>
                         </center>
                     </div>
@@ -37,14 +52,32 @@
             <center>
                <div class="table">
                   <div class="row">
-                   <div class="col"><div class="numberCircle confirmed">{{summaryHours[0]}}h</div></div>
-                   <div class="col"><div class="numberCircle unconfirmed">{{summaryHours[1]}}h</div></div>
-                   <div class="col"><div class="numberCircle ignored">{{summaryHours[2]}}h</div></div>
-                  </div>
-                  <div class="row">
-                   <div class="col">Confirmed</div>
-                   <div class="col">Unconfirmed</div>
-                   <div class="col">Ignored</div>
+                     <div class="col" ng-show="stateWeek=='Confirmed'"></div>
+                     <div class="col">
+                       <div class="numberCircle confirmed">
+                         {{summaryHours[0]}}h
+                       </div>
+                       <p>
+                         Confirmed
+                       </p>
+                     </div>
+                     <div class="col" ng-hide="stateWeek=='Confirmed'">
+                       <div class="numberCircle unconfirmed">
+                         {{summaryHours[1]}}h
+                       </div>
+                       <p>
+                         Unconfirmed
+                       </p>
+                     </div>
+                     <div class="col">
+                       <div class="numberCircle ignored">
+                         {{summaryHours[2]}}h
+                       </div>
+                       <p>
+                         Ignored
+                       </p>
+                     </div>
+                     <div class="col" ng-show="stateWeek=='Confirmed'"></div>
                   </div>
                </div>
             </center>
