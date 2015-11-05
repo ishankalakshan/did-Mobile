@@ -92,8 +92,8 @@ function loginCtrl($scope, $http, $rootScope, $state, $ionicPopup, $ionicLoading
   $scope.login = function(user) {
     if (user.username == undefined || user.password == undefined) {
       var alertPopup = $ionicPopup.alert({
-        title: 'Alert',
-        template: 'Please enter a valid email and a password!'
+        title: 'Oops, something went wrong',
+        template: 'Please check your account information.'
       });
     } else {
       $ionicLoading.show({

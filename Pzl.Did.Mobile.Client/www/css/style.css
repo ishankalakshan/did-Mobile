@@ -48,12 +48,12 @@
 }
 .icon-username{
   content: url('icons/icon-username.png');
-  width: 25px;
+  width: 30px;
   height: 25px;
 }
 .icon-password{
   content: url('icons/icon-password.png');
-  width: 25px;
+  width: 30px;
   height: 25px;
 }
 .icon-import{
@@ -67,14 +67,14 @@
   height: 23px;
 }
 .icon-confirm{
-  content: url('icons/icon-confirm.png');
-  width: 40px;
-  height: 40px;
+  content: url('icons/icon-approved.png');
+  width: 50px;
+  height: 50px;
 }
 .icon-privateignore{
-  content: url('icons/icon-privateignore.png');
-  width: 40px;
-  height: 40px;
+  content: url('icons/icon-ignore.png');
+  width: 50px;
+  height: 50px;
 }
 .icon-coffee{
   content: url('icons/icon-coffee.png');
@@ -218,23 +218,31 @@
   text-decoration:underline;
 }
 .login-bg{
-  background: rgba(226,226,226,1);
-background: -moz-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(226,226,226,1)), color-stop(100%, rgba(254,254,254,1)));
-background: -webkit-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
-background: -o-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
-background: -ms-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
-background: radial-gradient(ellipse at center, rgba(226,226,226,1) 0%, rgba(254,254,254,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=1 );
+ /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f4f4+0,d2d8db+49,f2f4f4+99 */
+background: #f2f4f4; /* Old browsers */
+background: -moz-linear-gradient(top,  #f2f4f4 0%, #d2d8db 49%, #f2f4f4 99%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f4f4), color-stop(49%,#d2d8db), color-stop(99%,#f2f4f4)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* IE10+ */
+background: linear-gradient(to bottom,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f4f4', endColorstr='#f2f4f4',GradientType=0 ); /* IE6-9 */
+
 }
 .login-bg.padding{
-  padding: 60px;
+  padding: 70px;
 }
-.list-inset .item.item-input input{
-  margin-left : 12px;
+.card, .list-inset.login-panel {
+  background: transparent;
 }
 .item-complex .item-content, .item-radio .item-content {
   padding: 10px 16px 5px 16px !important;
+ }
+ .item-input.login-input{
+   background-color: transparent;
+   border-left: 0px;
+   border-right: 0px;
+   border-color: black;
  }
  .row .col.hint-row{
    font-size: 12px;
@@ -251,3 +259,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
  .row .col.hint-row.center{
    text-align: center;
  }
+ .popup-buttons .button {
+    background-color: #0092a7;
+    border-color: #0092a7;
+}
