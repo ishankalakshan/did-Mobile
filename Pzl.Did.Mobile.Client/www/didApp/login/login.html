@@ -1,15 +1,15 @@
 <ion-view view-title="DiD It" hide-back-button='true' hide-nav-bar="true">
     <ion-content class='login-bg padding'>
       <div class='profile-picture-container'>
-        <img ng-src="img/default-profile.png" class='profile-picture'/>
+        <img ng-src="img/logo-dark-line.png" class='logo'/>
       </div>
       <div class='list list-inset login-panel'>
-              <label class="item item-input login-input">
+              <label class="item item-input login-text-color login-input">
                   <i class="icon icon-username placeholder-icon"></i>
-                  <input style="font-size:16px;" type="email" required placeholder="Username" name='txtUsername' ng-model='user.username'>
+                  <input class="login-text-color" style="font-size:16px;" type="email" required placeholder="Username" name='txtUsername' ng-model='user.username'>
               </label>
 
-              <label class="item item-input login-input">
+              <label class="item item-input login-text-color login-input">
                   <i class="icon icon-password placeholder-icon"></i>
                   <input style="font-size:16px;" type="password" required placeholder="Password" ng-model='user.password'>
               </label>

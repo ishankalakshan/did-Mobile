@@ -1,12 +1,11 @@
 /* Empty. Add your own CSS if you like */
 .profile-picture-container {
   margin:30px;
-  padding-top:20px;
   text-align:center;
 }
-.profile-picture{
-  height: 200px;
-  width: 150px;
+.logo{
+  height: 60vw;
+  width: 60vw;
 }
 .bar-custom{
   background-color: #0092a7;
@@ -22,24 +21,24 @@
 }
 .icon-approved{
   content: url('icons/icon-approved.png');
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
 }
 .icon-suggested{
   content: url('icons/icon-pending.png');
-  width: 30px;
-  height: 30px;
+  width: 33px;
+  height: 33px;
 }
 .icon-edit{
   content: url('icons/icon-edit.png');
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin-top: 4px
 }
 .icon-ignore{
   content: url('icons/icon-ignore.png');
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
 }
 .icon-private{
   content: url('icons/private.png');
@@ -48,8 +47,8 @@
 }
 .icon-username{
   content: url('icons/icon-username.png');
-  width: 30px;
-  height: 25px;
+  width: 25px;
+  height: 20px;
 }
 .icon-password{
   content: url('icons/icon-password.png');
@@ -78,8 +77,8 @@
 }
 .icon-coffee{
   content: url('icons/icon-coffee.png');
-  width: 30px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
 }
 .button-bar.button-bar-bg{
   background-color: #FDF3E2;
@@ -112,11 +111,13 @@
     height: 15% !important;
     width: 55% !important;
 }
-.success-image{
-    margin-top: 50px;
-    height: 50%;
-    width: 50%;
-    margin-bottom: 50px;
+.dataload-image-container{
+    margin-top: 20vw;
+    margin-bottom: 20vw;
+}
+.dataload-image{
+    margin-top: 60vw;
+    margin-bottom: 60vw;
 }
 .success-message{
     color: green;
@@ -227,6 +228,17 @@ background: -o-linear-gradient(top,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* Ope
 background: -ms-linear-gradient(top,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* IE10+ */
 background: linear-gradient(to bottom,  #f2f4f4 0%,#d2d8db 49%,#f2f4f4 99%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f4f4', endColorstr='#f2f4f4',GradientType=0 ); /* IE6-9 */
+}
+.login-bg-1{
+ /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3f4c6b+0,3f4c6b+100;Blue+Grey+Flat */
+background: #3f4c6b; /* Old browsers */
+background: -moz-linear-gradient(top,  #3f4c6b 0%, #3f4c6b 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3f4c6b), color-stop(100%,#3f4c6b)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #3f4c6b 0%,#3f4c6b 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
 
 }
 .login-bg.padding{
@@ -262,4 +274,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f4f4', end
  .popup-buttons .button {
     background-color: #0092a7;
     border-color: #0092a7;
+}
+.item-input.login-text-color input {
+    color: black;
 }
