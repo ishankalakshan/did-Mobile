@@ -19,6 +19,8 @@ function dataLoadCtrl($scope, $rootScope, $state, $stateParams, $ionicLoading, d
         $state.go('weekProgress', {
           resourceId: $stateParams.resourceId
         });
+      },function(err){
+        console.log(err)
       })
 
   })();

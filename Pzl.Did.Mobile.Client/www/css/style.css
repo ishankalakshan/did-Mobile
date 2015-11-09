@@ -19,6 +19,9 @@
   background-color: orange;
   margin-top:15px;
 }
+.button.button-block.button-balanced{
+  background-color: #4caf50;
+}
 .icon-approved{
   content: url('icons/icon-approved.png');
   width: 35px;
@@ -96,8 +99,8 @@
     font-size: 3.5vw;
 }
 .img-approved{
-    height: 20% !important;
-    width: 55% !important;
+    height: 35vw; /*20*/
+    width: 35vw;  /*45*/
 }
 .img-username{
     height: 15% !important;
@@ -132,16 +135,13 @@
     height: 30px;
 }
 .badge.badge-balanced{
-    background-color: #6B9C68;
+    background-color: #4caf50;
 }
 .badge.badge-energized{
     background-color: #F2961B;
 }
 .badge.badge-assertive{
-    background-color: #D56161;
-}
-.item.item-button-right .badge {
-    right: 55px !important;
+    background-color: #f44336;
 }
 .item-button-right{
     padding-right: 85px;
@@ -162,17 +162,17 @@
     font: 3.5vw Arial, sans-serif;
 }
 .numberCircle.confirmed{
-    border: 2px solid #6B9C68;
+    border: 2px solid #4caf50;
 }
 .numberCircle.unconfirmed{
     border: 2px solid #F2961B;
 }
 .numberCircle.ignored{
-    border: 2px solid #D56161;
+    border: 2px solid #f44336;
 }
-.buttonCircle{
+/*.buttonCircle{
     border-radius: 50%;
-    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+    behavior: url(PIE.htc);
 
     width:10vw ;
     height: 12vw;
@@ -200,7 +200,7 @@
     border: 2px solid #D56161;
     height: 10vw !important;
     width: 10vw !important;
-}
+}*/
 .button-clear.custom-color{
     color: black;
     line-height:15px;
@@ -209,14 +209,6 @@
     font-size: 15px;
     font-weight:400;
     color: Black;
-}
-.text-confirmed{
-  width: 200px;
-  font-family: monospace;
-  font-size: 30px;
-  letter-spacing: 7px;
-  color: #6B9C68;
-  text-decoration:underline;
 }
 .login-bg{
  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f4f4+0,d2d8db+49,f2f4f4+99 */
@@ -277,4 +269,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 }
 .item-input.login-text-color input {
     color: black;
+}
+.didbutton-container{
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.confirmMsg-container{
 }

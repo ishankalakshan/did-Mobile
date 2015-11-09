@@ -1,8 +1,8 @@
 angular.module('didApp.dayProgressController', ['angularMoment'])
 
-.controller('dayProgressCtrl', ['$scope', '$rootScope', '$stateParams', 'didAppDataService', 'didAppDataStoreService', dayprogressCtrl])
+.controller('dayProgressCtrl', ['$scope', '$rootScope', '$stateParams','$state', 'didAppDataService', 'didAppDataStoreService', dayprogressCtrl])
 
-function dayprogressCtrl($scope, $rootScope, $stateParams, didAppDataService, didAppDataStoreService) {
+function dayprogressCtrl($scope, $rootScope, $stateParams,$state,didAppDataService, didAppDataStoreService) {
 
   $scope.date = $stateParams.selectedDate;
   var timesheet = didAppDataStoreService.getlocalStorageTimesheet();
@@ -65,4 +65,9 @@ function dayprogressCtrl($scope, $rootScope, $stateParams, didAppDataService, di
     }
   };
 
+   $scope.loadEntryToEdit = function(id){
+     $state.go('EntryProgress', {
+          selectedId: id
+        });
+   }
 };

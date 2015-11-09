@@ -35,7 +35,7 @@ namespace Pzl.Did.Api.Controllers
                 var retrievedListItems = sharepointContext.RetrieveListItems(query, List.TimeEntries);
                 var timeEntriesList = retrievedListItems.Select(item => new TimeEntryModel(item)).ToList();
 
-                return timeEntriesList.Count == 0 ? null : timeEntriesList; 
+                return timeEntriesList.Count == 0 ? timeEntriesList : timeEntriesList; 
             }
             catch (IdcrlException)
             {
