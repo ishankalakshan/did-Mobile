@@ -43,6 +43,7 @@
                             <button class="button button-small button-clear">
                                 <i class='icon icon-approved' ng-show="day.state=='Confirmed'"></i>
                                 <i class='icon icon-coffee' ng-show="day.state=='Approved'"></i>
+                                <!--<p ng-show="day.state=='Approved'">Done</p>-->
                                 <i class='icon icon-suggested' ng-show="day.state=='Suggested'"></i>
                             </button>
                         </center>
@@ -90,7 +91,7 @@
                 </button>
             </div>
             <center class="confirmMsg-container">
-                <img ng-src="img/confirmed.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">
+                <img ng-src="img/confirmed.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">                
             </center>
         </div>
     </ion-content>
