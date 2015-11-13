@@ -12,8 +12,7 @@
             <i class='icon icon-hourglass'></i>
         </button>
     </ion-nav-buttons>
-    <ion-content>
-        <ion-refresher on-refresh='refreshData()'></ion-refresher>
+        <div class="bar bar-subheader">
         <div class="row">
             <div class="col hint-row left">
                 <i class='ion-ios-arrow-left'></i> {{'Previous'}}
@@ -29,6 +28,9 @@
                 <i class='ion-ios-arrow-right'></i>
             </div>
         </div>
+    </div>
+    <ion-content class="has-subheader">
+        <ion-refresher on-refresh='refreshData()'></ion-refresher>
         <ion-list>
             <ion-item ng-repeat='day in weeklyTimesheet' ui-sref='dayProgress({selectedDate :day.dateFull})'>
                 <div class="row">
@@ -38,7 +40,7 @@
                     <div class="col">
                         <center>{{day.hours}}h</center>
                     </div>
-                    <div class="col">
+                    <div class="col" ng-hide="day.state=='Approved'">
                         <center>
                             <button class="button button-small button-clear">
                                 <i class='icon icon-approved' ng-show="day.state=='Confirmed'"></i>
@@ -52,7 +54,7 @@
             </ion-item>
         </ion-list>
         <br>
-        <div class="padding">
+        <div>
             <center>
                 <div class="table">
                     <div class="row">
@@ -91,7 +93,7 @@
                 </button>
             </div>
             <center class="confirmMsg-container">
-                <img ng-src="img/confirmed.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">                
+                <img ng-src="img/confirmed.png" class="img-approved" alt="" ng-show="stateWeek=='Confirmed'">
             </center>
         </div>
     </ion-content>
