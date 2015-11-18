@@ -15,7 +15,7 @@
         <div class="bar bar-subheader">
         <div class="row">
             <div class="col hint-row left">
-                <i class='ion-ios-arrow-left'></i> {{'Previous'}}
+                <i class='ion-ios-arrow-left' ng-click="substractOneWeek()">&nbsp;{{'Previous'}}</i>
             </div>
             <div class="col"></div>
             <div class="col hint-row center">
@@ -24,8 +24,7 @@
             </div>
             <div class="col"></div>
             <div class="col hint-row righ">
-                {{'Next'}}
-                <i class='ion-ios-arrow-right'></i>
+                <span ng-click="addOneWeek()">{{'Next'}}&nbsp;</span><i class='ion-ios-arrow-right' ng-click="addOneWeek()"></i>
             </div>
         </div>
     </div>
