@@ -30,6 +30,7 @@ namespace Pzl.Did.Api.Controllers
 
                 var startTime = (DateTime)jObject["startTime"];
                 var endTime = (DateTime)jObject["endTime"];
+                var employeeId = GetCredentialsFromHeader()[2];
 
                 var query = string.Format(Query.TimeEntries2, startTime.ToUniversalTime().ToString("u"), endTime.ToUniversalTime().ToString("u"), "20");
                 var retrievedListItems = sharepointContext.RetrieveListItems(query, List.TimeEntries);
@@ -144,14 +145,18 @@ namespace Pzl.Did.Api.Controllers
 
         private SharepointContext CreateSharepointContext()
         {
-            var headerValues = Request.Headers.GetValues("Authorization");
-            var token = headerValues.FirstOrDefault();
-            var credentialsFromToken = Token.GetCredentialsFromToken(token);
-
+            var credentialsFromToken = GetCredentialsFromHeader();
             var siteUrl = ConfigurationManager.AppSettings["url"];
             var sharepointContext = new SharepointContext(siteUrl, credentialsFromToken[0], credentialsFromToken[1]);
 
             return sharepointContext;
+        }
+
+        private string[] GetCredentialsFromHeader()
+        {
+            var headerValues = Request.Headers.GetValues("Authorization");
+            var token = headerValues.FirstOrDefault();
+            return Token.GetCredentialsFromToken(token);
         }
 
         private JObject ReadPostedData()
